@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ObstacleCanvas" load_steps=2 format=3 uid="uid://dxhljmtph2ei0"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_canvas.gd" id="1_uk6o5"]
+
+[resource]
+script = ExtResource("1_uk6o5")
+frame = 9
+desc = "Makes your canvas bigger at all times."
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0

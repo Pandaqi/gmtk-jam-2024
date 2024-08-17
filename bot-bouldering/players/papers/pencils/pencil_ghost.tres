@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PencilGhost" load_steps=2 format=3 uid="uid://dix5jm6e71krn"]
+
+[ext_resource type="Script" path="res://players/papers/pencils/pencil_ghost.gd" id="1_xivq7"]
+
+[resource]
+script = ExtResource("1_xivq7")
+frame = 3
+color = Color(0.27451, 1, 1, 1)
+desc = "Follows your line, but you interact with nothing."
+ink_factor = 1.0

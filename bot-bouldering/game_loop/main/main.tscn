@@ -1,0 +1,136 @@
+[gd_scene load_steps=23 format=3 uid="uid://cl5ekprujdysq"]
+
+[ext_resource type="Script" path="res://map/camera/camera.gd" id="1_a1xe5"]
+[ext_resource type="Script" path="res://map/map.gd" id="1_pqnqm"]
+[ext_resource type="PackedScene" uid="uid://cfla657ncro7f" path="res://map/chunks/map_chunk.tscn" id="2_gbjs7"]
+[ext_resource type="Texture2D" uid="uid://b0cqosw5bm8a0" path="res://icon.svg" id="2_nnl7t"]
+[ext_resource type="Script" path="res://players/papers/player_paper.gd" id="3_7rdgp"]
+[ext_resource type="Script" path="res://players/modules/paper_follower.gd" id="3_c0sue"]
+[ext_resource type="Script" path="res://players/bots/player_bot.gd" id="3_gtknf"]
+[ext_resource type="Resource" uid="uid://biw27ik347eib" path="res://map/data/map_data.tres" id="3_mas6h"]
+[ext_resource type="Script" path="res://players/player.gd" id="4_htolw"]
+[ext_resource type="Script" path="res://players/papers/modules/zoomer.gd" id="4_odbeq"]
+[ext_resource type="Script" path="res://players/papers/modules/drawer.gd" id="4_xvvu1"]
+[ext_resource type="Script" path="res://players/papers/cursor.gd" id="5_8hxt5"]
+[ext_resource type="Script" path="res://players/papers/pencils/pencils.gd" id="5_l8gdk"]
+[ext_resource type="Resource" uid="uid://b80o6owk0tokq" path="res://players/papers/pencils/pencil_move.tres" id="7_hrsbu"]
+[ext_resource type="Script" path="res://players/papers/modules/turn.gd" id="8_f4a04"]
+[ext_resource type="Resource" uid="uid://c68fjee3rvkr4" path="res://players/papers/pencils/pencil_jump.tres" id="8_vqry0"]
+[ext_resource type="Resource" uid="uid://5djpxkg264w0" path="res://players/papers/data/paper_data.tres" id="12_ciuhu"]
+[ext_resource type="Script" path="res://players/papers/modules/ui.gd" id="16_7327b"]
+[ext_resource type="PackedScene" uid="uid://dkr3q4ecxk40q" path="res://ui/ui_element.tscn" id="17_ija40"]
+[ext_resource type="Script" path="res://players/papers/pencils_ui.gd" id="20_bgsyj"]
+[ext_resource type="PackedScene" uid="uid://fx1lu2a4gvua" path="res://ui/pencils/ui_pencil.tscn" id="21_vs1sf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w18td"]
+radius = 17.0294
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("1_a1xe5")
+
+[node name="Map" type="Node2D" parent="."]
+script = ExtResource("1_pqnqm")
+map_data = ExtResource("3_mas6h")
+chunk_scene = ExtResource("2_gbjs7")
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Player" type="Node2D" parent="Players" node_paths=PackedStringArray("map")]
+script = ExtResource("4_htolw")
+map = NodePath("../../Map")
+
+[node name="PlayerBot" type="CharacterBody2D" parent="Players/Player" node_paths=PackedStringArray("player", "paper", "paper_follower") groups=["PlayerBots"]]
+motion_mode = 1
+script = ExtResource("3_gtknf")
+player = NodePath("..")
+map_data = ExtResource("3_mas6h")
+paper = NodePath("../../../Papers/PlayerPaper")
+paper_follower = NodePath("PaperFollower")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Players/Player/PlayerBot"]
+shape = SubResource("CircleShape2D_w18td")
+
+[node name="Sprite2D" type="Sprite2D" parent="Players/Player/PlayerBot"]
+scale = Vector2(0.328125, 0.328125)
+texture = ExtResource("2_nnl7t")
+
+[node name="PaperFollower" type="Node2D" parent="Players/Player/PlayerBot"]
+script = ExtResource("3_c0sue")
+
+[node name="Papers" type="CanvasLayer" parent="."]
+
+[node name="PlayerPaper" type="Node2D" parent="Papers" node_paths=PackedStringArray("player", "player_bot", "pencils", "drawer", "zoomer", "ui", "turn")]
+position = Vector2(113, 599)
+script = ExtResource("3_7rdgp")
+player = NodePath("../../Players/Player")
+player_bot = NodePath("../../Players/Player/PlayerBot")
+pencils = NodePath("Pencils")
+drawer = NodePath("Drawer")
+zoomer = NodePath("Zoomer")
+ui = NodePath("UI")
+turn = NodePath("Turn")
+
+[node name="Turn" type="Node2D" parent="Papers/PlayerPaper"]
+script = ExtResource("8_f4a04")
+
+[node name="Timer" type="Timer" parent="Papers/PlayerPaper/Turn"]
+one_shot = true
+
+[node name="Pencils" type="Node2D" parent="Papers/PlayerPaper" node_paths=PackedStringArray("drawer", "zoomer", "turn")]
+script = ExtResource("5_l8gdk")
+paper_data = ExtResource("12_ciuhu")
+drawer = NodePath("../Drawer")
+zoomer = NodePath("../Zoomer")
+turn = NodePath("../Turn")
+pencil_move = ExtResource("7_hrsbu")
+pencil_jump = ExtResource("8_vqry0")
+
+[node name="Zoomer" type="Node2D" parent="Papers/PlayerPaper" node_paths=PackedStringArray("turn")]
+script = ExtResource("4_odbeq")
+turn = NodePath("../Turn")
+
+[node name="Drawer" type="Node2D" parent="Papers/PlayerPaper" node_paths=PackedStringArray("cursor", "zoomer", "pencils")]
+script = ExtResource("4_xvvu1")
+cursor = NodePath("../Cursor")
+zoomer = NodePath("../Zoomer")
+pencils = NodePath("../Pencils")
+
+[node name="Cursor" type="Node2D" parent="Papers/PlayerPaper" node_paths=PackedStringArray("zoomer", "turn")]
+modulate = Color(1, 0.482353, 0.133333, 1)
+script = ExtResource("5_8hxt5")
+zoomer = NodePath("../Zoomer")
+turn = NodePath("../Turn")
+
+[node name="Sprite2D" type="Sprite2D" parent="Papers/PlayerPaper/Cursor"]
+modulate = Color(1, 0.537255, 0.266667, 1)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_nnl7t")
+
+[node name="LabelDebug" type="Label" parent="Papers/PlayerPaper/Cursor"]
+offset_left = -14.0
+offset_top = -15.0
+offset_right = 14.0
+offset_bottom = 14.0
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UI" type="Node2D" parent="Papers/PlayerPaper" node_paths=PackedStringArray("drawer", "turn")]
+script = ExtResource("16_7327b")
+drawer = NodePath("../Drawer")
+turn = NodePath("../Turn")
+
+[node name="InkLeft" parent="Papers/PlayerPaper/UI" instance=ExtResource("17_ija40")]
+
+[node name="TimeLeft" parent="Papers/PlayerPaper/UI" instance=ExtResource("17_ija40")]
+
+[node name="Lives" parent="Papers/PlayerPaper/UI" instance=ExtResource("17_ija40")]
+
+[node name="Score" parent="Papers/PlayerPaper/UI" instance=ExtResource("17_ija40")]
+
+[node name="Pencils" type="Node2D" parent="Papers/PlayerPaper/UI" node_paths=PackedStringArray("pencils")]
+script = ExtResource("20_bgsyj")
+pencils = NodePath("../../Pencils")
+pencil_scene = ExtResource("21_vs1sf")

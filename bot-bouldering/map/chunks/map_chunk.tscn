@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfla657ncro7f"]
+
+[ext_resource type="Script" path="res://map/chunks/map_chunk.gd" id="1_6qgtn"]
+[ext_resource type="PackedScene" uid="uid://stdskoqxj6m3" path="res://map/obstacles/wall.tscn" id="2_tfy38"]
+[ext_resource type="PackedScene" uid="uid://1iyp7stlc2hw" path="res://map/obstacles/obstacle.tscn" id="3_uklca"]
+[ext_resource type="Resource" uid="uid://biw27ik347eib" path="res://map/data/map_data.tres" id="4_1ry45"]
+
+[node name="MapChunk" type="Node2D"]
+script = ExtResource("1_6qgtn")
+wall_scene = ExtResource("2_tfy38")
+obstacle_scene = ExtResource("3_uklca")
+map_data = ExtResource("4_1ry45")

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PencilInvert" load_steps=2 format=3 uid="uid://deqghwofjvyh5"]
+
+[ext_resource type="Script" path="res://players/papers/pencils/pencil_invert.gd" id="1_fd84d"]
+
+[resource]
+script = ExtResource("1_fd84d")
+frame = 4
+color = Color(0.752941, 0.411765, 0.282353, 1)
+desc = "Follows your line in reverse."
+ink_factor = 1.0

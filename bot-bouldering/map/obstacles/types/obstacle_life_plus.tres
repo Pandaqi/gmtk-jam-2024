@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ObstacleLife" load_steps=2 format=3 uid="uid://dvy05v3kice17"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_life.gd" id="1_xrf50"]
+
+[resource]
+script = ExtResource("1_xrf50")
+dir = 1
+frame = 1
+desc = "Gain an extra life."
+color = Color(1, 1, 1, 1)

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MapData" load_steps=17 format=3 uid="uid://biw27ik347eib"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_type.gd" id="1_xj2vu"]
+[ext_resource type="Resource" uid="uid://deqq0y6jprss" path="res://map/obstacles/types/obstacle_botsize_min.tres" id="2_fdhi4"]
+[ext_resource type="Script" path="res://map/data/map_data.gd" id="2_pk5e7"]
+[ext_resource type="Resource" uid="uid://mskaoyr7la1j" path="res://map/obstacles/types/obstacle_botsize_plus.tres" id="3_bsk57"]
+[ext_resource type="Resource" uid="uid://uek2tunc5uva" path="res://map/obstacles/types/obstacle_canvas_min.tres" id="4_puge6"]
+[ext_resource type="Resource" uid="uid://dxhljmtph2ei0" path="res://map/obstacles/types/obstacle_canvas_plus.tres" id="5_1tuhk"]
+[ext_resource type="Resource" uid="uid://b7yi2whaegi1t" path="res://map/obstacles/types/obstacle_ink_min.tres" id="6_kyh01"]
+[ext_resource type="Resource" uid="uid://u5418x1ybhhx" path="res://map/obstacles/types/obstacle_ink_plus.tres" id="7_cj3nm"]
+[ext_resource type="Resource" uid="uid://bqd1tdfm2hvyx" path="res://map/obstacles/types/obstacle_life_min.tres" id="8_1gok4"]
+[ext_resource type="Resource" uid="uid://dvy05v3kice17" path="res://map/obstacles/types/obstacle_life_plus.tres" id="9_56sde"]
+[ext_resource type="Resource" uid="uid://bgjmfpiqhj7fx" path="res://map/obstacles/types/obstacle_pen_min.tres" id="10_qpuh3"]
+[ext_resource type="Resource" uid="uid://c7x3xe6fs16wo" path="res://map/obstacles/types/obstacle_pen_plus.tres" id="11_57gbe"]
+[ext_resource type="Resource" uid="uid://capuim844agv3" path="res://map/obstacles/types/obstacle_score_min.tres" id="12_gf5h5"]
+[ext_resource type="Resource" uid="uid://cnetenrluo3vr" path="res://map/obstacles/types/obstacle_score_plus.tres" id="13_tudsm"]
+[ext_resource type="Resource" uid="uid://cjsi40gmly4w5" path="res://map/obstacles/types/obstacle_time_min.tres" id="14_325fb"]
+[ext_resource type="Resource" uid="uid://bs0gmq2u1vixu" path="res://map/obstacles/types/obstacle_time_plus.tres" id="15_dc0ya"]
+
+[resource]
+script = ExtResource("2_pk5e7")
+all_obstacles = Array[ExtResource("1_xj2vu")]([ExtResource("2_fdhi4"), ExtResource("3_bsk57"), ExtResource("4_puge6"), ExtResource("5_1tuhk"), ExtResource("6_kyh01"), ExtResource("7_cj3nm"), ExtResource("8_1gok4"), ExtResource("9_56sde"), ExtResource("10_qpuh3"), ExtResource("11_57gbe"), ExtResource("12_gf5h5"), ExtResource("13_tudsm"), ExtResource("14_325fb"), ExtResource("15_dc0ya")])

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PencilLoose" load_steps=2 format=3 uid="uid://dn37cw1i4i0em"]
+
+[ext_resource type="Script" path="res://players/papers/pencils/pencil_loose.gd" id="1_npolq"]
+
+[resource]
+script = ExtResource("1_npolq")
+frame = 2
+color = Color(0.333333, 0.866667, 1, 1)
+desc = "While followed, you let go of the mountain and fall."
+ink_factor = 1.0

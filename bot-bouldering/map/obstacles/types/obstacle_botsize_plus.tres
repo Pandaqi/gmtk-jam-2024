@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ObstacleBotsize" load_steps=2 format=3 uid="uid://mskaoyr7la1j"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_botsize.gd" id="1_n1b03"]
+
+[resource]
+script = ExtResource("1_n1b03")
+frame = 13
+desc = "Bigger bot body."
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0

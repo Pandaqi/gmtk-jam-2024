@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ObstacleTime" load_steps=2 format=3 uid="uid://bs0gmq2u1vixu"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_time.gd" id="1_32nfn"]
+
+[resource]
+script = ExtResource("1_32nfn")
+frame = 11
+desc = "More time per round."
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0

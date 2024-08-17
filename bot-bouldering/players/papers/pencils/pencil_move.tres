@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PencilType" load_steps=2 format=3 uid="uid://b80o6owk0tokq"]
+
+[ext_resource type="Script" path="res://players/papers/pencils/pencil_type.gd" id="1_xp68s"]
+
+[resource]
+script = ExtResource("1_xp68s")
+frame = 0
+color = Color(1, 0, 1, 1)
+desc = "Simply follows your line."

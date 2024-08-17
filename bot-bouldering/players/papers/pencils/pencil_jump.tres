@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PencilJump" load_steps=2 format=3 uid="uid://c68fjee3rvkr4"]
+
+[ext_resource type="Script" path="res://players/papers/pencils/pencil_jump.gd" id="1_uftic"]
+
+[resource]
+script = ExtResource("1_uftic")
+frame = 1
+color = Color(1, 0.572549, 0, 1)
+desc = "Jumps from start to end of your line."
+ink_factor = 1.0

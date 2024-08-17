@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ObstaclePen" load_steps=2 format=3 uid="uid://c7x3xe6fs16wo"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_pen.gd" id="1_ndoec"]
+
+[resource]
+script = ExtResource("1_ndoec")
+frame = 5
+desc = "Gain a new type of pencil"
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0

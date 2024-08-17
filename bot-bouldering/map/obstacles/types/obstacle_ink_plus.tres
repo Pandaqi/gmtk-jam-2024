@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ObstacleInk" load_steps=2 format=3 uid="uid://u5418x1ybhhx"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_ink.gd" id="1_35ixb"]
+
+[resource]
+script = ExtResource("1_35ixb")
+frame = 7
+desc = "Increases your ink per round."
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0

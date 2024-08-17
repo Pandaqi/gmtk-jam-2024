@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://fx1lu2a4gvua"]
+
+[ext_resource type="Script" path="res://ui/pencils/ui_pencil.gd" id="1_24nw4"]
+[ext_resource type="Texture2D" uid="uid://b2enbcktv8o0f" path="res://players/papers/pencils.webp" id="2_s0c2i"]
+
+[node name="UIPencil" type="Node2D"]
+position = Vector2(-113, -599)
+script = ExtResource("1_24nw4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_s0c2i")
+hframes = 4
+vframes = 4
