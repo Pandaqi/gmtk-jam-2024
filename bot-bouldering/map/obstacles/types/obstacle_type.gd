@@ -20,5 +20,5 @@ func update(o:Obstacle, dt: float) -> void:
 	pass
 
 func get_random_radius() -> float:
-	var base_radius := 32.0 # @TODO: read from config
+	var base_radius := Global.config.scale(Global.config.obstacle_base_radius)
 	return Bounds.new(base_radius * radius_min_factor, base_radius * radius_max_factor).rand_float()

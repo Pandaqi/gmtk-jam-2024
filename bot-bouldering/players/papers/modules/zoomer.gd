@@ -8,17 +8,20 @@ var bounds : Rect2
 
 var base_scale := 1.0
 var base_dimensions := Vector2(0.5, 1)
-var base_size := 256
-var size_bounds = Bounds.new(0.5, 2.0)
-
 var extra_scale_from_obstacle := 1.0
-
-var zoom_speed := 0.1
 
 signal size_changed(bounds:Rect2)
 signal size_factor_changed()
 
 func activate() -> void:
+	
+	if Global.config.player_paper_on_top_of_bot:
+		anchor = Vector2(0.5, 0.5)
+	else:
+		anchor = Vector2(0.5, 1)
+	
+	var bdim_bounds := Global.config.canvas_dimension_bounds
+	base_dimensions = Vector2(bdim_bounds.rand_float(), bdim_bounds.rand_float())
 	change_size(0)
 
 func _input(ev:InputEvent) -> void:
@@ -29,9 +32,9 @@ func _input(ev:InputEvent) -> void:
 		change_size(-1)
 
 func change_size(dir:int) -> void:
-	base_scale = size_bounds.clamp_value(base_scale + dir*zoom_speed)
+	base_scale = Global.config.canvas_base_scale_bounds.clamp_value(base_scale + dir*Global.config.canvas_zoom_speed)
 	
-	var new_size := base_dimensions * base_scale * base_size * extra_scale_from_obstacle
+	var new_size := base_dimensions * base_scale * extra_scale_from_obstacle * Global.config.sprite_size
 	bounds_raw.position = Vector2.ZERO
 	bounds_raw.size = new_size
 	
@@ -58,4 +61,4 @@ func is_out_of_bounds(pos:Vector2) -> bool:
 	return pos_rel.x < 0.0 or pos_rel.x > 1.0 or pos_rel.y < 0.0 or pos_rel.y > 1.0
 
 func get_scale_ratio() -> float:
-	return size_bounds.get_ratio(base_scale)
+	return Global.config.canvas_base_scale_bounds.get_ratio(base_scale)

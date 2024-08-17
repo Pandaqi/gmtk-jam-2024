@@ -13,10 +13,6 @@ class_name ModulePencils extends Node2D
 
 var active_index := -1
 
-var CHANGE_BY_ZOOM := true
-var REQUIRE_ALL_INK := false
-var AUTO_ADVANCE := false
-
 signal pencils_exhausted()
 signal active_changed(p:PencilType)
 signal pencils_changed(available:Array[PencilType], unlocked:Array[PencilType])
@@ -24,7 +20,7 @@ signal pencils_changed(available:Array[PencilType], unlocked:Array[PencilType])
 func activate() -> void:
 	drawer.line_finished.connect(on_line_finished)
 	zoomer.size_changed.connect(on_size_changed)
-	turn.turn_timed_out.connect(on_turn_timed_out)
+	entity.done.connect(on_turn_done)
 	entity.reset.connect(on_reset)
 	
 	# @DEBUGGING
@@ -32,7 +28,7 @@ func activate() -> void:
 	add_new_type(pencil_jump)
 
 func on_size_changed(_new_size:Rect2) -> void:
-	if not CHANGE_BY_ZOOM: return
+	if not Global.config.pencils_change_by_zoom: return
 	var epsilon := 0.0001 # just to prevent it wrapping back around on max 100% ratio
 	var idx : int = floor((zoomer.get_scale_ratio()+epsilon) * pencils_available.size())
 	set_index(idx)
@@ -60,15 +56,20 @@ func on_active_change() -> void:
 func count() -> int:
 	return pencils_available.size()
 
+func count_unlocked() -> int:
+	return pencils_unlocked.size()
+
 func get_active_pencil() -> PencilType:
 	return pencils_available[active_index]
 
 func on_line_finished(l:Line) -> void:
-	if not REQUIRE_ALL_INK: 
+	if not Global.config.turns_require_all_ink: 
 		pencils_available.erase(l.type)
 		on_change()
+	
 	check_if_done()
-	if AUTO_ADVANCE and (not REQUIRE_ALL_INK):
+	
+	if Global.config.pencils_auto_advance_after_line:
 		grab_next()
 
 func check_if_done() -> void:
@@ -81,10 +82,14 @@ func exhaust_pencils() -> void:
 	pencils_available = []
 	pencils_exhausted.emit()
 
-func on_turn_timed_out() -> void:
+func on_turn_done() -> void:
 	exhaust_pencils()
 
 func add_new_type(forced_type:PencilType = null) -> void:
+	if count_unlocked() >= Global.config.pencil_num_bounds.end: 
+		print("Already at max pencils!")
+		return
+	
 	if not forced_type:
 		var all_types := paper_data.all_pencils
 		var types_not_used : Array[PencilType] = []
@@ -103,10 +108,12 @@ func add_new_type(forced_type:PencilType = null) -> void:
 	on_change()
 
 func remove_current_type() -> void:
-	pencils_unlocked.erase(get_active_pencil())
-	on_change()
+	remove_type(get_active_pencil())
 
 func remove_type(tp:PencilType) -> void:
+	if count_unlocked() <= Global.config.pencil_num_bounds.start:
+		print("Can't go below minimum pencils")
+		return 
 	pencils_unlocked.erase(tp)
 	on_change()
 

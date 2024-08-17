@@ -12,8 +12,8 @@ class_name PlayerPaper extends Node2D
 signal done()
 signal reset()
 
-func _ready() -> void:
-	pencils.pencils_exhausted.connect(on_all_lines_drawn)
+func activate() -> void:
+	turn.turn_over.connect(on_turn_over)
 	player_bot.paper_follower.done.connect(on_bot_done)
 	
 	ui.activate()
@@ -24,7 +24,7 @@ func _ready() -> void:
 	
 	on_bot_done()
 
-func on_all_lines_drawn() -> void:
+func on_turn_over() -> void:
 	done.emit()
 
 func on_bot_done() -> void:

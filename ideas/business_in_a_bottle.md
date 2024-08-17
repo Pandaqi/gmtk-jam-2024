@@ -25,7 +25,7 @@ More thematically:
 * You must design some sort of process / robot / building / factory / whatever to devour/use/convert a randomly laid out puzzle. But you must do so PERFECTLY.
 * You can't leave anything behind, but you must also run out of energy/movement/space at the exact time you finish destroying the objective.
 
-The fact that all your old business come back to bite you should make it harder and harder. Later levels should also have weirder bounds and start with many obstacles, such as "-1 to all neighbors"
+The fact that all your old businesses come back to bite you should make it harder and harder. Later levels should also have weirder bounds and start with many obstacles, such as "-1 to all neighbors"
 
 ## Gameplay
 

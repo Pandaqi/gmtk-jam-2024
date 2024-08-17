@@ -1,0 +1,93 @@
+[gd_scene load_steps=15 format=3 uid="uid://d316gymcog8um"]
+
+[ext_resource type="Script" path="res://players/papers/player_paper.gd" id="1_to0ta"]
+[ext_resource type="Script" path="res://players/papers/modules/turn.gd" id="2_2rrue"]
+[ext_resource type="Script" path="res://players/papers/pencils/pencils.gd" id="3_0cfdh"]
+[ext_resource type="Resource" uid="uid://5djpxkg264w0" path="res://players/papers/data/paper_data.tres" id="4_8pt1i"]
+[ext_resource type="Resource" uid="uid://b80o6owk0tokq" path="res://players/papers/pencils/pencil_move.tres" id="5_tk707"]
+[ext_resource type="Resource" uid="uid://c68fjee3rvkr4" path="res://players/papers/pencils/pencil_jump.tres" id="6_v1jyb"]
+[ext_resource type="Script" path="res://players/papers/modules/zoomer.gd" id="7_cxyl2"]
+[ext_resource type="Script" path="res://players/papers/modules/drawer.gd" id="8_5yjo3"]
+[ext_resource type="Script" path="res://players/papers/cursor.gd" id="9_3en42"]
+[ext_resource type="Texture2D" uid="uid://bia7anbudk070" path="res://game_loop/placeholder.webp" id="10_ydxsr"]
+[ext_resource type="Script" path="res://players/papers/modules/ui.gd" id="11_b7120"]
+[ext_resource type="PackedScene" uid="uid://dkr3q4ecxk40q" path="res://ui/ui_element.tscn" id="12_uqoty"]
+[ext_resource type="Script" path="res://players/papers/pencils_ui.gd" id="13_yddv3"]
+[ext_resource type="PackedScene" uid="uid://fx1lu2a4gvua" path="res://ui/pencils/ui_pencil.tscn" id="14_w1evx"]
+
+[node name="PlayerPaper" type="Node2D" node_paths=PackedStringArray("pencils", "drawer", "zoomer", "ui", "turn")]
+position = Vector2(171, 578)
+script = ExtResource("1_to0ta")
+pencils = NodePath("Pencils")
+drawer = NodePath("Drawer")
+zoomer = NodePath("Zoomer")
+ui = NodePath("UI")
+turn = NodePath("Turn")
+
+[node name="Turn" type="Node2D" parent="." node_paths=PackedStringArray("pencils")]
+script = ExtResource("2_2rrue")
+pencils = NodePath("../Pencils")
+
+[node name="Timer" type="Timer" parent="Turn"]
+one_shot = true
+
+[node name="Pencils" type="Node2D" parent="." node_paths=PackedStringArray("drawer", "zoomer", "turn")]
+script = ExtResource("3_0cfdh")
+paper_data = ExtResource("4_8pt1i")
+drawer = NodePath("../Drawer")
+zoomer = NodePath("../Zoomer")
+turn = NodePath("../Turn")
+pencil_move = ExtResource("5_tk707")
+pencil_jump = ExtResource("6_v1jyb")
+
+[node name="Zoomer" type="Node2D" parent="." node_paths=PackedStringArray("turn")]
+script = ExtResource("7_cxyl2")
+turn = NodePath("../Turn")
+
+[node name="Drawer" type="Node2D" parent="." node_paths=PackedStringArray("cursor", "zoomer", "pencils")]
+script = ExtResource("8_5yjo3")
+cursor = NodePath("../Cursor")
+zoomer = NodePath("../Zoomer")
+pencils = NodePath("../Pencils")
+
+[node name="Cursor" type="Node2D" parent="." node_paths=PackedStringArray("zoomer", "turn")]
+modulate = Color(1, 0.482353, 0.133333, 1)
+script = ExtResource("9_3en42")
+zoomer = NodePath("../Zoomer")
+turn = NodePath("../Turn")
+
+[node name="Sprite2D" type="Sprite2D" parent="Cursor"]
+modulate = Color(1, 0.537255, 0.266667, 1)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("10_ydxsr")
+
+[node name="LabelDebug" type="Label" parent="Cursor"]
+offset_left = -14.0
+offset_top = -15.0
+offset_right = 14.0
+offset_bottom = 14.0
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UI" type="Node2D" parent="." node_paths=PackedStringArray("drawer", "turn")]
+script = ExtResource("11_b7120")
+drawer = NodePath("../Drawer")
+turn = NodePath("../Turn")
+
+[node name="InkLeft" parent="UI" instance=ExtResource("12_uqoty")]
+position = Vector2(-119, 39)
+
+[node name="TimeLeft" parent="UI" instance=ExtResource("12_uqoty")]
+position = Vector2(-41, 39)
+
+[node name="Lives" parent="UI" instance=ExtResource("12_uqoty")]
+position = Vector2(37, 39)
+
+[node name="Score" parent="UI" instance=ExtResource("12_uqoty")]
+position = Vector2(118, 39)
+
+[node name="Pencils" type="Node2D" parent="UI" node_paths=PackedStringArray("pencils")]
+script = ExtResource("13_yddv3")
+pencils = NodePath("../../Pencils")
+pencil_scene = ExtResource("14_w1evx")

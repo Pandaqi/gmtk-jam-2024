@@ -3,14 +3,11 @@ class_name ModuleDrawer extends Node2D
 @export var cursor : ModuleCursor
 @export var zoomer : ModuleZoomer
 @export var pencils : ModulePencils
-@onready var entity = get_parent()
+@onready var entity : PlayerPaper = get_parent()
 
 var lines : Array[Line] = []
 var total_length := 0.0
-
-var max_length := 2.5
-
-const MAX_DIST_NEW_LINE := 0.1
+var max_length := 1.0
 
 signal line_started(l:Line)
 signal line_finished(l:Line)
@@ -21,13 +18,16 @@ signal ink_exhausted()
 signal ink_bounds_changed()
 
 func activate() -> void:
+	max_length = Global.config.ink_default
+	
 	cursor.moved.connect(on_cursor_moved)
 	cursor.pressed.connect(on_cursor_pressed)
 	zoomer.size_changed.connect(on_size_changed)
 	entity.reset.connect(on_reset)
+	entity.player_bot.paper_follower.line_ended.connect(on_line_ended)
 
 func change_ink_bounds(dib:float) -> void:
-	max_length = clamp(max_length + dib, 0.5, 5.0)
+	max_length = Global.config.ink_bounds.clamp_value(max_length + dib)
 	ink_bounds_changed.emit()
 	update_ink_left()
 
@@ -82,7 +82,7 @@ func close_enough_to_prev_line(c:ModuleCursor) -> bool:
 	var end_point = get_current_line().back()
 	var dist := c.get_relative_position().distance_to(end_point)
 	
-	var close_enough := dist <= MAX_DIST_NEW_LINE
+	var close_enough := dist <= Global.config.drawing_max_dist_to_old_line
 	return close_enough
 
 func on_cursor_moved(pos_rel:Vector2) -> void:
@@ -103,7 +103,12 @@ func on_ink_exhausted() -> void:
 	finish_line()
 
 func get_ink_ratio() -> float:
-	return clamp(get_total_length() / max_length, 0.0, 1.0)
+	return clamp(1.0 - get_total_length() / max_length, 0.0, 1.0)
+
+# @TODO: we don't actually check the line that ended now, because it's a CLONED one so we won't be able to FIND IT => We really need a better structure that doesn't need cloning ... perhaps a new class called LineAdvancer?
+func on_line_ended(line:Line) -> void:
+	lines.pop_front().queue_free()
+	queue_redraw()
 
 func on_size_changed(size:Rect2) -> void:
 	queue_redraw()

@@ -15,13 +15,14 @@ func activate() -> void:
 	entity.player.score_changed.connect(on_lives_changed)
 
 func on_ink_changed(ink_ratio:float) -> void:
-	ink_left.update(str(ink_ratio * 100) + "%")
+	ink_left.update(str(round(ink_ratio * 100)) + "%")
 
 func _process(_dt:float) -> void:
 	on_turn_changed()
 
 func on_turn_changed() -> void:
-	time_left.update(str(turn.get_time_left()))
+	var tm_nice : int = round(turn.get_time_left())
+	time_left.update(str(tm_nice))
 
 func on_lives_changed(new_lives:int) -> void:
 	lives.update(str(new_lives))

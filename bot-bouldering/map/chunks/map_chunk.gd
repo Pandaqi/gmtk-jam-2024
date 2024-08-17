@@ -7,15 +7,19 @@ class_name MapChunk extends Node2D
 var index := 0
 
 func generate(chunk_size:Vector2) -> void:
-	var num_walls := 5
+	var num_walls := Global.config.map_chunk_num_walls.rand_int()
+	var rot_subdiv := Global.config.obstacle_rotation_subdiv
 	for i in range(num_walls):
 		var w = wall_scene.instantiate()
 		w.set_position( get_random_position(chunk_size) )
-		w.set_rotation( randf() * 2 * PI)
+		
+		var rand_rot := randf() * 2 * PI
+		rand_rot = floor(rand_rot / rot_subdiv) * rot_subdiv
+		w.set_rotation(rand_rot)
 		add_child(w)
 	
-	var num_spikes := 5
-	for i in range(num_spikes):
+	var num_obstacles := Global.config.map_chunk_num_obstacles.rand_int()
+	for i in range(num_obstacles):
 		var w = obstacle_scene.instantiate()
 		w.set_position( get_random_position(chunk_size) )
 		add_child(w)

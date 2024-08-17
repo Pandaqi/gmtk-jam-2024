@@ -24,7 +24,9 @@ func get_relative_position() -> Vector2:
 
 func on_mouse_move() -> void:
 	var pos := get_global_mouse_position()
-	if zoomer.is_out_of_bounds(pos): return
+	if zoomer.is_out_of_bounds(pos): 
+		if is_pressed: on_click(false)
+		return
 	global_position = pos
 	
 	if not is_pressed: return

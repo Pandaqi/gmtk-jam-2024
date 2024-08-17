@@ -1,37 +1,48 @@
 # To-Do Crucial
 
-CONFIG => create the global config again, move values over
-
 MAP:
-* Close the game loop => if you die, restart => if you reach the mountain top, great!
-* Having rising lava that will kill you
-* Create the option for the bot to follow your lines _as you go_, in real time.
-
+* I AM IN DOUBT about whethere this should be a quick, reaction-based game ... or you should plan your route ahead of time, seeing the entire wall to climb, more turn-based and strategic?
+  * Is this more of a platformer/action, or more of an adventure/exploration/treasure hunt thing?
+* Zooming in/out should really scale your entire BOT => so if you zoom in, you get more detail/precision, but you're also much bigger?
 
 # To-Do Later
 
-* MAP: bigger chunk sizes, spawn fewer powerups, make powerups smaller
-  * Perhaps I want more extremes in blockade size: either a wall is HUGE or it's quite tiny, but not a scattering of in-between ones.
-  * Otherwise, locking sizes and rotation to fixed intervals (e.g. only quarter turns) should make it a bit more orderly.
-  * Be more zoomed in by default; we never want to see _too much_ of the mountain
-  * This would also require somewhat slower movement from the player
+* Different Rules
+  * Maybe health is more continuous, and bumping into solid stuff will reduce it? (Or bumping into something will make you enter freefall?)
+  * After each line, it auto-switches to the next pencil, no exceptions. (Think that's simply bugged now.)
+  * You can't draw new lines while it's still following the current one. (Though there must be some benefit to drawing longer lines then?)
+  * When you deplete the ink of _that pencil_, it switches to another one?
+  * @IDEA: A min/max ink for which you have to use each pencil?
+    * The same penalty is incurred for every line, no matter how long or short. This incentivizes you to use the full length of every stroke.
+
 * Pick fonts
 * Create actual icons for UI + nice update animation + use
 * Add a SHADER + DECORATIONS to make the grey mountain NICER => also make it smaller and smaller as you near the top
-* Actually _spawn_ the player on the fly, then connect the separate elements properly (bot and paper should know about each other), and switch to the delayed `activate` structure again
-* More pencil types?? => NO, we actually need fewer, and NOT being able to choose them is far more interesting and less overwhelming.
-  * SHOOT: stands still, rotates in direction and shoots. (Or shoots a single bullet that follows the line?)
-  * TELEPORT: or some other special thing that you can ONLY use if you're walking with this line
+* Turn the canvas viewer into a dotted outline or just something nicer
+* The canvas just looks ugly and awkward now if it's _wide_ => should probably always be tall, like an A4 paper.
+
 
 @IDEA: We really need a TIME PRESSURE or CONSTANT THREAT, otherwise you can just always take safe routes and chill your way up the mountain ... => the most common thing here is rising LAVA or something; a more unique approach would be that enemy bot.
 
-@IDEA: A min/max ink for which you have to use each pencil?
+
 
 @IDEA: Maybe, in solo player, you also get to see some random drawing by the computer. Which they follow/execute at the same time as you. And it's your job to NOT collide with them or something.
 
 @IDEA: Make something very useful like "jump" simply deplete your total ink faster?
 
 @IDEA: While you're drawing, your bot will _slowly_ slide downwards more and more, to put extra pressure and challenge on you? (Or maybe this is related to lives or status => if it's damaged/battery empty, it will start sliding.)
+
+# To-Do Very Optional
+
+MAP:
+* Moving enemies/dangers?
+* Have paper and map _side by side_? (So the camera really centers on something way to the left of the player?)
+  * That would necessitate that the canvas can never be bigger than `Vector2(0.5*vp_size.x, vp_size.y)`?
+
+* More pencil types??
+  * SHOOT: stands still, rotates in direction and shoots. (Or shoots a single bullet that follows the line?)
+  * TELEPORT: or some other special thing that you can ONLY use if you're walking with this line
+
 
 # Bot Bouldering
 

@@ -15,6 +15,16 @@ run/main_scene="res://game_loop/main/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Global="*res://game_loop/globals/global.tscn"
+GSignal="*res://game_loop/globals/gsignal.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
 [global_group]
 
 PlayerBots=""
@@ -37,3 +47,4 @@ zoom_out={
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.125911, 0.125911, 0.125911, 1)
+anti_aliasing/quality/screen_space_aa=1
