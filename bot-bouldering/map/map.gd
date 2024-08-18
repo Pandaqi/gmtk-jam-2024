@@ -1,4 +1,4 @@
-class_name Map extends Node2D
+class_name MapDynamic extends Node2D
 
 var chunk_size : Vector2
 var chunks : Array[MapChunk] = []

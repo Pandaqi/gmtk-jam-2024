@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bnfhlu04c3rhm"]
+
+[ext_resource type="Shader" path="res://map/bg/floor_tiles_shader.gdshader" id="1_oyi7x"]
+
+[resource]
+shader = ExtResource("1_oyi7x")
+shader_parameter/real_size = Vector2(256, 256)
+shader_parameter/tile_size = 64.0
+shader_parameter/color1 = Color(0.8, 0.863333, 1, 1)
+shader_parameter/color2 = Color(0.308, 0.408833, 0.55, 1)

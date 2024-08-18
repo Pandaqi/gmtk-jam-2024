@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dobfgpnhx4r5x"]
+
+[ext_resource type="Script" path="res://mice/footsteps/footsteps.gd" id="1_6syn4"]
+[ext_resource type="Texture2D" uid="uid://6yxqa2nj3tl2" path="res://mice/footsteps/footsteps.png" id="2_srmjo"]
+
+[node name="Footsteps" type="Node2D"]
+script = ExtResource("1_6syn4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_srmjo")

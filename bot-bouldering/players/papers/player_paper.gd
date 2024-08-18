@@ -22,7 +22,16 @@ func activate() -> void:
 	turn.activate()
 	zoomer.activate()
 	
+	set_rotation(Global.config.canvas_rand_rotation_bounds.rand_float())
+	
+	get_viewport().size_changed.connect(on_resize)
+	on_resize()
+	
 	on_bot_done()
+
+func on_resize() -> void:
+	var vp_size := get_viewport_rect().size
+	set_position(Vector2(0.25, 0.5)*vp_size)
 
 func on_turn_over() -> void:
 	done.emit()

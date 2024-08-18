@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ToolType" load_steps=2 format=3 uid="uid://dp2met3ecbo2n"]
+
+[ext_resource type="Script" path="res://players/tools/types/tool_type.gd" id="1_hw8mn"]
+
+[resource]
+script = ExtResource("1_hw8mn")
+title = "Pie"
+frame = 4
+desc = "If you lose all pies, you die."
+color = Color(1, 1, 1, 1)
+equippable = false
+single_use = false
+required_for_survival = true

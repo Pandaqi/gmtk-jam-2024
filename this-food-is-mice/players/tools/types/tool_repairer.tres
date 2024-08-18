@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ToolType" load_steps=3 format=3 uid="uid://c3rwqsos42jiv"]
+
+[ext_resource type="PackedScene" uid="uid://bbnci650kc6n7" path="res://players/tools/nodes/repairer/repairer.tscn" id="1_e6nj4"]
+[ext_resource type="Script" path="res://players/tools/types/tool_type.gd" id="1_m3igt"]
+
+[resource]
+script = ExtResource("1_m3igt")
+title = "Repairer"
+frame = 3
+desc = "Repairs objects in range."
+color = Color(1, 1, 1, 1)
+node = ExtResource("1_e6nj4")
+equippable = true
+single_use = false

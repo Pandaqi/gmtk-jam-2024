@@ -1,4 +1,4 @@
-class_name CameraRiver extends Camera2D
+class_name CameraPlayer extends Camera2D
 
 const MOVE_SPEED := 8.0
 const ZOOM_SPEED := 8.0

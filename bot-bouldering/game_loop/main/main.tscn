@@ -1,35 +1,45 @@
-[gd_scene load_steps=10 format=3 uid="uid://cl5ekprujdysq"]
+[gd_scene load_steps=13 format=3 uid="uid://cl5ekprujdysq"]
 
-[ext_resource type="Script" path="res://map/camera/camera.gd" id="1_a1xe5"]
 [ext_resource type="Script" path="res://game_loop/main/main.gd" id="1_hhk8l"]
-[ext_resource type="Script" path="res://map/map.gd" id="1_pqnqm"]
 [ext_resource type="Script" path="res://state/state.gd" id="2_b5nt3"]
-[ext_resource type="PackedScene" uid="uid://cfla657ncro7f" path="res://map/chunks/map_chunk.tscn" id="2_gbjs7"]
+[ext_resource type="Script" path="res://map/camera/camera_map.gd" id="3_ecyj5"]
 [ext_resource type="Resource" uid="uid://biw27ik347eib" path="res://map/data/map_data.tres" id="3_mas6h"]
-[ext_resource type="Script" path="res://map/lava/lava.gd" id="6_0yfd4"]
+[ext_resource type="Script" path="res://map/map_static.gd" id="5_4l81j"]
 [ext_resource type="Script" path="res://players/players.gd" id="6_ck8fx"]
+[ext_resource type="PackedScene" uid="uid://1iyp7stlc2hw" path="res://map/obstacles/obstacle.tscn" id="6_yst3b"]
 [ext_resource type="PackedScene" uid="uid://b3gbqhlkljwjy" path="res://players/player.tscn" id="7_r0epw"]
+[ext_resource type="Resource" uid="uid://l0aievwma2hk" path="res://map/obstacles/types/obstacle_finish.tres" id="7_rhv13"]
+[ext_resource type="PackedScene" uid="uid://stdskoqxj6m3" path="res://map/obstacles/wall.tscn" id="8_fwgl8"]
+[ext_resource type="Script" path="res://map/generator/generator.gd" id="8_genei"]
+[ext_resource type="Resource" uid="uid://cnetenrluo3vr" path="res://map/obstacles/types/obstacle_score_plus.tres" id="10_27big"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_hhk8l")
 
-[node name="State" type="Node2D" parent="."]
+[node name="Progression" type="Node2D" parent="."]
 script = ExtResource("2_b5nt3")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("1_a1xe5")
+script = ExtResource("3_ecyj5")
+map_data = ExtResource("3_mas6h")
 
 [node name="Map" type="Node2D" parent="."]
-script = ExtResource("1_pqnqm")
-map_data = ExtResource("3_mas6h")
-chunk_scene = ExtResource("2_gbjs7")
-
-[node name="Lava" type="Node2D" parent="Map"]
-script = ExtResource("6_0yfd4")
+script = ExtResource("5_4l81j")
 map_data = ExtResource("3_mas6h")
 
-[node name="Players" type="Node2D" parent="."]
+[node name="Generator" type="Node2D" parent="Map"]
+script = ExtResource("8_genei")
+map_data = ExtResource("3_mas6h")
+obstacle_scene = ExtResource("6_yst3b")
+wall_scene = ExtResource("8_fwgl8")
+finish_type = ExtResource("7_rhv13")
+star_type = ExtResource("10_27big")
+
+[node name="Players" type="Node2D" parent="." node_paths=PackedStringArray("papers_layer")]
 script = ExtResource("6_ck8fx")
 player_scene = ExtResource("7_r0epw")
+papers_layer = NodePath("../Papers")
+
+[node name="Mountain" type="CanvasLayer" parent="."]
 
 [node name="Papers" type="CanvasLayer" parent="."]

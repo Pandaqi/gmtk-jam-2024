@@ -24,9 +24,11 @@ zoomer = NodePath("Zoomer")
 ui = NodePath("UI")
 turn = NodePath("Turn")
 
-[node name="Turn" type="Node2D" parent="." node_paths=PackedStringArray("pencils")]
+[node name="Turn" type="Node2D" parent="." node_paths=PackedStringArray("pencils", "cursor", "drawer")]
 script = ExtResource("2_2rrue")
 pencils = NodePath("../Pencils")
+cursor = NodePath("../Cursor")
+drawer = NodePath("../Drawer")
 
 [node name="Timer" type="Timer" parent="Turn"]
 one_shot = true

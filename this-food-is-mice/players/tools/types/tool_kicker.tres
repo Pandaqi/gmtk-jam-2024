@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ToolType" load_steps=3 format=3 uid="uid://bqdkej8ovwuey"]
+
+[ext_resource type="Script" path="res://players/tools/types/tool_type.gd" id="1_j7qq1"]
+[ext_resource type="PackedScene" uid="uid://cm35mqctnobky" path="res://players/tools/nodes/kicker/kicker.tscn" id="1_lvbcr"]
+
+[resource]
+script = ExtResource("1_j7qq1")
+title = "Kicker"
+frame = 1
+desc = "Kicks all mice in range away."
+color = Color(1, 1, 1, 1)
+node = ExtResource("1_lvbcr")
+equippable = true
+single_use = true

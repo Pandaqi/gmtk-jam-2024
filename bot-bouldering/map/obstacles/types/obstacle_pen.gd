@@ -10,4 +10,4 @@ func on_body_entered(o:Obstacle, body:PlayerBot) -> void:
 			body.paper.pencils.remove_current_type()
 			return
 		
-		body.paper.pencils.remove_type(cur_line.type)
+		body.paper.pencils.remove_type(cur_line.line.type)

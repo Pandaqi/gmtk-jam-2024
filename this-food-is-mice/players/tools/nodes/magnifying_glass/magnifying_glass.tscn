@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://d27st43b0kh1b"]
+
+[ext_resource type="Script" path="res://players/tools/nodes/magnifying_glass/magnifying_glass.gd" id="1_vidj7"]
+[ext_resource type="Shader" path="res://players/tools/nodes/magnifying_glass/magnifying_glass_shader.gdshader" id="2_r1vv3"]
+[ext_resource type="Texture2D" uid="uid://bo6ewplr7us16" path="res://players/tools/nodes/magnifying_glass/magnifying_normal.jpg" id="3_j4yq1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wrtmp"]
+shader = ExtResource("2_r1vv3")
+shader_parameter/magnitude = 100.0
+shader_parameter/flipGreen = false
+
+[node name="MagnifyingGlass" type="Node2D"]
+position = Vector2(-1, 3)
+script = ExtResource("1_vidj7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_wrtmp")
+scale = Vector2(2, 2)
+texture = ExtResource("3_j4yq1")

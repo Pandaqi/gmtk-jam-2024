@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://d1b11ylqy5nlj"]
+[gd_scene load_steps=6 format=3 uid="uid://d1b11ylqy5nlj"]
 
 [ext_resource type="Script" path="res://players/bots/player_bot.gd" id="1_05bhe"]
 [ext_resource type="Resource" uid="uid://biw27ik347eib" path="res://map/data/map_data.tres" id="2_k0jl8"]
 [ext_resource type="Texture2D" uid="uid://bia7anbudk070" path="res://game_loop/placeholder.webp" id="3_c0e7e"]
 [ext_resource type="Script" path="res://players/modules/paper_follower.gd" id="4_d6vfv"]
-[ext_resource type="Script" path="res://players/modules/canvas_viewer.gd" id="5_dbdpm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w18td"]
 radius = 17.0294
@@ -24,7 +23,4 @@ texture = ExtResource("3_c0e7e")
 
 [node name="PaperFollower" type="Node2D" parent="."]
 script = ExtResource("4_d6vfv")
-
-[node name="CanvasViewer" type="Node2D" parent="." node_paths=PackedStringArray("paper_follower")]
-script = ExtResource("5_dbdpm")
-paper_follower = NodePath("../PaperFollower")
+map_data = ExtResource("2_k0jl8")

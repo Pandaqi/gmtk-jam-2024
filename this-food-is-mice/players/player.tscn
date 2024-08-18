@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3 uid="uid://b7jvele2ehrox"]
+
+[ext_resource type="Script" path="res://players/player.gd" id="1_w4tef"]
+[ext_resource type="Texture2D" uid="uid://7orui6wgiwbq" path="res://game_loop/placeholder.png" id="2_1cimt"]
+[ext_resource type="Script" path="res://players/modules/input.gd" id="3_e4uv6"]
+[ext_resource type="Script" path="res://players/modules/mover.gd" id="4_fic2u"]
+[ext_resource type="Resource" uid="uid://dfxb3y6yrpncv" path="res://players/tools/types/tool_magnifying_glass.tres" id="7_q43rw"]
+[ext_resource type="Script" path="res://players/modules/map_tracker.gd" id="8_iq1n1"]
+[ext_resource type="Script" path="res://players/modules/tool_switcher.gd" id="9_tvcpj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_exs8b"]
+radius = 30.0
+height = 108.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vakd5"]
+radius = 86.4928
+
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_w4tef")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -22)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_exs8b")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -121)
+scale = Vector2(0.40625, 1)
+texture = ExtResource("2_1cimt")
+
+[node name="Input" type="Node2D" parent="."]
+script = ExtResource("3_e4uv6")
+
+[node name="Mover" type="Node2D" parent="." node_paths=PackedStringArray("input")]
+script = ExtResource("4_fic2u")
+input = NodePath("../Input")
+
+[node name="MapTracker" type="Node2D" parent="."]
+position = Vector2(0, 3)
+script = ExtResource("8_iq1n1")
+
+[node name="Area2D" type="Area2D" parent="MapTracker"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapTracker/Area2D"]
+shape = SubResource("CircleShape2D_vakd5")
+
+[node name="ToolSwitcher" type="Node2D" parent="." node_paths=PackedStringArray("map_tracker", "input", "mover")]
+script = ExtResource("9_tvcpj")
+map_tracker = NodePath("../MapTracker")
+input = NodePath("../Input")
+mover = NodePath("../Mover")
+def_tool = ExtResource("7_q43rw")
+
+[connection signal="body_entered" from="MapTracker/Area2D" to="MapTracker" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="MapTracker/Area2D" to="MapTracker" method="_on_area_2d_body_exited"]

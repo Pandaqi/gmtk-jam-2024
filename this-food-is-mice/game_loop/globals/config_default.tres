@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Config" load_steps=2 format=3 uid="uid://bkdbyuj1kmyar"]
+
+[ext_resource type="Script" path="res://game_loop/globals/config.gd" id="1_bwgg8"]
+
+[resource]
+script = ExtResource("1_bwgg8")
+skip_pregame = true
+debug_disable_sound = false
+debug_show_mice = false
+debug_labels = true
+sprite_size = 256.0
+gameloop_num_pies = 3
+map_size = Vector2(10, 7)
+camera_edge_margin = Vector2(32, 32)
+player_move_speed = 5.0
+mouse_speed = 1.0
+mouse_max_lives = 9
+mouse_min_lives_perma_visible = 6
+mouse_spawn_tick = 3.0
+mouse_spawn_prob = 0.66
+obstacle_num_bites_remove = 4
+tool_knockback_force = 6.0
+tool_knockback_damping = 1.0

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ObstacleFinish" load_steps=2 format=3 uid="uid://l0aievwma2hk"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_finish.gd" id="1_lpqve"]
+
+[resource]
+script = ExtResource("1_lpqve")
+frame = 0
+desc = "Reach this to beat the level!"
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0
+destroy_on_visit = false

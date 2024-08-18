@@ -1,14 +1,18 @@
 class_name LavaThreat extends Node2D
 
 @export var map_data : MapData
+var active := false
 
-func _ready():
+func _ready() -> void:
+	active = Global.config.map_lava_enabled
 	set_position(Vector2(0, Global.config.scale(Global.config.map_lava_start_y)))
 
 func _process(dt:float) -> void:
 	move_up(dt)
 
 func move_up(dt:float) -> void:
+	if not active: return
+	
 	var new_pos := get_position() + Vector2.UP * Global.config.scale(Global.config.map_lava_speed) * dt
 	set_position(new_pos)
 	

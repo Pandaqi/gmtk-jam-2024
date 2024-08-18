@@ -1,4 +1,6 @@
-class_name State extends Node2D
+class_name Progression extends Node2D
+
+var level := 0
 
 func activate() -> void:
 	GSignal.game_over.connect(on_game_over)

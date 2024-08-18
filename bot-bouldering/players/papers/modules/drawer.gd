@@ -85,7 +85,17 @@ func close_enough_to_prev_line(c:ModuleCursor) -> bool:
 	var close_enough := dist <= Global.config.drawing_max_dist_to_old_line
 	return close_enough
 
+func too_close_to_prev_point(pos:Vector2) -> bool:
+	var cur_line := get_current_line()
+	if not cur_line: return false
+	if cur_line.count() <= 0: return false
+	
+	var dist := cur_line.back().distance_to(pos)
+	return dist <= Global.config.drawing_min_dist_to_prev_point
+
 func on_cursor_moved(pos_rel:Vector2) -> void:
+	if too_close_to_prev_point(pos_rel): return
+	
 	var cur_line := get_current_line()
 	cur_line.add_point(pos_rel)
 	cur_line.update(zoomer)
@@ -105,9 +115,10 @@ func on_ink_exhausted() -> void:
 func get_ink_ratio() -> float:
 	return clamp(1.0 - get_total_length() / max_length, 0.0, 1.0)
 
-# @TODO: we don't actually check the line that ended now, because it's a CLONED one so we won't be able to FIND IT => We really need a better structure that doesn't need cloning ... perhaps a new class called LineAdvancer?
-func on_line_ended(line:Line) -> void:
-	lines.pop_front().queue_free()
+func on_line_ended(lf:LineFollower) -> void:
+	var line := lf.line
+	line.queue_free()
+	lines.erase(line)
 	queue_redraw()
 
 func on_size_changed(size:Rect2) -> void:
@@ -115,7 +126,7 @@ func on_size_changed(size:Rect2) -> void:
 
 func _draw() -> void:
 	# base paper
-	draw_rect(zoomer.bounds, Color(1,1,1), true)
+	draw_rect(zoomer.bounds, Color(1,1,1), true, -1, true)
 	
 	# the individual lines
 	for line in lines:

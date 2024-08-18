@@ -12,6 +12,7 @@ var size_scale := 1.0
 var is_ghost := false
 
 func activate() -> void:
+	set_position( map_data.get_player_starting_position() )
 	base_size = Global.config.scale(Global.config.player_base_size)
 	paper_follower.activate()
 	call_deferred("change_size")

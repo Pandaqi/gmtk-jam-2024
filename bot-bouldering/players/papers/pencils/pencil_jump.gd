@@ -1,25 +1,21 @@
 extends PencilType
 class_name PencilJump
 
-var target_travel_time := 0.0
-var time_traveled := 0.0
-
-# @TODO: this only works because pencils only appear ONCE in the entire game; if we can have multiple jumps, we'd need to duplicate this resource, or let PaperFollower track this time
-func on_start(l:Line, pf:ModulePaperFollower) -> void:
-	time_traveled = 0.0
-	target_travel_time = (l.back() - l.front()).length()
+func on_start(line:LineFollower, pf:ModulePaperFollower) -> void:
+	line.time_traveled = 0.0
+	line.target_travel_time = (line.points_absolute.back() - line.points_absolute.front()).length()
 	pf.entity.set_ghost(true)
 
-func on_end(l:Line, pf:ModulePaperFollower) -> void:
+func on_end(_line:LineFollower, pf:ModulePaperFollower) -> void:
 	pf.entity.set_ghost(false)
 
 # @TODO: maybe more of a jumping motion/tween: fast start, slower ending
-func update(pf:ModulePaperFollower, line:Line, speed:float) -> Vector2:
+func update(line:LineFollower, pf:ModulePaperFollower, speed:float) -> Vector2:
 	
-	time_traveled += speed
-	if time_traveled >= target_travel_time:
+	line.time_traveled += speed
+	if line.time_traveled >= line.target_travel_time:
 		line.traveling = false
 		return Vector2.ZERO
 	
-	var vec := line.back() - line.front()
+	var vec : Vector2 = line.points_absolute.back() - line.points_absolute.front()
 	return vec.normalized() * speed

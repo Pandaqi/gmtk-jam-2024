@@ -1,0 +1,55 @@
+[gd_scene load_steps=15 format=3 uid="uid://46w62lmko506"]
+
+[ext_resource type="Script" path="res://game_loop/main/main.gd" id="1_rscra"]
+[ext_resource type="Script" path="res://map/map.gd" id="1_xux8d"]
+[ext_resource type="Script" path="res://map/camera/camera.gd" id="1_yfkm2"]
+[ext_resource type="Script" path="res://progression/progression.gd" id="2_aeelf"]
+[ext_resource type="Resource" uid="uid://bp2o8vkt7cnsp" path="res://map/data/map_data.tres" id="4_s72bc"]
+[ext_resource type="PackedScene" uid="uid://bgbat6gcvrt82" path="res://objects/obstacle.tscn" id="5_8td4e"]
+[ext_resource type="Script" path="res://mice/mice.gd" id="6_4qtka"]
+[ext_resource type="Resource" uid="uid://dp2met3ecbo2n" path="res://players/tools/types/tool_pie.tres" id="6_7uwrk"]
+[ext_resource type="Material" uid="uid://bnfhlu04c3rhm" path="res://map/bg/floor_tiles_shader.tres" id="6_iw6mh"]
+[ext_resource type="Script" path="res://map/layers.gd" id="6_vq80x"]
+[ext_resource type="Script" path="res://map/bg/bg.gd" id="6_y5lek"]
+[ext_resource type="PackedScene" uid="uid://dg72osmd0f6bx" path="res://mice/mouse.tscn" id="7_87p1i"]
+[ext_resource type="Script" path="res://players/players.gd" id="8_acevi"]
+[ext_resource type="PackedScene" uid="uid://b7jvele2ehrox" path="res://players/player.tscn" id="9_1ejkl"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_rscra")
+
+[node name="Progression" type="Node2D" parent="."]
+script = ExtResource("2_aeelf")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("1_yfkm2")
+map_data = ExtResource("4_s72bc")
+
+[node name="Map" type="Node2D" parent="."]
+y_sort_enabled = true
+script = ExtResource("1_xux8d")
+map_data = ExtResource("4_s72bc")
+obstacle_scene = ExtResource("5_8td4e")
+tool_pie = ExtResource("6_7uwrk")
+
+[node name="BG" type="Node2D" parent="Map"]
+material = ExtResource("6_iw6mh")
+script = ExtResource("6_y5lek")
+map_data = ExtResource("4_s72bc")
+
+[node name="Layers" type="Node2D" parent="Map"]
+script = ExtResource("6_vq80x")
+layer_names = Array[String](["bg", "floor", "entities", "top"])
+
+[node name="Mice" type="Node2D" parent="."]
+script = ExtResource("6_4qtka")
+mouse_scene = ExtResource("7_87p1i")
+map_data = ExtResource("4_s72bc")
+
+[node name="Timer" type="Timer" parent="Mice"]
+one_shot = true
+
+[node name="Players" type="Node2D" parent="."]
+script = ExtResource("8_acevi")
+player_scene = ExtResource("9_1ejkl")
+map_data = ExtResource("4_s72bc")

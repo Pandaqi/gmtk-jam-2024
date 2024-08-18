@@ -1,11 +1,13 @@
 class_name ObstacleWall extends StaticBody2D
 
 @onready var col_shape : CollisionShape2D = $CollisionShape2D
+@export var map_data : MapData
 
 var is_rectangle := false
 
 func _ready() -> void:
-	var size_bounds := Global.config.scale_bounds(Global.config.wall_size_bounds)
+	var chunk_size : float = 0.5 * (map_data.chunk_size.x + map_data.chunk_size.y)
+	var size_bounds := Global.config.wall_size_bounds.clone().scale(chunk_size)
 	var subdiv := Global.config.scale(Global.config.wall_size_subdiv)
 	var rand_size := Vector2(size_bounds.rand_float(), size_bounds.rand_float())
 	rand_size.x = floor(rand_size.x/subdiv) * subdiv
@@ -32,7 +34,7 @@ func _draw() -> void:
 	if is_rectangle:
 		var bounds_raw : Vector2 = col_shape.shape.size
 		var bounds := Rect2(-0.5*bounds_raw.x, -0.5*bounds_raw.y, bounds_raw.x, bounds_raw.y)
-		draw_rect(bounds, Color(1,1,1), true)
+		draw_rect(bounds, Color(1,1,1), true, -1, true)
 		return
 	
-	draw_circle(Vector2.ZERO, col_shape.shape.radius, Color(1,1,1), true)
+	draw_circle(Vector2.ZERO, col_shape.shape.radius, Color(1,1,1), true, -1, true)

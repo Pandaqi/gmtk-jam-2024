@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://stdskoqxj6m3"]
+[gd_scene load_steps=4 format=3 uid="uid://stdskoqxj6m3"]
 
 [ext_resource type="Script" path="res://map/obstacles/wall.gd" id="1_sq3ty"]
+[ext_resource type="Resource" uid="uid://biw27ik347eib" path="res://map/data/map_data.tres" id="2_ju4tm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ru8rp"]
 size = Vector2(116, 30)
 
 [node name="Wall" type="StaticBody2D"]
 script = ExtResource("1_sq3ty")
+map_data = ExtResource("2_ju4tm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ru8rp")

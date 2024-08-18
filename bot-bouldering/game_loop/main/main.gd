@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var map : Map = $Map
+@onready var map : MapStatic = $Map
 @onready var players : Players = $Players
-@onready var state : State = $State
+@onready var progression : Progression = $Progression
 
 func _ready() -> void:
-	state.activate()
+	progression.activate()
 	map.activate()
 	players.activate()

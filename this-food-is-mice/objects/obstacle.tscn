@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://bgbat6gcvrt82"]
+
+[ext_resource type="Script" path="res://objects/obstacle.gd" id="1_xytfk"]
+[ext_resource type="Script" path="res://objects/modules/visuals.gd" id="2_x3nqd"]
+[ext_resource type="Shader" path="res://objects/object_bites_shader.gdshader" id="3_my4pl"]
+[ext_resource type="Texture2D" uid="uid://dh0av3n4kknet" path="res://objects/bite_texture.png" id="4_h25aw"]
+[ext_resource type="Texture2D" uid="uid://7orui6wgiwbq" path="res://game_loop/placeholder.png" id="5_m0dlo"]
+[ext_resource type="Script" path="res://objects/modules/bite_receiver.gd" id="6_f78y5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uibst"]
+size = Vector2(90, 60)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6p6yq"]
+shader = ExtResource("3_my4pl")
+shader_parameter/size_real = Vector2(115.2, 171.52)
+shader_parameter/bite_centers = PackedVector2Array(115, 171)
+shader_parameter/bite_sizes = PackedVector2Array(50, 3.142)
+shader_parameter/bite_tex = ExtResource("4_h25aw")
+
+[node name="Obstacle" type="StaticBody2D" groups=["Obstacles"]]
+position = Vector2(726, 312)
+script = ExtResource("1_xytfk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -35)
+shape = SubResource("RectangleShape2D_uibst")
+
+[node name="LabelDebug" type="Label" parent="."]
+offset_left = -114.0
+offset_top = -248.0
+offset_right = 116.0
+offset_bottom = -176.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 32
+text = "Magnifier"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Visuals" type="Node2D" parent="." node_paths=PackedStringArray("bite_receiver")]
+scale = Vector2(0.45, 0.67)
+script = ExtResource("2_x3nqd")
+bite_receiver = NodePath("../BiteReceiver")
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
+material = SubResource("ShaderMaterial_6p6yq")
+position = Vector2(0, -130)
+texture = ExtResource("5_m0dlo")
+
+[node name="BiteReceiver" type="Node2D" parent="." node_paths=PackedStringArray("visuals")]
+script = ExtResource("6_f78y5")
+visuals = NodePath("../Visuals")

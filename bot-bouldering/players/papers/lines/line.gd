@@ -6,9 +6,7 @@ var points_scaled : Array[Vector2] = []
 var finished := false
 var total_length := 0.0
 
-var cur_index : int
-var cur_point : Vector2
-var traveling := false
+
 
 func _init(p:PencilType) -> void:
 	type = p
@@ -17,20 +15,6 @@ func clone() -> Line:
 	var l := Line.new(type)
 	l.points = points.duplicate(true)
 	return l
-
-func prepare_for_travel() -> void:
-	cur_index = 0
-	cur_point = points.front()
-
-func advance(pf:ModulePaperFollower, speed:float) -> Vector2:
-	traveling = true
-	return type.update(pf, self, speed)
-
-func travel_has_started() -> bool:
-	return traveling
-
-func travel_is_done() -> bool:
-	return cur_index >= count() - 1 or (not traveling)
 
 func add_point(p:Vector2) -> void:
 	if finished: return
@@ -70,4 +54,4 @@ func update(z:ModuleZoomer) -> void:
 
 func _draw() -> void:
 	if not is_valid(): return
-	draw_polyline(points_scaled, type.color, 8)
+	draw_polyline(points_scaled, type.color, Global.config.canvas_line_width, true)

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ToolType" load_steps=3 format=3 uid="uid://dfxb3y6yrpncv"]
+
+[ext_resource type="PackedScene" uid="uid://d27st43b0kh1b" path="res://players/tools/nodes/magnifying_glass/magnifying_glass.tscn" id="1_isd26"]
+[ext_resource type="Script" path="res://players/tools/types/tool_type.gd" id="1_k443f"]
+
+[resource]
+script = ExtResource("1_k443f")
+title = "Magnifier"
+frame = 0
+desc = "Reveals mice nearby."
+color = Color(1, 1, 1, 1)
+node = ExtResource("1_isd26")
+equippable = true
+single_use = false

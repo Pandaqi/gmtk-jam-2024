@@ -36,3 +36,7 @@ func on_click(p:bool) -> void:
 	is_pressed = p
 	label_debug.set_text("YES" if is_pressed else "NO")
 	pressed.emit(self)
+
+func force_finish() -> void:
+	if not is_pressed: return
+	on_click(false)

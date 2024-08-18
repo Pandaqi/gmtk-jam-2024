@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ToolType" load_steps=3 format=3 uid="uid://bc5eial88ck8x"]
+
+[ext_resource type="Script" path="res://players/tools/types/tool_type.gd" id="1_jrufc"]
+[ext_resource type="PackedScene" uid="uid://c17ql1jjddwxf" path="res://players/tools/nodes/exterminator/exterminator.tscn" id="1_k7ln0"]
+
+[resource]
+script = ExtResource("1_jrufc")
+title = "Exterminator"
+frame = 2
+desc = "Kills the closest mouse."
+color = Color(1, 1, 1, 1)
+node = ExtResource("1_k7ln0")
+equippable = true
+single_use = false

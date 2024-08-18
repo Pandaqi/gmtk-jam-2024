@@ -14,11 +14,7 @@ signal size_changed(bounds:Rect2)
 signal size_factor_changed()
 
 func activate() -> void:
-	
-	if Global.config.player_paper_on_top_of_bot:
-		anchor = Vector2(0.5, 0.5)
-	else:
-		anchor = Vector2(0.5, 1)
+	anchor = Vector2(0.5, 0.5)
 	
 	var bdim_bounds := Global.config.canvas_dimension_bounds
 	base_dimensions = Vector2(bdim_bounds.rand_float(), bdim_bounds.rand_float())
