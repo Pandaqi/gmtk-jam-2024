@@ -1,6 +1,7 @@
 class_name ModuleBiteGiver extends Node2D
 
 @export var mover : ModuleMoverMouse
+@onready var entity : Mouse = get_parent()
 
 signal bit(o:Obstacle)
 

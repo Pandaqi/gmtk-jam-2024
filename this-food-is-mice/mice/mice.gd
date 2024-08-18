@@ -2,12 +2,21 @@ class_name Mice extends Node2D
 
 @export var mouse_scene : PackedScene
 @export var map_data : MapData
+@export var tutorial : Tutorial
+@export var prog_data : ProgressionData
 
 @onready var timer : Timer = $Timer
 
 func activate() -> void:
 	timer.timeout.connect(on_timer_timeout)
-	on_timer_timeout()
+	prog_data.paused_changed.connect(on_paused_changed)
+
+func on_paused_changed(paused:bool) -> void:
+	if paused: stop_timer()
+	else: on_timer_timeout()
+
+func stop_timer() -> void:
+	timer.stop()
 
 func restart_timer() -> void:
 	timer.wait_time = Global.config.mouse_spawn_tick
@@ -37,3 +46,10 @@ func spawn() -> void:
 	m.set_position(map_data.get_random_edge_position())
 	map_data.map_node.layers.add_to_layer("entities", m)
 	m.activate()
+	
+	m.died.connect(on_mouse_died)
+
+func on_mouse_died(m:Mouse) -> void:
+	var earn_score := not m.mover.is_done()
+	if earn_score:
+		prog_data.call_deferred("change_score", +1)

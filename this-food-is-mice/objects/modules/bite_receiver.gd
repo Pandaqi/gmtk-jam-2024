@@ -31,7 +31,8 @@ func take_bite(m:ModuleBiteGiver) -> void:
 	pos_edge.y = clamp(pos_edge.y, -0.5*size.y, 0.5*size.y)
 	pos_edge += 0.5*size # UV space wants it 0->1 on both axes
 	
-	var rand_size := 0.45*Global.config.sprite_size
+	var size_bounds := Global.config.scale_bounds(Global.config.mouse_bite_size_bounds)
+	var rand_size := size_bounds.interpolate(m.entity.body.get_lives_ratio())
 	var rand_rot := vec.angle() + 0.5*PI
 	
 	bite_centers.append(pos_edge)

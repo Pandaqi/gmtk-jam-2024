@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MapData" load_steps=8 format=3 uid="uid://bp2o8vkt7cnsp"]
+[gd_resource type="Resource" script_class="MapData" load_steps=9 format=3 uid="uid://bp2o8vkt7cnsp"]
 
 [ext_resource type="Script" path="res://players/tools/types/tool_type.gd" id="1_lxip7"]
 [ext_resource type="Script" path="res://map/data/map_data.gd" id="1_oa4bt"]
@@ -7,7 +7,8 @@
 [ext_resource type="Resource" uid="uid://bqdkej8ovwuey" path="res://players/tools/types/tool_kicker.tres" id="4_lj5n3"]
 [ext_resource type="Resource" uid="uid://c3rwqsos42jiv" path="res://players/tools/types/tool_repairer.tres" id="5_wtaw8"]
 [ext_resource type="Resource" uid="uid://dp2met3ecbo2n" path="res://players/tools/types/tool_pie.tres" id="6_itbp3"]
+[ext_resource type="Resource" uid="uid://dsoykpbwd8qsw" path="res://players/tools/types/tool_cheese.tres" id="7_x2orn"]
 
 [resource]
 script = ExtResource("1_oa4bt")
-all_tools = Array[ExtResource("1_lxip7")]([ExtResource("2_1sa6s"), ExtResource("3_250em"), ExtResource("4_lj5n3"), ExtResource("5_wtaw8"), ExtResource("6_itbp3")])
+all_tools = Array[ExtResource("1_lxip7")]([ExtResource("2_1sa6s"), ExtResource("3_250em"), ExtResource("4_lj5n3"), ExtResource("5_wtaw8"), ExtResource("6_itbp3"), ExtResource("7_x2orn")])

@@ -17,9 +17,14 @@ class_name Config
 
 @export_group("Players")
 @export var player_move_speed := 2.0 # ~sprite_size
+@export var player_starting_scale := 0.33
+@export var player_max_scale := 1.75
+@export var player_scale_increase_per_level := 0.1
+@export var player_speed_increase_per_level := 0.1
 
 @export_group("Mice")
-@export var mouse_speed := 0.075
+var mouse_speed_bounds := Bounds.new(1.0, 0.35) # lives 0%->100%
+var mouse_bite_size_bounds := Bounds.new(0.65, 1.5) # ~sprite_scale, lives 0%->100%
 @export var mouse_max_lives := 9
 @export var mouse_min_lives_perma_visible := 7
 var mouse_body_bounds := Bounds.new(0.25, 1.0) # ~sprite_size
@@ -36,10 +41,17 @@ var mouse_spawn_bounds := Bounds.new(1,3)
 
 @export_group("Obstacles")
 @export var obstacle_num_bites_remove := 4 ## after this many bites, the thing removes itself
+@export var obstacle_min_spawn_dist := 1.5 # ~sprite_size
+@export var obstacle_starting_num := 6
 
 @export_group("Tools")
 @export var tool_knockback_force := 6.0 # ~sprite_size
 @export var tool_knockback_damping := 1.0
+@export var tool_magnify_time_before_kill := 4.0
+
+@export_group("Progression")
+@export var prog_score_interval_per_level := 2
+@export var prog_score_interval_increase_per_level := 1.05
 
 func scale(val:float) -> float:
 	return val * sprite_size

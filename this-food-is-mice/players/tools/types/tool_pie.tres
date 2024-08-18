@@ -11,3 +11,5 @@ color = Color(1, 1, 1, 1)
 equippable = false
 single_use = false
 required_for_survival = true
+min_num = 2
+max_num = 3

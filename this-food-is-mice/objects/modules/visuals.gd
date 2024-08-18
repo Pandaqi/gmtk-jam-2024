@@ -9,12 +9,14 @@ func activate() -> void:
 	sprite.material = sprite.material.duplicate(false)
 	update_shader()
 
+func set_tool(tt:ToolType) -> void:
+	sprite.material.set_shader_parameter("frame", tt.frame)
+
 func get_center() -> Vector2:
 	return sprite.global_position
 
-# @TODO: eventually we'll have the properly sized sprite instead, so we don't scale the Sprite2D to fake it
 func get_size() -> Vector2:
-	return Global.config.sprite_size * scale * Vector2.ONE
+	return Global.config.sprite_size * Vector2.ONE
 
 func on_bitten(_num:int) -> void:
 	update_shader()

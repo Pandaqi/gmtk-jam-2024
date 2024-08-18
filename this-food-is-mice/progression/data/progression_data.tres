@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ProgressionData" load_steps=6 format=3 uid="uid://6mae3yl7xg3n"]
+
+[ext_resource type="Script" path="res://progression/data/progression_data.gd" id="1_kxirl"]
+[ext_resource type="Script" path="res://players/tools/types/tool_type.gd" id="2_wnshs"]
+[ext_resource type="Resource" uid="uid://dfxb3y6yrpncv" path="res://players/tools/types/tool_magnifying_glass.tres" id="3_4b6ci"]
+[ext_resource type="Resource" uid="uid://dp2met3ecbo2n" path="res://players/tools/types/tool_pie.tres" id="4_c7076"]
+[ext_resource type="Resource" uid="uid://dsoykpbwd8qsw" path="res://players/tools/types/tool_cheese.tres" id="5_m8c8r"]
+
+[resource]
+script = ExtResource("1_kxirl")
+starting_tools = Array[ExtResource("2_wnshs")]([ExtResource("3_4b6ci"), ExtResource("4_c7076"), ExtResource("5_m8c8r")])

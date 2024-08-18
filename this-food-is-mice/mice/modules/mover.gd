@@ -1,6 +1,10 @@
 class_name ModuleMoverMouse extends Node2D
 
 @onready var entity : Mouse = get_parent()
+@export var body : ModuleBody
+@onready var col_shape : CollisionShape2D = $Area2D/CollisionShape2D
+@export var prog_data : ProgressionData
+
 var elements_in_order : Array[Obstacle] = []
 var prev_vec := Vector2.ZERO
 
@@ -11,7 +15,16 @@ signal knockback_started()
 signal knockback_ended()
 
 func activate() -> void:
+	body.body_changed.connect(on_body_changed)
 	determine_path()
+
+func on_body_changed(new_size:Vector2) -> void:
+	call_deferred("update_col_shape", new_size)
+
+func update_col_shape(new_size:Vector2) -> void:
+	var shp := CircleShape2D.new()
+	shp.radius = 0.5 * new_size.x
+	col_shape.shape = shp
 
 func determine_path() -> void:
 	var arr := get_tree().get_nodes_in_group("Obstacles")
@@ -27,6 +40,7 @@ func is_done() -> bool:
 	return count_targets() <= 0
 
 func _physics_process(dt:float) -> void:
+	if prog_data.is_paused: return
 	handle_knockback(dt)
 	handle_target_following()
 
@@ -54,7 +68,8 @@ func handle_target_following() -> void:
 	prev_vec = vec
 	
 func get_speed() -> float:
-	return Global.config.scale(Global.config.mouse_speed)
+	var bds := Global.config.scale_bounds(Global.config.mouse_speed_bounds)
+	return bds.interpolate( body.get_lives_ratio() )
 
 func get_target() -> Obstacle:
 	if is_done(): return null

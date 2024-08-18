@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ToolType" load_steps=2 format=3 uid="uid://dsoykpbwd8qsw"]
+
+[ext_resource type="Script" path="res://players/tools/types/tool_type.gd" id="1_vulmo"]
+
+[resource]
+script = ExtResource("1_vulmo")
+title = "Cheese"
+frame = 5
+desc = "Just food, nothing more."
+color = Color(1, 1, 1, 1)
+equippable = false
+single_use = false
+required_for_survival = false
+min_num = 1
+max_num = 10

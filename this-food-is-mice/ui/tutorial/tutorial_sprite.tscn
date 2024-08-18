@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://k50hm1wlpsfn"]
+
+[ext_resource type="Script" path="res://ui/tutorial/tutorial_sprite.gd" id="1_nqcfv"]
+[ext_resource type="Texture2D" uid="uid://pftp6p3u1d6r" path="res://ui/tutorial/tutorials.webp" id="2_3tny5"]
+[ext_resource type="Texture2D" uid="uid://dgltkcf64puf2" path="res://objects/obstacles.webp" id="3_3m06o"]
+[ext_resource type="FontFile" uid="uid://b2pptva5rkk57" path="res://ui/fonts/body_regular.ttf" id="4_n520j"]
+
+[node name="TutorialSprite" type="Node2D"]
+script = ExtResource("1_nqcfv")
+
+[node name="BG" type="Sprite2D" parent="."]
+texture = ExtResource("2_3tny5")
+hframes = 4
+frame = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -150)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_3m06o")
+hframes = 4
+vframes = 4
+
+[node name="Label" type="Label" parent="."]
+offset_left = -194.0
+offset_top = -36.0
+offset_right = 192.0
+offset_bottom = 183.0
+theme_override_fonts/font = ExtResource("4_n520j")
+theme_override_font_sizes/font_size = 32
+text = "Lalalalal"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

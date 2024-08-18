@@ -13,6 +13,8 @@ signal died(m:Mouse)
 
 # @NOTE: Mice have NO collision mask (only layer1 = true), so that they don't get stuck on anything and the player doesn't accidentally run into them, but other areas will still pick them up
 func activate() -> void:
+	set_visible(false)
+	
 	visuals.activate()
 	mover.activate()
 	magnify_tracker.activate()
@@ -24,12 +26,11 @@ func activate() -> void:
 func request_visibility(val:bool) -> void:
 	set_visible(val)
 
-# @TODO: more complicated behavior of course
 func kill() -> void:
 	if dead: return
 	
 	dead = true
-	died.emit()
+	died.emit(self)
 	set_visible(true)
 	
 	var tw := get_tree().create_tween()

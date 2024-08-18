@@ -8,12 +8,12 @@ func _process(_dt:float) -> void:
 	place_correctly()
 	show_mice_in_range()
 
-# @TODO: actually use sprite center for this, not anchor pos in world
 func place_correctly() -> void:
 	if not active: return
-	
-	var dir = 1 if tool_switcher.mover.prev_vec.x >= 0 else -1
-	set_position(Vector2.RIGHT * dir * 128.0)
+	global_position = tool_switcher.visuals.get_center()
+	# NO, don't switch per side, because it would make us lose sight of mice and reset their magnify thing
+	# var dir = 1 if tool_switcher.mover.prev_vec.x >= 0 else -1
+	#set_position(Vector2.RIGHT * dir * 128.0)
 
 func show_mice_in_range() -> void:
 	if not active: return

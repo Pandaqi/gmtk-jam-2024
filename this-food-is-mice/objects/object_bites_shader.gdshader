@@ -1,9 +1,12 @@
 shader_type canvas_item;
 
+uniform sampler2D base_tex;
+uniform int frame;
 uniform sampler2D bite_tex;
 uniform vec2 size_real;
 uniform vec2[10] bite_centers;
 uniform vec2[10] bite_sizes;
+uniform vec2 spritesheet_size = vec2(4.0);
 
 vec2 rotate_uv(vec2 uv, vec2 pivot, float rotation) 
 {
@@ -19,8 +22,14 @@ vec2 rotate_uv(vec2 uv, vec2 pivot, float rotation)
 
 void fragment() 
 {
+	vec2 uv_for_frame = UV / spritesheet_size;
+	uv_for_frame += vec2(
+		float(frame % int(spritesheet_size.y)),
+		floor(float(frame) / spritesheet_size.x)
+	) * 1.0 / spritesheet_size;
+	
 	vec2 uv_real = UV * size_real;
-	vec4 base_col = texture(TEXTURE, UV);
+	vec4 base_col = texture(base_tex, uv_for_frame);
 	for(int i = 0; i < 10; i++)
 	{
 		vec2 center = bite_centers[i];

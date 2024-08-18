@@ -18,6 +18,8 @@ func set_tool(tt:ToolType) -> void:
 	tool = tt
 	var title := tool.title if tt != null else "NULL"
 	label_debug.set_text(title)
+	
+	visuals.set_tool(tt)
 
 func on_mouse_arrived(m:Mouse) -> void:
 	pass

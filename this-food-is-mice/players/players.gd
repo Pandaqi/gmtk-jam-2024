@@ -12,3 +12,6 @@ func spawn() -> void:
 	map_data.map_node.layers.add_to_layer("entities", p)
 	p.activate()
 	
+	print("Placed player")
+	print(p.global_position)
+	

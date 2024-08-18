@@ -1,5 +1,25 @@
 # To-Do Crucial
 
+UI:
+* Include fonts I picked
+* Create the ink bar in the center (multi-color, perfectly centered)
+* Create the horizontal list of pencils next to it => hover to show tooltip
+* Create treasure/lives display too
+
+PROGRESSION:
+* Unlock stuff as we go, raise the size of the mountain (and the available ink) every time
+* A game over screen + semblance of a tutorial
+* => Tooltips for elements on the mountain
+
+GAMEPLAY:
+* Figure out gravity/freefall mechanic. Probably ...
+  * Going out of bounds just falls down to the ground and you go again.
+  * Give the player that one button to "let go" and fall, until they press the button again.
+* Auto-Move enemies
+* Keep only powerups that actually work now. Add: TELEPORT and BOMB (removes obstacles/enemies in close range)
+
+
+
 * Create auto-freefall mechanic => you let go, once you're "below" the map, your freefall resets
 * Create the option for an obstacle to "auto-move" => it will draw a random line from its position through the mountain, and then auto-follow at a speed the player can see
 * Create the actual UI + tooltips
@@ -23,10 +43,10 @@
 
 
 
-* Pick fonts
+* Include the fonts I picked
 * Create actual icons for UI + nice update animation + use
 * Can I display the actual progress along a line while the robot is moving?
-* Add a SHADER + DECORATIONS to make the grey mountain NICER => also make it smaller and smaller as you near the top
+* Add a SHADER + DECORATIONS to make the grey mountain NICER 
 
 
 
@@ -46,6 +66,7 @@
   * SHOOT: stands still, rotates in direction and shoots. (Or shoots a single bullet that follows the line?)
   * TELEPORT: or some other special thing that you can ONLY use if you're walking with this line
 
+Don't make the mountain rectangular => make it smaller and smaller as you near the top
 
 * Different Rules
   * Maybe health is more continuous, and bumping into solid stuff will reduce it? (Or bumping into something will make you enter freefall?)

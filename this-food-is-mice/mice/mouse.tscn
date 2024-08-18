@@ -1,12 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://dg72osmd0f6bx"]
+[gd_scene load_steps=18 format=3 uid="uid://dg72osmd0f6bx"]
 
 [ext_resource type="Script" path="res://mice/mouse.gd" id="1_veisd"]
 [ext_resource type="Script" path="res://mice/modules/visuals.gd" id="2_rmt6m"]
-[ext_resource type="Texture2D" uid="uid://7orui6wgiwbq" path="res://game_loop/placeholder.png" id="3_gtetu"]
+[ext_resource type="Texture2D" uid="uid://bmtics6tu3uk3" path="res://players/entities.webp" id="3_ixbcv"]
 [ext_resource type="Script" path="res://mice/modules/magnify_tracker.gd" id="3_ymeri"]
 [ext_resource type="Script" path="res://mice/modules/mover.gd" id="4_b10rd"]
+[ext_resource type="Texture2D" uid="uid://dhqxsbkbsvn1o" path="res://icon.svg" id="5_5dnub"]
 [ext_resource type="Script" path="res://mice/modules/body.gd" id="5_bqf7s"]
+[ext_resource type="Texture2D" uid="uid://dmv6cdosvwbth" path="res://ui/progress_bar.png" id="6_j8k3e"]
 [ext_resource type="AudioStream" uid="uid://chjjpg18tkn2e" path="res://mice/footsteps/footsteps.ogg" id="6_jxows"]
+[ext_resource type="Resource" uid="uid://6mae3yl7xg3n" path="res://progression/data/progression_data.tres" id="7_53ccq"]
 [ext_resource type="Script" path="res://mice/modules/bite_giver.gd" id="7_85545"]
 [ext_resource type="Script" path="res://mice/modules/clue_giver.gd" id="7_ghbtm"]
 [ext_resource type="Resource" uid="uid://bp2o8vkt7cnsp" path="res://map/data/map_data.tres" id="8_knvtm"]
@@ -17,7 +20,7 @@
 size = Vector2(124.689, 25.7992)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q23ha"]
-radius = 68.1836
+radius = 156.205
 
 [node name="Mouse" type="CharacterBody2D" groups=["Mice"]]
 position = Vector2(537, 473)
@@ -28,22 +31,46 @@ script = ExtResource("1_veisd")
 position = Vector2(0.498779, -20.1004)
 shape = SubResource("RectangleShape2D_bl0id")
 
-[node name="Visuals" type="Node2D" parent="." node_paths=PackedStringArray("body")]
+[node name="Visuals" type="Node2D" parent="." node_paths=PackedStringArray("body", "mover")]
 script = ExtResource("2_rmt6m")
 body = NodePath("../Body")
+mover = NodePath("../Mover")
+
+[node name="Shadow" type="Sprite2D" parent="Visuals"]
+modulate = Color(0, 0, 0, 0.552941)
+scale = Vector2(2.4375, 0.5)
+texture = ExtResource("5_5dnub")
 
 [node name="Sprite2D" type="Sprite2D" parent="Visuals"]
-position = Vector2(0, -18.9853)
-scale = Vector2(1, 0.328354)
-texture = ExtResource("3_gtetu")
+position = Vector2(0, -127)
+texture = ExtResource("3_ixbcv")
+hframes = 4
+vframes = 2
+frame = 6
 
 [node name="MagnifyTracker" type="Node2D" parent="." node_paths=PackedStringArray("body", "mover")]
 script = ExtResource("3_ymeri")
 body = NodePath("../Body")
 mover = NodePath("../Mover")
 
-[node name="Mover" type="Node2D" parent="."]
+[node name="ProgCont" type="Node2D" parent="MagnifyTracker"]
+position = Vector2(0, -184)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="MagnifyTracker/ProgCont"]
+offset_left = -127.0
+offset_top = -130.0
+offset_right = 129.0
+offset_bottom = 126.0
+value = 50.0
+texture_under = ExtResource("6_j8k3e")
+texture_progress = ExtResource("6_j8k3e")
+tint_under = Color(0.65, 0.65, 0.65, 1)
+tint_progress = Color(1, 0.27, 0.27, 1)
+
+[node name="Mover" type="Node2D" parent="." node_paths=PackedStringArray("body")]
 script = ExtResource("4_b10rd")
+body = NodePath("../Body")
+prog_data = ExtResource("7_53ccq")
 
 [node name="Area2D" type="Area2D" parent="Mover"]
 

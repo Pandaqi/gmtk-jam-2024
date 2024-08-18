@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://46w62lmko506"]
+[gd_scene load_steps=22 format=3 uid="uid://46w62lmko506"]
 
 [ext_resource type="Script" path="res://game_loop/main/main.gd" id="1_rscra"]
 [ext_resource type="Script" path="res://map/map.gd" id="1_xux8d"]
 [ext_resource type="Script" path="res://map/camera/camera.gd" id="1_yfkm2"]
 [ext_resource type="Script" path="res://progression/progression.gd" id="2_aeelf"]
+[ext_resource type="Resource" uid="uid://6mae3yl7xg3n" path="res://progression/data/progression_data.tres" id="3_5eglu"]
 [ext_resource type="Resource" uid="uid://bp2o8vkt7cnsp" path="res://map/data/map_data.tres" id="4_s72bc"]
 [ext_resource type="PackedScene" uid="uid://bgbat6gcvrt82" path="res://objects/obstacle.tscn" id="5_8td4e"]
 [ext_resource type="Script" path="res://mice/mice.gd" id="6_4qtka"]
@@ -14,14 +15,22 @@
 [ext_resource type="PackedScene" uid="uid://dg72osmd0f6bx" path="res://mice/mouse.tscn" id="7_87p1i"]
 [ext_resource type="Script" path="res://players/players.gd" id="8_acevi"]
 [ext_resource type="PackedScene" uid="uid://b7jvele2ehrox" path="res://players/player.tscn" id="9_1ejkl"]
+[ext_resource type="Script" path="res://ui/ui.gd" id="16_gqu8x"]
+[ext_resource type="Script" path="res://ui/game_ui/game_ui.gd" id="16_k6oy2"]
+[ext_resource type="Script" path="res://ui/tutorial/tutorial.gd" id="16_ugx03"]
+[ext_resource type="PackedScene" uid="uid://k50hm1wlpsfn" path="res://ui/tutorial/tutorial_sprite.tscn" id="17_585ag"]
+[ext_resource type="Texture2D" uid="uid://rr3ppqkslwt4" path="res://ui/UI.webp" id="18_ocnbj"]
+[ext_resource type="FontFile" uid="uid://wt7l1ial5xkn" path="res://ui/fonts/heading.otf" id="19_uvng2"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_rscra")
 
 [node name="Progression" type="Node2D" parent="."]
 script = ExtResource("2_aeelf")
+prog_data = ExtResource("3_5eglu")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+process_mode = 3
 script = ExtResource("1_yfkm2")
 map_data = ExtResource("4_s72bc")
 
@@ -29,6 +38,7 @@ map_data = ExtResource("4_s72bc")
 y_sort_enabled = true
 script = ExtResource("1_xux8d")
 map_data = ExtResource("4_s72bc")
+prog_data = ExtResource("3_5eglu")
 obstacle_scene = ExtResource("5_8td4e")
 tool_pie = ExtResource("6_7uwrk")
 
@@ -45,6 +55,7 @@ layer_names = Array[String](["bg", "floor", "entities", "top"])
 script = ExtResource("6_4qtka")
 mouse_scene = ExtResource("7_87p1i")
 map_data = ExtResource("4_s72bc")
+prog_data = ExtResource("3_5eglu")
 
 [node name="Timer" type="Timer" parent="Mice"]
 one_shot = true
@@ -53,3 +64,55 @@ one_shot = true
 script = ExtResource("8_acevi")
 player_scene = ExtResource("9_1ejkl")
 map_data = ExtResource("4_s72bc")
+
+[node name="Tutorial" type="Node2D" parent="."]
+script = ExtResource("16_ugx03")
+map_data = ExtResource("4_s72bc")
+prog_data = ExtResource("3_5eglu")
+tut_sprite = ExtResource("17_585ag")
+
+[node name="UI" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("16_gqu8x")
+
+[node name="GameUI" type="Node2D" parent="UI"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("16_k6oy2")
+prog_data = ExtResource("3_5eglu")
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/GameUI"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("18_ocnbj")
+
+[node name="LabelScore" type="Label" parent="UI/GameUI"]
+offset_left = -67.0
+offset_top = -63.0
+offset_right = 66.0
+offset_bottom = 67.0
+theme_override_fonts/font = ExtResource("19_uvng2")
+theme_override_font_sizes/font_size = 72
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelTarget" type="Label" parent="UI/GameUI"]
+offset_left = 81.0
+offset_top = -46.0
+offset_right = 166.0
+offset_bottom = 1.0
+theme_override_fonts/font = ExtResource("19_uvng2")
+theme_override_font_sizes/font_size = 32
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelLevel" type="Label" parent="UI/GameUI"]
+offset_left = -162.0
+offset_top = -47.0
+offset_right = -78.0
+offset_bottom = 27.0
+theme_override_fonts/font = ExtResource("19_uvng2")
+theme_override_font_sizes/font_size = 48
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
