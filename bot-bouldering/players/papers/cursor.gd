@@ -12,6 +12,7 @@ signal moved(pos:Vector2)
 
 func activate() -> void:
 	pencils.active_changed.connect(on_active_pencil_changed)
+	set_visible(false)
 
 func on_active_pencil_changed(tp:PencilType) -> void:
 	modulate = tp.color
@@ -30,6 +31,9 @@ func _input(ev:InputEvent) -> void:
 func get_relative_position() -> Vector2:
 	return zoomer.get_relative_position_on_paper(global_position)
 
+func get_drawing_position() -> Vector2:
+	return global_position
+
 func on_mouse_move() -> void:
 	set_visible(true)
 	var pos := get_global_mouse_position()
@@ -43,6 +47,7 @@ func on_mouse_move() -> void:
 	moved.emit(zoomer.get_relative_position_on_paper(pos))
 
 func on_click(p:bool) -> void:
+	if p and not is_visible(): return
 	is_pressed = p
 	label_debug.set_text("YES" if is_pressed else "NO")
 	pressed.emit(self)

@@ -14,7 +14,7 @@ func activate() -> void:
 
 func on_game_over(we_won:bool) -> void:
 	if OS.is_debug_build() and Global.config.skip_postgame: 
-		restart()
+		call_deferred("restart")
 		return
 	
 	appear()
@@ -25,7 +25,7 @@ func on_game_over(we_won:bool) -> void:
 	tween_pop_up("left")
 
 func appear(load_next := false) -> void:
-	if OS.is_debug_build() and Global.config.skip_pregame: return
+	if load_next and (OS.is_debug_build() and Global.config.skip_pregame): return
 	
 	set_visible(true)
 	get_tree().paused = true
@@ -84,7 +84,8 @@ func _input(ev:InputEvent) -> void:
 		return
 	
 	if game_over:
-		restart()
+		call_deferred("restart")
 
 func restart() -> void:
-	get_tree().call_deferred("reload_current_scene")
+	get_tree().paused = false
+	get_tree().reload_current_scene()

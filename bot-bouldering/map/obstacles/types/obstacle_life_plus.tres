@@ -4,7 +4,10 @@
 
 [resource]
 script = ExtResource("1_xrf50")
-dir = 1
 frame = 1
-desc = "Gain an extra life."
+desc = "You gain a life!"
 color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0
+destroy_on_visit = true

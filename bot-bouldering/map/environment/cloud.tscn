@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dv7lstvw4r8e3"]
+
+[ext_resource type="Script" path="res://map/environment/cloud.gd" id="1_4npca"]
+[ext_resource type="Texture2D" uid="uid://dc7ys8mingij3" path="res://ui/misc.webp" id="2_sucht"]
+[ext_resource type="Resource" uid="uid://biw27ik347eib" path="res://map/data/map_data.tres" id="2_x0bo8"]
+
+[node name="Cloud" type="Node2D"]
+script = ExtResource("1_4npca")
+map_data = ExtResource("2_x0bo8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_sucht")
+hframes = 4
+vframes = 4
+frame = 4

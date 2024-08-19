@@ -2,6 +2,7 @@ class_name ModuleZoomer extends Node2D
 
 @export var anchor := Vector2(0.5, 1)
 @export var turn : ModuleTurn
+@export var prog_data : ProgressionData
 
 var bounds_raw : Rect2
 var bounds : Rect2
@@ -17,6 +18,8 @@ func activate() -> void:
 	anchor = Vector2(0.5, 0.5)
 	
 	turn.turn_over.connect(on_turn_over)
+	
+	extra_scale_from_obstacle = prog_data.zoomer_extra_scale
 	
 	var bdim_bounds := Global.config.canvas_dimension_bounds
 	base_dimensions = Vector2(bdim_bounds.rand_float(), bdim_bounds.rand_float())

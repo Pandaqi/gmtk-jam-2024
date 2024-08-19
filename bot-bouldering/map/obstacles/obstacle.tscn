@@ -7,8 +7,14 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_yegbs"]
 radius = 36.2215
 
-[node name="Obstacle" type="Node2D"]
+[node name="Obstacle" type="Node2D" groups=["Obstacles"]]
 script = ExtResource("1_hqrg6")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.4)
+texture = ExtResource("2_12e1v")
+hframes = 4
+vframes = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.59375, 0.59375)

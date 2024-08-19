@@ -33,6 +33,7 @@ shader_parameter/color_lines = Color(0.5, 0.5, 1, 1)
 [node name="PlayerPaper" type="Node2D" node_paths=PackedStringArray("pencils", "drawer", "zoomer", "ui", "turn", "cursor")]
 position = Vector2(171, 578)
 script = ExtResource("1_to0ta")
+prog_data = ExtResource("12_hooac")
 pencils = NodePath("Pencils")
 drawer = NodePath("Drawer")
 zoomer = NodePath("Zoomer")
@@ -61,6 +62,7 @@ pencil_jump = ExtResource("6_v1jyb")
 [node name="Zoomer" type="Node2D" parent="." node_paths=PackedStringArray("turn")]
 script = ExtResource("7_cxyl2")
 turn = NodePath("../Turn")
+prog_data = ExtResource("12_hooac")
 
 [node name="Drawer" type="Node2D" parent="." node_paths=PackedStringArray("cursor", "zoomer", "pencils")]
 material = SubResource("ShaderMaterial_a7pbr")
@@ -138,6 +140,7 @@ position = Vector2(0, 237)
 position = Vector2(0, -342)
 
 [node name="Over" type="Sprite2D" parent="UI/InkBar"]
+z_index = 200
 texture = ExtResource("15_bdwpr")
 hframes = 2
 frame = 1

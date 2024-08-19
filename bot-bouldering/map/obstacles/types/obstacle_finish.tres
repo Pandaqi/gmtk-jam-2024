@@ -4,10 +4,11 @@
 
 [resource]
 script = ExtResource("1_lpqve")
-frame = 0
+frame = 10
 desc = "Reach this to beat the level!"
 color = Color(1, 1, 1, 1)
 dir = 1
-radius_min_factor = 1.0
-radius_max_factor = 1.0
+radius_min_factor = 1.5
+radius_max_factor = 1.5
 destroy_on_visit = false
+destroyable = false

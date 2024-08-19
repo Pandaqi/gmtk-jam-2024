@@ -3,12 +3,16 @@ class_name Obstacle extends Node2D
 var type : ObstacleType
 
 @onready var sprite : Sprite2D = $Sprite2D
+@onready var shadow : Sprite2D = $Shadow
 @onready var col_shape : CollisionShape2D = $Area2D/CollisionShape2D
 @onready var tooltip : ModuleTooltip = $Tooltip
 
 func set_type(tp:ObstacleType) -> void:
+	z_index = 100
+	
 	type = tp
 	sprite.set_frame(tp.frame)
+	shadow.set_frame(tp.frame)
 	tooltip.set_desc(tp.desc)
 	
 	var rand_radius := tp.get_random_radius()
@@ -17,6 +21,9 @@ func set_type(tp:ObstacleType) -> void:
 	col_shape.shape = shp
 	
 	sprite.set_scale(2.0 * rand_radius / 256.0 * Vector2.ONE)
+	shadow.set_scale(sprite.scale)
+	
+	shadow.set_position(to_local(global_position + Vector2.DOWN * Global.config.scale(Global.config.shadow_dist)))
 
 func _physics_process(dt:float) -> void:
 	type.update(self, dt)

@@ -37,6 +37,7 @@ script = ExtResource("4_d6vfv")
 map_data = ExtResource("2_k0jl8")
 faller = NodePath("../Faller")
 
-[node name="Faller" type="Node2D" parent="."]
+[node name="Faller" type="Node2D" parent="." node_paths=PackedStringArray("paper_follower")]
 script = ExtResource("5_xvdxl")
 map_data = ExtResource("2_k0jl8")
+paper_follower = NodePath("../PaperFollower")

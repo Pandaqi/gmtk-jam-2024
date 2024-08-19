@@ -1,39 +1,24 @@
-# To-Do Crucial
+# To-Do (Tuesday)
 
 IN ORDER:
-* Add auto-movers
-* Convert walls to a system that picks random shapes.
-  * Add a BEVEL CORNERS utility function?
-* Finalize powerup selection and pencil selection
-  * Instantly do them in the new/final style anyway, saves time
-* @BUG: If you draw too quickly, it might miss the relative-ink check ... (You add too much length at once, so what was TOO LITTLE is now TOO MUCH.)
-
-GAMEPLAY:
-* Auto-Move enemies
-  * it will draw a random line from its position through the mountain, and then auto-follow at a speed the player can see
-* Keep only powerups that actually work now. Add: TELEPORT and BOMB (removes obstacles/enemies in close range) and HARD STOP (end your turn there without taking lives penalty)
-  * Teleport should have custom spawn => always add two and connect them. (Just like score stars get their own spawn.)
-  * Also finetune and vary the size of these powerups?
-  * @IDEA: Canvas Rotate? => So you start with a perfectly straight canvas, but can accidentally make it go wrong?
-  * @IDEA: Enemy Pause? => As it says, the enemies simply stop moving for the rest of this turn
-
-MAP:
-* Add decorations to grass (leaves at random locations), maybe some clouds, 
-  * That grainy texture from SUNBLUCK below mountain => The edge-modifier from SUNBLUCK parasols to make the obstacles more blocky => 
-  * OR we could actually draw circles as low-poly polygons, and make some WobblyRectangle class too => 
-  * OR we do this the other way around and simply START with a random shape for the wall obstacle, like the parasol shapes 
-* Add decorations to mountain => some random cracks or value differences inside
-* GRAPHICS INSPO: That angular/hooky style of _Feed The Deep_. => Re-do background of powerups (and other stuff) as a "bouldering handhold" or a "stone/crack in stone", more pointy/harsh?
-  * Also just give it DEPTH; assume light always comes from above, thick borders below, make stuff STICK OUT
-* @BUG: And its physics body seems turned off/wonky now for some reason? => I think it's scaled the wrong/just not present?
-
-
-
-# To-Do Polishing
-
 * Actually nice bot graphic + animate walk ( + audio)
-* Extra visuals to show freefalling or not
-
+* Auto-Move enemies => it will draw a random line from its position through the mountain, and then auto-follow at a speed the player can see
+  * Set in config when they'll be introduced
+* Finish tutorial with the actually correct sprites + details (paper blue grid?)
+  * Freeze/Freefall on click? 
+* @FIX: Finetune powerup probability + use min_num/max_num again, otherwise it's ridiculous at the start
+* @FIX: Finetune mountain growth => round the numbers in the end, so config can have `0.5` growth per level (for example)
+* @FIX: Find whatever error is causing those tweens to be destroyed again before starting
+* @FIX: a bit more delay on game over, so you don't accidentally immediately continue with the very same click
+* PLAYTEST
+* POLISHING:
+  * Sound Effects (just beeps mostly) + some more tweenings and stuff
+    * Game Win/Lose, Turn Switch, Powerup Grab, Pen on paper
+    * Optional: Zoom, Freefall
+  * IF we show the bot trail, make it look nicer
+  * Extra visuals to show freefalling or not
+  * Menu
+* (Screenshots/Page can be done after deadline)
 
 # Ideas for the more realtimy/actiony version
 
@@ -43,12 +28,13 @@ DISCARDED IDEAS:
 * Maybe there's a BATTERY aspect? You can only stay clung to the wall for as long as you have battery?
 * @IDEA: Maybe, in solo player, you also get to see some random drawing by the computer. Which they follow/execute at the same time as you. And it's your job to NOT collide with them or something.
 
+OBSTACLE IDEAS:
+* @IDEA: Enemy Pause? => As it says, the enemies simply stop moving for the rest of this turn => Good idea, but would have to wait until moving enemies are actually introduced, and I don't have time to write a clean system for that
 
 * More pencil types??
   * SHOOT: stands still, rotates in direction and shoots. (Or shoots a single bullet that follows the line?)
   * TELEPORT: or some other special thing that you can ONLY use if you're walking with this line
 
-Don't make the mountain rectangular => make it smaller and smaller as you near the top
 
 * Different Rules
   * Maybe health is more continuous, and bumping into solid stuff will reduce it? (Or bumping into something will make you enter freefall?)

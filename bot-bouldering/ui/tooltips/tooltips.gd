@@ -7,19 +7,20 @@ var tooltip_modules : Array[ModuleTooltip] = []
 @export var feedback_node : PackedScene
 
 func activate() -> void:
+	await get_tree().create_timer(0.25).timeout
 	GSignal.tooltip.connect(on_tooltip)
 	GSignal.feedback.connect(on_feedback)
 
-func on_feedback(pos:Vector2, text:String, convert := false) -> void:
+func on_feedback(pos:Vector2, text:String, convert_pos := false) -> void:
 	var f : FeedbackInstance = feedback_node.instantiate()
-	if convert:
+	if convert_pos:
 		pos = get_viewport().get_screen_transform() * get_viewport().get_canvas_transform()*pos
 	f.set_position(pos)
 	add_child(f)
 	f.set_text(text)
 
-func on_tooltip(show:bool, mod:ModuleTooltip) -> void:
-	if show:
+func on_tooltip(should_show:bool, mod:ModuleTooltip) -> void:
+	if should_show:
 		var n = tooltip_node.instantiate()
 		n.set_position(mod.get_anchor_position())
 		add_child(n)

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ObstacleTeleport" load_steps=2 format=3 uid="uid://c3nuc6ki4uola"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_teleport.gd" id="1_3qh4u"]
+
+[resource]
+script = ExtResource("1_3qh4u")
+frame = 6
+desc = "Moves you to another teleport (then destroys all)."
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0
+destroy_on_visit = true
+destroyable = true

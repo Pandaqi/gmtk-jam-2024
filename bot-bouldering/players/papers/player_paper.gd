@@ -3,12 +3,16 @@ class_name PlayerPaper extends Node2D
 @export var player : Player
 @export var player_bot : PlayerBot
 
+@export var prog_data : ProgressionData
 @export var pencils : ModulePencils
 @export var drawer : ModuleDrawer
 @export var zoomer : ModuleZoomer
 @export var ui : ModulePaperUI
 @export var turn : ModuleTurn
 @export var cursor : ModuleCursor
+
+var rotation_dir := 1
+var rotation_factor := 0.0
 
 signal done()
 signal reset()
@@ -24,10 +28,17 @@ func activate(ui_layer:CanvasLayer) -> void:
 	turn.activate()
 	zoomer.activate()
 	
-	set_rotation(Global.config.canvas_rand_rotation_bounds.rand_float())
+	rotation_dir = -1 if randf() <= 0.5 else 1
+	rotation_factor = 0.0
+	change_canvas_rotation(prog_data.canvas_rotation)
 	
 	get_viewport().size_changed.connect(on_resize)
 	on_resize()
+
+func change_canvas_rotation(dr:float) -> void:
+	rotation_factor = clamp(rotation_factor + dr, 0.0, 1.0)
+	var lerp_rot := Global.config.canvas_rand_rotation_bounds.interpolate(rotation_factor)
+	set_rotation(rotation_dir * lerp_rot)
 
 func on_resize() -> void:
 	var vp_size := get_viewport_rect().size

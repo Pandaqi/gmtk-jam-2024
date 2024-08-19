@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ObstacleCanvasRotation" load_steps=2 format=3 uid="uid://c6cmb185i6h3n"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_canvas_rotation.gd" id="1_rv7rc"]
+
+[resource]
+script = ExtResource("1_rv7rc")
+frame = 5
+desc = "Rotates your canvas further (permanently)."
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0
+destroy_on_visit = true
+destroyable = true

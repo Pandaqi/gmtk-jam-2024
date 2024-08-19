@@ -6,8 +6,8 @@ var cur_point : Vector2
 var traveling := false
 var points_absolute : Array[Vector2]
 
-var time_traveled = 0.0
-var target_travel_time = 0.0
+var time_traveled := 0.0
+var target_travel_time := 0.0
 
 func _init(l:Line, map_data:MapData) -> void:
 	line = l

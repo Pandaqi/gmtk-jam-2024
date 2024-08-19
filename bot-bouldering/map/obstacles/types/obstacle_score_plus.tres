@@ -5,8 +5,10 @@
 [resource]
 script = ExtResource("1_yrmrp")
 frame = 3
-desc = "Get extra points."
+desc = "You need these to pass the level."
 color = Color(1, 1, 1, 1)
 dir = 1
 radius_min_factor = 1.0
-radius_max_factor = 1.0
+radius_max_factor = 1.5
+destroy_on_visit = true
+destroyable = false

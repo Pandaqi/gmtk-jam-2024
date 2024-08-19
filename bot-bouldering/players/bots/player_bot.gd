@@ -18,6 +18,8 @@ signal reset()
 signal done()
 
 func activate() -> void:
+	z_index = 1000
+	
 	player.state_changed.connect(on_state_changed)
 	turn.turn_over.connect(on_turn_over)
 	

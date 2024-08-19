@@ -28,6 +28,8 @@ window/size/viewport_height=720
 [global_group]
 
 PlayerBots=""
+Walls=""
+Obstacles=""
 
 [input]
 

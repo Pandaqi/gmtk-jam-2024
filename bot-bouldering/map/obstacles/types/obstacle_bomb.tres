@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ObstacleBomb" load_steps=2 format=3 uid="uid://c01miwamodjuc"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_bomb.gd" id="1_s3ivx"]
+
+[resource]
+script = ExtResource("1_s3ivx")
+frame = 2
+desc = "Destroys all walls and powerups within range."
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0
+destroy_on_visit = true

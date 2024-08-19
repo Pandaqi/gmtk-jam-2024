@@ -47,6 +47,7 @@ func on_cursor_pressed(c:ModuleCursor) -> void:
 	else: finish_line()
 
 func get_current_line() -> Line:
+	if lines.size() <= 0: return null
 	return lines.back()
 
 func count() -> int:
@@ -59,6 +60,7 @@ func get_total_length() -> float:
 	return num
 
 func start_line(c:ModuleCursor) -> void:
+	if zoomer.is_out_of_bounds(c.get_drawing_position()): return
 	if not close_enough_to_prev_line(c):
 		GSignal.feedback.emit(global_position, "Too far away from last line!")
 		return
@@ -69,9 +71,13 @@ func start_line(c:ModuleCursor) -> void:
 	
 	line_started.emit(new_line)
 
+func has_active_line() -> bool:
+	return get_current_line() and not get_current_line().finished
+
 func finish_line() -> void:
 	var cur_line := get_current_line()
-	if cur_line.finished: return
+	if not has_active_line(): return
+	
 	cur_line.finalize()
 	
 	if not cur_line.is_valid():
@@ -80,7 +86,6 @@ func finish_line() -> void:
 		print("Invalid line!")
 		return
 	
-	calculate_relative_ink_levels()
 	line_finished.emit(cur_line)
 
 func close_enough_to_prev_line(c:ModuleCursor) -> bool:
@@ -101,19 +106,44 @@ func too_close_to_prev_point(pos:Vector2) -> bool:
 	return dist <= Global.config.drawing_min_dist_to_prev_point
 
 func on_cursor_moved(pos_rel:Vector2) -> void:
+	if not has_active_line(): return
 	if too_close_to_prev_point(pos_rel): return
 	
 	var cur_line := get_current_line()
-	cur_line.add_point(pos_rel)
+	
+	# @NOTE: this is necessary to prevent updates that are TOO BIG (if someone moves the moues REALLY FAST) that would ruin our relative ink checks
+	var is_match := false
+	var points_chunked := [pos_rel]
+	if cur_line.count() > 1:
+		points_chunked =  chunk_line_between_points(cur_line.back(), pos_rel)
+	
+	for point in points_chunked:
+		cur_line.add_point(point)
+		is_match = calculate_relative_ink_levels() or is_match
 	cur_line.update(zoomer)
 	
 	update_ink_left()
+	if is_match:
+		ink_relative_matched.emit()
+
+func chunk_line_between_points(a:Vector2, b:Vector2) -> Array[Vector2]:
+	var dir := (b-a).normalized()
+	var step_size := 0.0025
+	var cur_point := a
+	var full_dist := a.distance_to(b)
+	var points : Array[Vector2] = []
+	while true:
+		var dist_left = cur_point.distance_to(b)
+		var temp_step_size : float = min(dist_left, step_size)
+		cur_point += dir * dist_left
+		points.append(cur_point)
+		if temp_step_size < step_size: break
+	return points
 
 func update_ink_left() -> void:
 	total_length = get_total_length()
 	if total_length >= total_length_max:
 		on_ink_exhausted()
-	calculate_relative_ink_levels()
 	ink_changed.emit(get_ink_ratio())
 
 func on_ink_exhausted() -> void:
@@ -157,7 +187,7 @@ func get_length_for_pencil(pt:PencilType) -> float:
 		sum += line.get_length()
 	return sum
 
-func calculate_relative_ink_levels() -> void:
+func calculate_relative_ink_levels() -> bool:
 	# aggregate data about line lengths
 	var line_lengths : Array[float] = []
 	var max_length := -INF
@@ -174,7 +204,7 @@ func calculate_relative_ink_levels() -> void:
 		var length_rel := (line_lengths[i] - min_length) / float(max_length - min_length)
 		ink_relative.append(length_rel)
 	
-	if not Global.config.turns_require_ink_relative_match: return
+	if not Global.config.turns_require_ink_relative_match: return false
 	
 	var max_error := 0.0
 	for i in range(ink_relative.size()):
@@ -183,9 +213,9 @@ func calculate_relative_ink_levels() -> void:
 	
 	var close_enough = max_error <= Global.config.turns_ink_relative_margin
 	var all_lines_drawn := count() >= pencils.count_unlocked()
-	if (not close_enough) or (not all_lines_drawn): return
+	if (not close_enough) or (not all_lines_drawn): return false
 	
-	ink_relative_matched.emit()
+	return true
 
 func refresh_drawing() -> void:
 	queue_redraw()

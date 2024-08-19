@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwrews7nje1v5"]
+
+[ext_resource type="Texture2D" uid="uid://dc7ys8mingij3" path="res://ui/misc.webp" id="1_v24x0"]
+
+[node name="Grass" type="Sprite2D"]
+texture = ExtResource("1_v24x0")
+hframes = 4
+vframes = 4
+frame = 2

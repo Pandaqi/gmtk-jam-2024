@@ -10,6 +10,11 @@ class_name Config
 
 @export_group("Map")
 @export var sprite_size := 256.0
+@export var grass_color := Color(1,1,1)
+@export var shadow_dist := 0.075 # ~sprite_size
+var cloud_speed_bounds := Bounds.new(0.1, 1.2) # ~sprite_size
+
+@export_subgroup("Mountain")
 @export var mountain_size_in_chunks := Vector2(20, 20)
 @export var mountain_size_increase_per_level := 1
 @export var max_mountain_size := Vector2(10, 20)
@@ -18,9 +23,11 @@ class_name Config
 @export var mountain_noise_increments := 0.05 # ~sprite_size
 @export var mountain_noise_scale := 1.0
 @export var mountain_noise_displacement := 1.0 # ~sprite_size
+@export var mountain_anchor_color := Color(1,1,1)
+@export var mountain_size_increase_at_bottom := 0.25 
 
 @export_subgroup("Chunks")
-var map_chunk_pixel_size_bounds := Bounds.new(0.5, 1.5) # ~sprite_size
+var map_chunk_pixel_size_bounds := Bounds.new(0.75, 1.25) # ~sprite_size
 @export var map_chunks_ahead := 4
 @export var map_chunks_behind := 2
 var map_chunk_num_walls := Bounds.new(4,8)
@@ -36,10 +43,13 @@ var mapgen_num_finishes := Bounds.new(1,2)
 @export var map_lava_start_y := 1.0 # ~sprite_size
 
 @export_subgroup("Obstacles")
-var wall_size_bounds := Bounds.new(0.2, 0.75) # ~chunk_size
+var wall_size_bounds := Bounds.new(0.45, 0.95) # ~chunk_size
 @export var wall_size_subdiv := 0.075 # ~sprite_size
 @export var obstacle_base_radius := 0.25 # ~sprite_size
 @export var obstacle_rotation_subdiv := 0.25 * PI
+@export var wall_bevel_size := 0.075 # ~sprite_size
+@export var wall_color := Color(1,1,1)
+@export var bomb_dist := 3.25 # ~sprite_size
 
 @export_subgroup("Camera")
 @export var camera_edge_margin := Vector2(64.0, 64.0)
@@ -50,6 +60,9 @@ var wall_size_bounds := Bounds.new(0.2, 0.75) # ~chunk_size
 @export var max_distance_left_at_end := 1.0 # ~sprite_size
 @export var win_if_at_top := false
 @export var lose_life_if_not_finished_at_turn_end := true
+@export var player_extra_lives_for_levelup := 0
+@export var click_while_moving_makes_fall := true
+@export var click_while_moving_freezes_bot := false
 
 @export_group("Player")
 @export var player_base_size := 0.225 # ~sprite_size
@@ -84,7 +97,7 @@ var ink_bounds := Bounds.new(0.5, 5.0)
 var canvas_base_scale_bounds := Bounds.new(0.5, 2.0)
 var canvas_dimension_bounds := Bounds.new(0.6, 1.15)
 @export var canvas_line_width := 2
-var canvas_rand_rotation_bounds := Bounds.new(-0.25*PI, 0.25*PI)
+var canvas_rand_rotation_bounds := Bounds.new(0.01*PI, 0.5*PI)
 
 func scale(val:float) -> float:
 	return val * sprite_size

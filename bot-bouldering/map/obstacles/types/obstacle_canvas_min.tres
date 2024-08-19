@@ -5,8 +5,9 @@
 [resource]
 script = ExtResource("1_xtw5g")
 frame = 8
-desc = "Makes your canvas smaller at all times."
+desc = "Makes your canvas smaller."
 color = Color(1, 1, 1, 1)
 dir = -1
 radius_min_factor = 1.0
 radius_max_factor = 1.0
+destroy_on_visit = true

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ObstacleStop" load_steps=2 format=3 uid="uid://sxqxjre4quse"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_stop.gd" id="1_4g36v"]
+
+[resource]
+script = ExtResource("1_4g36v")
+frame = 4
+desc = "Stops your turn immediately, but no life lost."
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 1.0
+radius_max_factor = 1.0
+destroy_on_visit = true

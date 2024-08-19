@@ -5,8 +5,9 @@
 [resource]
 script = ExtResource("1_n1b03")
 frame = 13
-desc = "Bigger bot body."
+desc = "Your bot grows bigger."
 color = Color(1, 1, 1, 1)
 dir = 1
 radius_min_factor = 1.0
 radius_max_factor = 1.0
+destroy_on_visit = true

@@ -48,6 +48,7 @@ func get_time_left() -> float:
 	return timer.time_left
 
 func on_timer_timeout() -> void:
+	turn_timed_out.emit()
 	end_turn()
 
 func on_all_lines_drawn() -> void:

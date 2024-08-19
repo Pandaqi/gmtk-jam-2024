@@ -1,7 +1,7 @@
 extends ObstacleType
 class_name ObstaclePen
 
-func on_body_entered(o:Obstacle, body:PlayerBot) -> void:
+func on_body_entered(_o:Obstacle, body:PlayerBot) -> void:
 	if dir > 0:
 		body.paper.pencils.add_new_type()
 	else:

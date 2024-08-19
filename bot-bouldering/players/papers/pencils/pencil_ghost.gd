@@ -1,8 +1,8 @@
 extends PencilType
 class_name PencilGhost
 
-func on_start(l:LineFollower, pf:ModulePaperFollower) -> void:
+func on_start(_l:LineFollower, pf:ModulePaperFollower) -> void:
 	pf.entity.set_ghost(true)
 
-func on_end(l:LineFollower, pf:ModulePaperFollower) -> void:
+func on_end(_l:LineFollower, pf:ModulePaperFollower) -> void:
 	pf.entity.set_ghost(false)

@@ -6,25 +6,37 @@ class_name MapGenerator extends Node2D
 @export var wall_scene : PackedScene
 @export var finish_type : ObstacleType
 @export var star_type : ObstacleType
+@export var teleport_type : ObstacleType
 
 var num_stars := 0
 var num_finishes := 0
+var available_types : Array[ObstacleType] = []
+
+var prepared_player_pos : Vector2
 
 func generate() -> void:
+	available_types = map_data.obstacles_available.duplicate(false)
+	
 	var all_chunks : Array[Vector2] = []
 	for y in range(map_data.mountain_size_in_chunks.y):
 		for x in range(map_data.mountain_size_in_chunks.x):
 			all_chunks.append(Vector2(x,y))
 	all_chunks.shuffle()
-	
+
 	# place finishes; always one at top, the others don't matter
+	# also prepare one player position
 	var top_chunk := Vector2.ZERO
+	var bottom_chunk := Vector2.ZERO
 	for chunk in all_chunks:
-		if chunk.y < (map_data.mountain_size_in_chunks.y - 1): continue
-		top_chunk = chunk
-		break
+		if chunk.y >= (map_data.mountain_size_in_chunks.y - 1): 
+			top_chunk = chunk
+		if chunk.y <= 0:
+			bottom_chunk = chunk
 	
-	map_data.finish_node = place_obstacle_at_chunk(top_chunk, finish_type)
+	all_chunks.erase(bottom_chunk)
+	prepared_player_pos = get_random_position_in_chunk(bottom_chunk, "bottom")
+	
+	place_obstacle_at_chunk(top_chunk, finish_type, "top")
 	
 	num_finishes = Global.config.mapgen_num_finishes.rand_int()
 	if prog_data.level <= 0: num_finishes = 1
@@ -35,11 +47,18 @@ func generate() -> void:
 	num_stars = Global.config.mapgen_num_star_bounds.rand_int()
 	for i in range(num_stars):
 		place_obstacle_at_chunk(all_chunks.pop_back(), star_type)
+	
+	# if we have a teleport, always place exactly 2, no more
+	var has_teleport := available_types.has(teleport_type)
+	if has_teleport:
+		for i in range(2):
+			place_obstacle_at_chunk(all_chunks.pop_back(), teleport_type)
+		available_types.erase(teleport_type)
 
 	# step through mountain
 	# for each remaining "chunk", add something (wall or obstacle)
 	for chunk in all_chunks:
-		var place_obstacle := randf() <= 0.25
+		var place_obstacle := randf() <= 0.25 and available_types.size() > 0
 		if place_obstacle:
 			place_obstacle_at_chunk(chunk)
 			continue
@@ -66,8 +85,8 @@ func place_wall_at(pos:Vector2) -> ObstacleWall:
 	add_child(node)
 	return node
 
-func place_obstacle_at_chunk(ch:Vector2, forced_type:ObstacleType = null) -> Obstacle:
-	var rand_pos := get_random_position_in_chunk(ch)
+func place_obstacle_at_chunk(ch:Vector2, forced_type:ObstacleType = null, side := "") -> Obstacle:
+	var rand_pos := get_random_position_in_chunk(ch, side)
 	return place_obstacle_at(rand_pos, forced_type)
 
 func place_obstacle_at(pos:Vector2, forced_type:ObstacleType = null) -> Obstacle:
@@ -75,16 +94,24 @@ func place_obstacle_at(pos:Vector2, forced_type:ObstacleType = null) -> Obstacle
 	node.set_position(pos)
 	add_child(node)
 	
-	var rand_type : ObstacleType = map_data.obstacles_available.pick_random()
-	if forced_type: rand_type = forced_type
+	var rand_type : ObstacleType = forced_type
+	if not rand_type:
+		rand_type = available_types.pick_random()
 	node.set_type(rand_type)
 	return node
 
-func get_random_position_in_chunk(pos:Vector2) -> Vector2:
+func get_random_position_in_chunk(pos:Vector2, side := "") -> Vector2:
 	var top_left_x := map_data.bounds.position.x + pos.x * map_data.chunk_size.x
 	var top_left_y := -(pos.y + 1) * map_data.chunk_size.y
 	var top_left := Vector2(top_left_x, top_left_y)
 	var bounds := Rect2(top_left, map_data.chunk_size)
+	
+	if side == "bottom": 
+		return top_left + Vector2(randf()*map_data.chunk_size.x, map_data.chunk_size.y)
+	
+	if side == "top":
+		return top_left + Vector2(randf() * map_data.chunk_size.x, 0)
+	
 	return get_random_position_in_rect(bounds)
 
 func get_random_position_in_rect(bds:Rect2) -> Vector2:

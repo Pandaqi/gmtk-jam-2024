@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cvjamkirrjd07"]
+
+[ext_resource type="Shader" path="res://map/generator/random_blob.gdshader" id="1_5pfow"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m0o1r"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dabg3"]
+seamless = true
+noise = SubResource("FastNoiseLite_m0o1r")
+
+[resource]
+shader = ExtResource("1_5pfow")
+shader_parameter/speed = 0.1
+shader_parameter/circle_radius = 0.485
+shader_parameter/amplitude = 0.2
+shader_parameter/color = Color(1, 0, 0, 1)
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_dabg3")

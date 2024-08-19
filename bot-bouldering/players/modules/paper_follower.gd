@@ -8,6 +8,7 @@ var following := false
 var lines : Array[LineFollower]
 var follow_speed := 0.2
 var trail : Array[Vector2] = [] # this is mostly for debugging
+var freeze := false
 
 var move_in_realtime := false # whether to wait for all pencils to finish, or move immediately as soon as player has drawn something
 
@@ -50,19 +51,33 @@ func start() -> void:
 	
 	print("Bot should start")
 	following = true
+	clear_trail()
 	
 	started.emit()
 
-func stop() -> void:
+func stop(safe := false) -> void:
 	print("Bot should stop")
+	
+	# @NOTE: this is a nonsense move, just to ensure our last move will also push us out of existing bodies
+	entity.velocity = Vector2.RIGHT*0.0001
+	entity.move_and_slide()
+	
 	entity.velocity = Vector2.ZERO
 	faller.set_falling(false)
+	set_freeze(false)
 	following = false
 	
-	if Global.config.lose_life_if_not_finished_at_turn_end:
+	if Global.config.lose_life_if_not_finished_at_turn_end and (not safe):
 		entity.player.prog_data.change_lives(-1)
 	
 	done.emit()
+
+func set_freeze(val:bool) -> void:
+	if freeze == val: return
+	
+	freeze = val
+	if val: 
+		GSignal.feedback.emit(global_position, "Freeze!", true)
 
 func _process(dt:float) -> void:
 	follow_lines(dt)
@@ -78,6 +93,7 @@ func follow_lines(dt:float) -> void:
 		on_line_following_started(first_line)
 	
 	var vec := first_line.advance(self, follow_speed * dt)
+	if freeze: vec *= 0.0
 	
 	if not faller.is_falling():
 		entity.velocity = vec / dt
@@ -111,6 +127,10 @@ func get_distance_left() -> float:
 	for line in lines:
 		sum += line.get_length_absolute()
 	return sum
+
+func clear_trail() -> void:
+	trail = []
+	queue_redraw()
 
 func update_trail() -> void:
 	trail.append(entity.global_position)

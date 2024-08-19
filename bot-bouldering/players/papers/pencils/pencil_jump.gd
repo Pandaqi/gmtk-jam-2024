@@ -12,10 +12,18 @@ func on_end(_line:LineFollower, pf:ModulePaperFollower) -> void:
 # @TODO: maybe more of a jumping motion/tween: fast start, slower ending
 func update(line:LineFollower, pf:ModulePaperFollower, speed:float) -> Vector2:
 	
-	line.time_traveled += speed
-	if line.time_traveled >= line.target_travel_time:
-		line.traveling = false
-		return Vector2.ZERO
-	
 	var vec : Vector2 = line.points_absolute.back() - line.points_absolute.front()
-	return vec.normalized() * speed
+	var total_dist := vec.length()
+	var old_fraction := line.time_traveled / line.target_travel_time
+	var tween_speed := 3.5
+	var old_dist := pow(old_fraction, 1.0/tween_speed) * total_dist
+	
+	line.time_traveled = min(line.time_traveled + speed, line.target_travel_time)
+	
+	var new_fraction := line.time_traveled / line.target_travel_time
+	var new_dist := pow(new_fraction, 1.0/tween_speed) * total_dist
+	var speed_tweened : float = abs(new_dist - old_dist)
+	if new_fraction >= 1.0:
+		line.traveling = false
+
+	return vec.normalized() * speed_tweened

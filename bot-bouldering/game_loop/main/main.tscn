@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cl5ekprujdysq"]
+[gd_scene load_steps=28 format=3 uid="uid://cl5ekprujdysq"]
 
 [ext_resource type="Script" path="res://game_loop/main/main.gd" id="1_hhk8l"]
 [ext_resource type="Script" path="res://progression/progression.gd" id="2_b5nt3"]
@@ -11,15 +11,22 @@
 [ext_resource type="PackedScene" uid="uid://1iyp7stlc2hw" path="res://map/obstacles/obstacle.tscn" id="6_yst3b"]
 [ext_resource type="PackedScene" uid="uid://b3gbqhlkljwjy" path="res://players/player.tscn" id="7_r0epw"]
 [ext_resource type="Resource" uid="uid://l0aievwma2hk" path="res://map/obstacles/types/obstacle_finish.tres" id="7_rhv13"]
+[ext_resource type="PackedScene" uid="uid://hbplxfjtgc4q" path="res://map/environment/mountain_crack.tscn" id="8_23cyo"]
 [ext_resource type="PackedScene" uid="uid://stdskoqxj6m3" path="res://map/obstacles/wall.tscn" id="8_fwgl8"]
 [ext_resource type="Script" path="res://map/generator/generator.gd" id="8_genei"]
+[ext_resource type="Script" path="res://map/environment/clouds.gd" id="8_l7ieo"]
 [ext_resource type="Script" path="res://map/generator/environment.gd" id="8_yj7re"]
+[ext_resource type="Material" uid="uid://cvjamkirrjd07" path="res://map/generator/random_blob_shader.tres" id="9_g2uvv"]
+[ext_resource type="PackedScene" uid="uid://dv7lstvw4r8e3" path="res://map/environment/cloud.tscn" id="9_h24lb"]
 [ext_resource type="Resource" uid="uid://cnetenrluo3vr" path="res://map/obstacles/types/obstacle_score_plus.tres" id="10_27big"]
+[ext_resource type="Texture2D" uid="uid://bia7anbudk070" path="res://game_loop/placeholder.webp" id="10_ht8xe"]
+[ext_resource type="PackedScene" uid="uid://cwrews7nje1v5" path="res://map/environment/grass.tscn" id="11_reils"]
 [ext_resource type="Script" path="res://ui/tooltips/tooltips.gd" id="13_ah8i0"]
 [ext_resource type="PackedScene" uid="uid://emw6vowsj0kx" path="res://ui/tooltips/tooltip.tscn" id="14_stdw1"]
 [ext_resource type="Script" path="res://ui/tutorial/tutorial.gd" id="16_fdv5t"]
 [ext_resource type="Texture2D" uid="uid://cqw01knihkkkk" path="res://ui/tutorial/tutorials.webp" id="17_3opdb"]
 [ext_resource type="PackedScene" uid="uid://cpqplp2nlwr7n" path="res://ui/feedback/feedback_scene.tscn" id="17_ii118"]
+[ext_resource type="Resource" uid="uid://c3nuc6ki4uola" path="res://map/obstacles/types/obstacle_teleport.tres" id="20_2g8dr"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_hhk8l")
@@ -41,10 +48,25 @@ map_data = ExtResource("3_mas6h")
 script = ExtResource("5_4l81j")
 map_data = ExtResource("3_mas6h")
 prog_data = ExtResource("3_bsm45")
+crack_scene = ExtResource("8_23cyo")
+grass_scene = ExtResource("11_reils")
+
+[node name="Clouds" type="Node2D" parent="Map"]
+show_behind_parent = true
+script = ExtResource("8_l7ieo")
+map_data = ExtResource("3_mas6h")
+cloud_scene = ExtResource("9_h24lb")
 
 [node name="Environment" type="Node2D" parent="Map"]
 show_behind_parent = true
 script = ExtResource("8_yj7re")
+grass_scene = ExtResource("11_reils")
+
+[node name="MountainAnchor" type="Sprite2D" parent="Map/Environment"]
+material = ExtResource("9_g2uvv")
+texture = ExtResource("10_ht8xe")
+
+[node name="Cracks" type="Node2D" parent="Map"]
 
 [node name="Generator" type="Node2D" parent="Map"]
 script = ExtResource("8_genei")
@@ -54,6 +76,7 @@ obstacle_scene = ExtResource("6_yst3b")
 wall_scene = ExtResource("8_fwgl8")
 finish_type = ExtResource("7_rhv13")
 star_type = ExtResource("10_27big")
+teleport_type = ExtResource("20_2g8dr")
 
 [node name="Players" type="Node2D" parent="." node_paths=PackedStringArray("papers_layer", "ui_layer")]
 script = ExtResource("6_ck8fx")

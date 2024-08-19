@@ -40,6 +40,8 @@ func end_game() -> void:
 
 func prepare_next_level() -> void:
 	prog_data.change_level(+1)
+	prog_data.change_lives(Global.config.player_extra_lives_for_levelup)
+	
 	prog_data.save_state(players) # some stuff is persistent between restarts
 	
 	# unlock obstacles (if needed)

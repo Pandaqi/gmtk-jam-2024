@@ -2,6 +2,7 @@ class_name ModuleFaller extends Node2D
 
 @onready var entity : PlayerBot = get_parent()
 @export var map_data : MapData
+@export var paper_follower : ModulePaperFollower
 
 var freefall := false
 var gravity := 5.0
@@ -19,6 +20,7 @@ func set_falling(val:bool) -> void:
 	falling_changed.emit(val)
 	
 	if freefall:
+		paper_follower.clear_trail()
 		GSignal.feedback.emit(global_position, "Freefall!", true)
 
 func is_falling() -> bool:
@@ -41,8 +43,10 @@ func check_if_out_of_bounds() -> void:
 		return
 	
 	var off_bounds_side := not Geometry2D.is_point_in_polygon(global_position, map_data.polygon_edge)
-	if not freefall and off_bounds_side:
+	if off_bounds_side:
 		set_falling(true)
+	else:
+		set_falling(false)
 
 # @TODO: testing if it's fun to give the player a single control while the robot walks
 # @TODO: I should have a clear marker somewhere though whether the robot is actually allowed to move => the player should have a clear variable "is_drawing" and "is_executing"
@@ -50,4 +54,9 @@ func _input(ev:InputEvent) -> void:
 	if not entity.player.is_moving(): return
 	if not (ev is InputEventMouseButton): return
 	if ev.button_index != 1: return
-	set_falling(ev.pressed)
+	
+	if Global.config.click_while_moving_makes_fall:
+		set_falling(ev.pressed)
+	
+	if Global.config.click_while_moving_freezes_bot:
+		paper_follower.set_freeze(ev.pressed)
