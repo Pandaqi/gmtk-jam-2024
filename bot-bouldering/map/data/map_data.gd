@@ -2,10 +2,27 @@ extends Resource
 class_name MapData
 
 @export var all_obstacles : Array[ObstacleType] = []
+@export var obstacles_starting : Array[ObstacleType] = []
+var obstacles_locked : Array[ObstacleType] = []
+var obstacles_available : Array[ObstacleType] = []
+
 var bounds : Rect2
+var mountain_size_in_chunks : Vector2
+var polygon_edge : Array[Vector2]
 var chunk_size : Vector2
 var finish_node : Obstacle
 var generator : MapGenerator
+
+func reset() -> void:
+	obstacles_locked = all_obstacles.duplicate(false)
+	obstacles_available = []
+
+func unlock(tp:ObstacleType) -> void:
+	obstacles_locked.erase(tp)
+	obstacles_available.append(tp)
+
+func has_unlockables() -> bool:
+	return obstacles_locked.size() > 0
 
 func get_chunk_from_y(val:float) -> int:
 	return floor(abs(val) / chunk_size.y)

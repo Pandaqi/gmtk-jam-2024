@@ -4,10 +4,12 @@ var type : ObstacleType
 
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var col_shape : CollisionShape2D = $Area2D/CollisionShape2D
+@onready var tooltip : ModuleTooltip = $Tooltip
 
 func set_type(tp:ObstacleType) -> void:
 	type = tp
 	sprite.set_frame(tp.frame)
+	tooltip.set_desc(tp.desc)
 	
 	var rand_radius := tp.get_random_radius()
 	var shp := CircleShape2D.new()

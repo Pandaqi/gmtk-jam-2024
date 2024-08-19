@@ -1,26 +1,42 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1b11ylqy5nlj"]
+[gd_scene load_steps=9 format=3 uid="uid://d1b11ylqy5nlj"]
 
 [ext_resource type="Script" path="res://players/bots/player_bot.gd" id="1_05bhe"]
 [ext_resource type="Resource" uid="uid://biw27ik347eib" path="res://map/data/map_data.tres" id="2_k0jl8"]
 [ext_resource type="Texture2D" uid="uid://bia7anbudk070" path="res://game_loop/placeholder.webp" id="3_c0e7e"]
+[ext_resource type="Resource" uid="uid://deqsw8ewfomw0" path="res://progression/data/progression_data.tres" id="3_cj5ex"]
+[ext_resource type="Script" path="res://players/modules/turn_bot.gd" id="3_sf0r1"]
 [ext_resource type="Script" path="res://players/modules/paper_follower.gd" id="4_d6vfv"]
+[ext_resource type="Script" path="res://players/modules/faller.gd" id="5_xvdxl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w18td"]
 radius = 17.0294
 
-[node name="PlayerBot" type="CharacterBody2D" node_paths=PackedStringArray("paper_follower") groups=["PlayerBots"]]
+[node name="PlayerBot" type="CharacterBody2D" node_paths=PackedStringArray("paper_follower", "faller", "turn") groups=["PlayerBots"]]
 motion_mode = 1
 script = ExtResource("1_05bhe")
 map_data = ExtResource("2_k0jl8")
 paper_follower = NodePath("PaperFollower")
+faller = NodePath("Faller")
+turn = NodePath("Turn")
+prog_data = ExtResource("3_cj5ex")
+
+[node name="Turn" type="Node2D" parent="." node_paths=PackedStringArray("paper_follower")]
+script = ExtResource("3_sf0r1")
+paper_follower = NodePath("../PaperFollower")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_w18td")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.12, 0.12, 0.12, 1)
 scale = Vector2(0.328125, 0.328125)
 texture = ExtResource("3_c0e7e")
 
-[node name="PaperFollower" type="Node2D" parent="."]
+[node name="PaperFollower" type="Node2D" parent="." node_paths=PackedStringArray("faller")]
 script = ExtResource("4_d6vfv")
+map_data = ExtResource("2_k0jl8")
+faller = NodePath("../Faller")
+
+[node name="Faller" type="Node2D" parent="."]
+script = ExtResource("5_xvdxl")
 map_data = ExtResource("2_k0jl8")

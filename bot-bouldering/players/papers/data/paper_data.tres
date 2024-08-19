@@ -11,3 +11,4 @@
 [resource]
 script = ExtResource("2_sq77u")
 all_pencils = Array[ExtResource("1_ok4lt")]([ExtResource("2_ca7qq"), ExtResource("3_gn87n"), ExtResource("4_fx8nt"), ExtResource("5_juu41"), ExtResource("6_wjjtu")])
+pencils_starting = Array[ExtResource("1_ok4lt")]([ExtResource("2_ca7qq"), ExtResource("4_fx8nt")])

@@ -1,15 +1,24 @@
 class_name Player extends Node2D
 
+enum PlayerState
+{
+	DRAWING,
+	MOVING
+}
+
 @export var player_bot_scene : PackedScene
 @export var player_paper_scene : PackedScene
 
-var lives := 1
-var score := 0
+var player_bot : PlayerBot
+var player_paper : PlayerPaper
 
-signal lives_changed(new_lives:int)
-signal score_changed(new_score:int)
+@export var prog_data : ProgressionData
 
-func activate(papers_layer:CanvasLayer) -> void:
+var state := PlayerState.DRAWING
+
+signal state_changed(st:PlayerState)
+
+func activate(papers_layer:CanvasLayer, ui_layer:CanvasLayer) -> void:
 	# create our components
 	var pb : PlayerBot = player_bot_scene.instantiate()
 	add_child(pb)
@@ -27,19 +36,28 @@ func activate(papers_layer:CanvasLayer) -> void:
 	pp.player = self
 	pp.player_bot = pb
 	
-	pb.activate()
-	pp.activate()
-
-func change_lives(dl:int) -> void:
-	lives = clamp(lives + dl, 0, 9)
-	lives_changed.emit(lives)
+	player_bot = pb
+	player_paper = pp
 	
-	if lives <= 0:
-		GSignal.game_over.emit(false)
+	pb.done.connect(change_state)
+	pp.done.connect(change_state)
+	
+	pb.activate()
+	pp.activate(ui_layer)
+	
+	# init call
+	state = PlayerState.MOVING
+	change_state()
 
-func remove_all_lives() -> void:
-	change_lives(-lives)
+func change_state() -> void:
+	if is_drawing():
+		state = PlayerState.MOVING
+	else:
+		state = PlayerState.DRAWING
+	state_changed.emit(state)
 
-func change_score(ds:int) -> void:
-	score = clamp(score + ds, 0, 99999)
-	score_changed.emit(score)
+func is_drawing() -> bool:
+	return state == PlayerState.DRAWING
+
+func is_moving() -> bool:
+	return state == PlayerState.MOVING

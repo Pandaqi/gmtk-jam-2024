@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci4aladi0r6b5"]
+
+[ext_resource type="Script" path="res://ui/ink_bar/ink_bar_pencil.gd" id="1_qlnns"]
+
+[node name="InkBarPencil" type="Node2D"]
+script = ExtResource("1_qlnns")

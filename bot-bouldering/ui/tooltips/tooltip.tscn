@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://emw6vowsj0kx"]
+
+[ext_resource type="Script" path="res://ui/tooltips/tooltip.gd" id="1_x0688"]
+[ext_resource type="Texture2D" uid="uid://dc7ys8mingij3" path="res://ui/misc.webp" id="2_g2qdu"]
+[ext_resource type="FontFile" uid="uid://dyrubtac1v64h" path="res://ui/fonts/body_bold.ttf" id="3_5w7mp"]
+
+[node name="Tooltip" type="Node2D"]
+scale = Vector2(0.6, 0.6)
+script = ExtResource("1_x0688")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(14, -86)
+texture = ExtResource("2_g2qdu")
+hframes = 4
+vframes = 4
+frame = 1
+
+[node name="Label" type="Label" parent="."]
+offset_left = -99.0
+offset_top = -162.0
+offset_right = 124.0
+offset_bottom = -38.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_5w7mp")
+theme_override_font_sizes/font_size = 22
+text = "Takes away a life and I'm just testing"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

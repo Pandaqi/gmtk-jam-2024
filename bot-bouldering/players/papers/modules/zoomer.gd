@@ -16,9 +16,14 @@ signal size_factor_changed()
 func activate() -> void:
 	anchor = Vector2(0.5, 0.5)
 	
+	turn.turn_over.connect(on_turn_over)
+	
 	var bdim_bounds := Global.config.canvas_dimension_bounds
 	base_dimensions = Vector2(bdim_bounds.rand_float(), bdim_bounds.rand_float())
 	change_size(0)
+
+func on_turn_over() -> void:
+	reset_scale()
 
 func _input(ev:InputEvent) -> void:
 	if not turn.active: return
@@ -55,6 +60,9 @@ func get_absolute_position_on_paper(pos_rel:Vector2) -> Vector2:
 func is_out_of_bounds(pos:Vector2) -> bool:
 	var pos_rel := get_relative_position_on_paper(pos)
 	return pos_rel.x < 0.0 or pos_rel.x > 1.0 or pos_rel.y < 0.0 or pos_rel.y > 1.0
+
+func reset_scale() -> void:
+	base_scale = 1.0
 
 func get_scale_ratio() -> float:
 	return Global.config.canvas_base_scale_bounds.get_ratio(base_scale)

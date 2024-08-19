@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_fd84d")
 frame = 4
-color = Color(0.752941, 0.411765, 0.282353, 1)
+color = Color(0.952941, 0.545098, 0.172549, 1)
 desc = "Follows your line in reverse."
 ink_factor = 1.0

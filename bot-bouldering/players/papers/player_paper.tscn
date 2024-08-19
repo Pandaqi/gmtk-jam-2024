@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d316gymcog8um"]
+[gd_scene load_steps=23 format=3 uid="uid://d316gymcog8um"]
 
 [ext_resource type="Script" path="res://players/papers/player_paper.gd" id="1_to0ta"]
 [ext_resource type="Script" path="res://players/papers/modules/turn.gd" id="2_2rrue"]
@@ -8,14 +8,29 @@
 [ext_resource type="Resource" uid="uid://c68fjee3rvkr4" path="res://players/papers/pencils/pencil_jump.tres" id="6_v1jyb"]
 [ext_resource type="Script" path="res://players/papers/modules/zoomer.gd" id="7_cxyl2"]
 [ext_resource type="Script" path="res://players/papers/modules/drawer.gd" id="8_5yjo3"]
+[ext_resource type="Shader" path="res://players/papers/blue_grid_paper.gdshader" id="8_hkprh"]
 [ext_resource type="Script" path="res://players/papers/cursor.gd" id="9_3en42"]
-[ext_resource type="Texture2D" uid="uid://bia7anbudk070" path="res://game_loop/placeholder.webp" id="10_ydxsr"]
+[ext_resource type="Script" path="res://players/papers/modules/drawer_outline.gd" id="10_4u6p3"]
 [ext_resource type="Script" path="res://players/papers/modules/ui.gd" id="11_b7120"]
+[ext_resource type="FontFile" uid="uid://da6g5wvbwhxxg" path="res://ui/fonts/heading.ttf" id="11_kxm4q"]
+[ext_resource type="Resource" uid="uid://deqsw8ewfomw0" path="res://progression/data/progression_data.tres" id="12_hooac"]
 [ext_resource type="PackedScene" uid="uid://dkr3q4ecxk40q" path="res://ui/ui_element.tscn" id="12_uqoty"]
 [ext_resource type="Script" path="res://players/papers/pencils_ui.gd" id="13_yddv3"]
 [ext_resource type="PackedScene" uid="uid://fx1lu2a4gvua" path="res://ui/pencils/ui_pencil.tscn" id="14_w1evx"]
+[ext_resource type="Script" path="res://ui/ink_bar/ink_bar.gd" id="15_38nyk"]
+[ext_resource type="Texture2D" uid="uid://dk0ewofwaixpi" path="res://ui/ink_bar/ink_meter.webp" id="15_bdwpr"]
+[ext_resource type="PackedScene" uid="uid://ci4aladi0r6b5" path="res://ui/ink_bar/ink_bar_pencil.tscn" id="16_ep5gp"]
+[ext_resource type="Texture2D" uid="uid://dc7ys8mingij3" path="res://ui/misc.webp" id="18_gx6fh"]
 
-[node name="PlayerPaper" type="Node2D" node_paths=PackedStringArray("pencils", "drawer", "zoomer", "ui", "turn")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a7pbr"]
+shader = ExtResource("8_hkprh")
+shader_parameter/real_size = Vector2(256, 256)
+shader_parameter/thickness = 1.0
+shader_parameter/tile_size = Vector2(64, 64)
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/color_lines = Color(0.5, 0.5, 1, 1)
+
+[node name="PlayerPaper" type="Node2D" node_paths=PackedStringArray("pencils", "drawer", "zoomer", "ui", "turn", "cursor")]
 position = Vector2(171, 578)
 script = ExtResource("1_to0ta")
 pencils = NodePath("Pencils")
@@ -23,6 +38,7 @@ drawer = NodePath("Drawer")
 zoomer = NodePath("Zoomer")
 ui = NodePath("UI")
 turn = NodePath("Turn")
+cursor = NodePath("Cursor")
 
 [node name="Turn" type="Node2D" parent="." node_paths=PackedStringArray("pencils", "cursor", "drawer")]
 script = ExtResource("2_2rrue")
@@ -47,21 +63,97 @@ script = ExtResource("7_cxyl2")
 turn = NodePath("../Turn")
 
 [node name="Drawer" type="Node2D" parent="." node_paths=PackedStringArray("cursor", "zoomer", "pencils")]
+material = SubResource("ShaderMaterial_a7pbr")
 script = ExtResource("8_5yjo3")
 cursor = NodePath("../Cursor")
 zoomer = NodePath("../Zoomer")
 pencils = NodePath("../Pencils")
 
-[node name="Cursor" type="Node2D" parent="." node_paths=PackedStringArray("zoomer", "turn")]
-modulate = Color(1, 0.482353, 0.133333, 1)
+[node name="Outline" type="Node2D" parent="Drawer" node_paths=PackedStringArray("zoomer")]
+script = ExtResource("10_4u6p3")
+zoomer = NodePath("../../Zoomer")
+
+[node name="BottomMarker" type="Node2D" parent="Drawer"]
+
+[node name="Label" type="Label" parent="Drawer/BottomMarker"]
+offset_left = -186.0
+offset_top = -43.0
+offset_right = 177.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("11_kxm4q")
+theme_override_font_sizes/font_size = 20
+text = "Bottom of Paper"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UI" type="Node2D" parent="." node_paths=PackedStringArray("drawer", "turn")]
+script = ExtResource("11_b7120")
+prog_data = ExtResource("12_hooac")
+drawer = NodePath("../Drawer")
+turn = NodePath("../Turn")
+
+[node name="InkLeft" parent="UI" instance=ExtResource("12_uqoty")]
+visible = false
+position = Vector2(96, 328)
+frame = 7
+
+[node name="TimeLeft" parent="UI" instance=ExtResource("12_uqoty")]
+visible = false
+position = Vector2(88, 242)
+frame = 11
+
+[node name="Lives" parent="UI" instance=ExtResource("12_uqoty")]
+position = Vector2(-75, 228)
+frame = 1
+
+[node name="Score" parent="UI" instance=ExtResource("12_uqoty")]
+position = Vector2(-103, 294)
+frame = 3
+
+[node name="Pencils" type="Node2D" parent="UI" node_paths=PackedStringArray("pencils")]
+position = Vector2(-88, 0)
+script = ExtResource("13_yddv3")
+pencils = NodePath("../../Pencils")
+pencil_scene = ExtResource("14_w1evx")
+
+[node name="InkBar" type="Node2D" parent="UI" node_paths=PackedStringArray("drawer")]
+script = ExtResource("15_38nyk")
+drawer = NodePath("../../Drawer")
+ink_bar_pencil_scene = ExtResource("16_ep5gp")
+
+[node name="Under" type="Sprite2D" parent="UI/InkBar"]
+texture = ExtResource("15_bdwpr")
+hframes = 2
+
+[node name="Ink" type="Node2D" parent="UI/InkBar"]
+position = Vector2(0, 242)
+
+[node name="BarStart" type="Node2D" parent="UI/InkBar"]
+position = Vector2(0, 237)
+
+[node name="BarEnd" type="Node2D" parent="UI/InkBar"]
+position = Vector2(0, -342)
+
+[node name="Over" type="Sprite2D" parent="UI/InkBar"]
+texture = ExtResource("15_bdwpr")
+hframes = 2
+frame = 1
+
+[node name="Cursor" type="Node2D" parent="." node_paths=PackedStringArray("zoomer", "turn", "pencils")]
+scale = Vector2(0.25, 0.25)
 script = ExtResource("9_3en42")
 zoomer = NodePath("../Zoomer")
 turn = NodePath("../Turn")
+pencils = NodePath("../Pencils")
 
 [node name="Sprite2D" type="Sprite2D" parent="Cursor"]
-modulate = Color(1, 0.537255, 0.266667, 1)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("10_ydxsr")
+position = Vector2(42, -108)
+texture = ExtResource("18_gx6fh")
+hframes = 4
+vframes = 4
 
 [node name="LabelDebug" type="Label" parent="Cursor"]
 offset_left = -14.0
@@ -71,25 +163,3 @@ offset_bottom = 14.0
 text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="UI" type="Node2D" parent="." node_paths=PackedStringArray("drawer", "turn")]
-script = ExtResource("11_b7120")
-drawer = NodePath("../Drawer")
-turn = NodePath("../Turn")
-
-[node name="InkLeft" parent="UI" instance=ExtResource("12_uqoty")]
-position = Vector2(-119, 39)
-
-[node name="TimeLeft" parent="UI" instance=ExtResource("12_uqoty")]
-position = Vector2(-41, 39)
-
-[node name="Lives" parent="UI" instance=ExtResource("12_uqoty")]
-position = Vector2(37, 39)
-
-[node name="Score" parent="UI" instance=ExtResource("12_uqoty")]
-position = Vector2(118, 39)
-
-[node name="Pencils" type="Node2D" parent="UI" node_paths=PackedStringArray("pencils")]
-script = ExtResource("13_yddv3")
-pencils = NodePath("../../Pencils")
-pencil_scene = ExtResource("14_w1evx")

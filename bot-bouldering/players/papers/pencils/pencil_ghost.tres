@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_xivq7")
 frame = 3
-color = Color(0.27451, 1, 1, 1)
+color = Color(0.458824, 0.847059, 0.862745, 1)
 desc = "Follows your line, but you interact with nothing."
 ink_factor = 1.0

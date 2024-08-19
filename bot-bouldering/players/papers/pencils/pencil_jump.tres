@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_uftic")
 frame = 1
-color = Color(1, 0.572549, 0, 1)
+color = Color(0.498039, 0.862745, 0.458824, 1)
 desc = "Jumps from start to end of your line."
 ink_factor = 1.0

@@ -8,15 +8,17 @@ class_name PlayerPaper extends Node2D
 @export var zoomer : ModuleZoomer
 @export var ui : ModulePaperUI
 @export var turn : ModuleTurn
+@export var cursor : ModuleCursor
 
 signal done()
 signal reset()
 
-func activate() -> void:
+func activate(ui_layer:CanvasLayer) -> void:
 	turn.turn_over.connect(on_turn_over)
-	player_bot.paper_follower.done.connect(on_bot_done)
+	player.state_changed.connect(on_state_changed)
 	
-	ui.activate()
+	ui.activate(ui_layer)
+	cursor.activate()
 	pencils.activate()
 	drawer.activate()
 	turn.activate()
@@ -26,8 +28,6 @@ func activate() -> void:
 	
 	get_viewport().size_changed.connect(on_resize)
 	on_resize()
-	
-	on_bot_done()
 
 func on_resize() -> void:
 	var vp_size := get_viewport_rect().size
@@ -36,5 +36,6 @@ func on_resize() -> void:
 func on_turn_over() -> void:
 	done.emit()
 
-func on_bot_done() -> void:
+func on_state_changed(new_state:Player.PlayerState) -> void:
+	if new_state != Player.PlayerState.DRAWING: return
 	reset.emit()

@@ -16,6 +16,7 @@ signal turn_over()
 func activate() -> void:
 	pencils.pencils_exhausted.connect(on_all_lines_drawn)
 	drawer.ink_exhausted.connect(on_ink_exhausted)
+	drawer.ink_relative_matched.connect(on_ink_relative_matched)
 	timer.timeout.connect(on_timer_timeout)
 	entity.reset.connect(on_reset)
 	active = false
@@ -53,6 +54,9 @@ func on_all_lines_drawn() -> void:
 	end_turn()
 
 func on_ink_exhausted() -> void:
+	end_turn()
+
+func on_ink_relative_matched() -> void:
 	end_turn()
 
 func change_time_scale(ts:float) -> void:

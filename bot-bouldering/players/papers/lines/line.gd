@@ -5,8 +5,7 @@ var points : Array[Vector2] = []
 var points_scaled : Array[Vector2] = []
 var finished := false
 var total_length := 0.0
-
-
+var focus_tween : Tween = null
 
 func _init(p:PencilType) -> void:
 	type = p
@@ -42,6 +41,23 @@ func back() -> Vector2:
 
 func get_length() -> float:
 	return total_length
+
+func unfocus() -> void:
+	modulate = Color(1,1,1,0.35)
+	if focus_tween: focus_tween.stop()
+
+func focus() -> void:
+	var dur := 0.125
+	var tw := get_tree().create_tween()
+	tw.set_loops(1000)
+	tw.tween_property(self, "modulate", Color(2, 1, 1, 0.66), dur)
+	tw.tween_property(self, "modulate", Color(1,1,1,1), dur)
+	
+	focus_tween = tw
+
+func kill() -> void:
+	unfocus()
+	self.queue_free()
 
 func update(z:ModuleZoomer) -> void:
 	if not is_valid(): return

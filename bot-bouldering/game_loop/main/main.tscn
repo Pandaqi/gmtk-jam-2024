@@ -1,45 +1,84 @@
-[gd_scene load_steps=13 format=3 uid="uid://cl5ekprujdysq"]
+[gd_scene load_steps=21 format=3 uid="uid://cl5ekprujdysq"]
 
 [ext_resource type="Script" path="res://game_loop/main/main.gd" id="1_hhk8l"]
-[ext_resource type="Script" path="res://state/state.gd" id="2_b5nt3"]
+[ext_resource type="Script" path="res://progression/progression.gd" id="2_b5nt3"]
+[ext_resource type="Resource" uid="uid://deqsw8ewfomw0" path="res://progression/data/progression_data.tres" id="3_bsm45"]
 [ext_resource type="Script" path="res://map/camera/camera_map.gd" id="3_ecyj5"]
 [ext_resource type="Resource" uid="uid://biw27ik347eib" path="res://map/data/map_data.tres" id="3_mas6h"]
 [ext_resource type="Script" path="res://map/map_static.gd" id="5_4l81j"]
+[ext_resource type="Resource" uid="uid://5djpxkg264w0" path="res://players/papers/data/paper_data.tres" id="5_pxoos"]
 [ext_resource type="Script" path="res://players/players.gd" id="6_ck8fx"]
 [ext_resource type="PackedScene" uid="uid://1iyp7stlc2hw" path="res://map/obstacles/obstacle.tscn" id="6_yst3b"]
 [ext_resource type="PackedScene" uid="uid://b3gbqhlkljwjy" path="res://players/player.tscn" id="7_r0epw"]
 [ext_resource type="Resource" uid="uid://l0aievwma2hk" path="res://map/obstacles/types/obstacle_finish.tres" id="7_rhv13"]
 [ext_resource type="PackedScene" uid="uid://stdskoqxj6m3" path="res://map/obstacles/wall.tscn" id="8_fwgl8"]
 [ext_resource type="Script" path="res://map/generator/generator.gd" id="8_genei"]
+[ext_resource type="Script" path="res://map/generator/environment.gd" id="8_yj7re"]
 [ext_resource type="Resource" uid="uid://cnetenrluo3vr" path="res://map/obstacles/types/obstacle_score_plus.tres" id="10_27big"]
+[ext_resource type="Script" path="res://ui/tooltips/tooltips.gd" id="13_ah8i0"]
+[ext_resource type="PackedScene" uid="uid://emw6vowsj0kx" path="res://ui/tooltips/tooltip.tscn" id="14_stdw1"]
+[ext_resource type="Script" path="res://ui/tutorial/tutorial.gd" id="16_fdv5t"]
+[ext_resource type="Texture2D" uid="uid://cqw01knihkkkk" path="res://ui/tutorial/tutorials.webp" id="17_3opdb"]
+[ext_resource type="PackedScene" uid="uid://cpqplp2nlwr7n" path="res://ui/feedback/feedback_scene.tscn" id="17_ii118"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_hhk8l")
 
-[node name="Progression" type="Node2D" parent="."]
+[node name="Progression" type="Node2D" parent="." node_paths=PackedStringArray("players", "tutorial")]
 script = ExtResource("2_b5nt3")
+prog_data = ExtResource("3_bsm45")
+map_data = ExtResource("3_mas6h")
+paper_data = ExtResource("5_pxoos")
+players = NodePath("../Players")
+tutorial = NodePath("../Tutorial")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+process_mode = 3
 script = ExtResource("3_ecyj5")
 map_data = ExtResource("3_mas6h")
 
 [node name="Map" type="Node2D" parent="."]
 script = ExtResource("5_4l81j")
 map_data = ExtResource("3_mas6h")
+prog_data = ExtResource("3_bsm45")
+
+[node name="Environment" type="Node2D" parent="Map"]
+show_behind_parent = true
+script = ExtResource("8_yj7re")
 
 [node name="Generator" type="Node2D" parent="Map"]
 script = ExtResource("8_genei")
 map_data = ExtResource("3_mas6h")
+prog_data = ExtResource("3_bsm45")
 obstacle_scene = ExtResource("6_yst3b")
 wall_scene = ExtResource("8_fwgl8")
 finish_type = ExtResource("7_rhv13")
 star_type = ExtResource("10_27big")
 
-[node name="Players" type="Node2D" parent="." node_paths=PackedStringArray("papers_layer")]
+[node name="Players" type="Node2D" parent="." node_paths=PackedStringArray("papers_layer", "ui_layer")]
 script = ExtResource("6_ck8fx")
 player_scene = ExtResource("7_r0epw")
 papers_layer = NodePath("../Papers")
-
-[node name="Mountain" type="CanvasLayer" parent="."]
+ui_layer = NodePath("../UI")
 
 [node name="Papers" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="UI" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="Tooltips" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("13_ah8i0")
+tooltip_node = ExtResource("14_stdw1")
+feedback_node = ExtResource("17_ii118")
+
+[node name="Tutorial" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("16_fdv5t")
+
+[node name="Container" type="Node2D" parent="Tutorial"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Tutorial/Container"]
+texture = ExtResource("17_3opdb")
+hframes = 6

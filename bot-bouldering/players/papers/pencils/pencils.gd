@@ -23,9 +23,8 @@ func activate() -> void:
 	entity.done.connect(on_turn_done)
 	entity.reset.connect(on_reset)
 	
-	# @DEBUGGING
-	add_new_type(pencil_move)
-	add_new_type(pencil_jump)
+	pencils_unlocked = paper_data.pencils_available.duplicate(false)
+	pencils_available = pencils_unlocked.duplicate(false)
 
 func on_size_changed(_new_size:Rect2) -> void:
 	if not Global.config.pencils_change_by_zoom: return
@@ -63,7 +62,8 @@ func get_active_pencil() -> PencilType:
 	return pencils_available[active_index]
 
 func on_line_finished(l:Line) -> void:
-	if not Global.config.turns_require_all_ink: 
+	var erase_line_after_use := (not Global.config.turns_require_all_ink) and (not Global.config.turns_require_ink_relative_match)
+	if erase_line_after_use: 
 		pencils_available.erase(l.type)
 		on_change()
 	
@@ -73,6 +73,8 @@ func on_line_finished(l:Line) -> void:
 		grab_next()
 
 func check_if_done() -> void:
+	if Global.config.turns_require_ink_relative_match: return
+	
 	var all_pencils_used := pencils_available.size() <= 0
 	var no_ink := drawer.get_ink_ratio() <= 0.0
 	if all_pencils_used or no_ink:

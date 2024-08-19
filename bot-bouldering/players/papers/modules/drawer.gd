@@ -4,10 +4,13 @@ class_name ModuleDrawer extends Node2D
 @export var zoomer : ModuleZoomer
 @export var pencils : ModulePencils
 @onready var entity : PlayerPaper = get_parent()
+@onready var outline : ModuleDrawerOutline = $Outline
+@onready var bottom_marker := $BottomMarker
 
 var lines : Array[Line] = []
+var ink_relative : Array[float] = []
 var total_length := 0.0
-var max_length := 1.0
+var total_length_max := 1.0
 
 signal line_started(l:Line)
 signal line_finished(l:Line)
@@ -16,18 +19,20 @@ signal line_finished(l:Line)
 signal ink_changed()
 signal ink_exhausted()
 signal ink_bounds_changed()
+signal ink_relative_matched()
 
 func activate() -> void:
-	max_length = Global.config.ink_default
+	total_length_max = Global.config.ink_default
 	
 	cursor.moved.connect(on_cursor_moved)
 	cursor.pressed.connect(on_cursor_pressed)
 	zoomer.size_changed.connect(on_size_changed)
 	entity.reset.connect(on_reset)
+	entity.player_bot.paper_follower.line_started.connect(on_line_started)
 	entity.player_bot.paper_follower.line_ended.connect(on_line_ended)
 
 func change_ink_bounds(dib:float) -> void:
-	max_length = Global.config.ink_bounds.clamp_value(max_length + dib)
+	total_length_max = Global.config.ink_bounds.clamp_value(total_length_max + dib)
 	ink_bounds_changed.emit()
 	update_ink_left()
 
@@ -35,7 +40,7 @@ func on_reset() -> void:
 	for line in lines:
 		line.queue_free()
 	lines = []
-	queue_redraw()
+	refresh_drawing()
 
 func on_cursor_pressed(c:ModuleCursor) -> void:
 	if c.is_pressed: start_line(c)
@@ -55,7 +60,7 @@ func get_total_length() -> float:
 
 func start_line(c:ModuleCursor) -> void:
 	if not close_enough_to_prev_line(c):
-		print("Start closer to prev line!")
+		GSignal.feedback.emit(global_position, "Too far away from last line!")
 		return
 	
 	var new_line := Line.new(pencils.get_active_pencil())
@@ -71,9 +76,11 @@ func finish_line() -> void:
 	
 	if not cur_line.is_valid():
 		lines.pop_back()
+		GSignal.feedback.emit(global_position, "Too short!")
 		print("Invalid line!")
 		return
 	
+	calculate_relative_ink_levels()
 	line_finished.emit(cur_line)
 
 func close_enough_to_prev_line(c:ModuleCursor) -> bool:
@@ -104,29 +111,92 @@ func on_cursor_moved(pos_rel:Vector2) -> void:
 
 func update_ink_left() -> void:
 	total_length = get_total_length()
-	if total_length >= max_length:
+	if total_length >= total_length_max:
 		on_ink_exhausted()
+	calculate_relative_ink_levels()
 	ink_changed.emit(get_ink_ratio())
 
 func on_ink_exhausted() -> void:
+	if Global.config.turns_require_ink_relative_match: return
 	ink_exhausted.emit()
 	finish_line()
 
 func get_ink_ratio() -> float:
-	return clamp(1.0 - get_total_length() / max_length, 0.0, 1.0)
+	return clamp(1.0 - get_total_length() / total_length_max, 0.0, 1.0)
+
+func on_line_started(lf:LineFollower) -> void:
+	var line := lf.line
+	for other_line in lines:
+		other_line.unfocus()
+	line.focus()
 
 func on_line_ended(lf:LineFollower) -> void:
 	var line := lf.line
-	line.queue_free()
 	lines.erase(line)
-	queue_redraw()
+	line.kill()
+	refresh_drawing()
 
-func on_size_changed(size:Rect2) -> void:
+func on_size_changed(rect:Rect2) -> void:
+	material.set_shader_parameter("real_size", rect.size)
+	var num_tiles := 6
+	var ideal_tile_size : Vector2 = min(rect.size.x / num_tiles, rect.size.y / num_tiles) * Vector2.ONE
+	material.set_shader_parameter("tile_size", ideal_tile_size)
+	refresh_drawing()
+
+func get_pencils_in_drawing() -> Array[PencilType]:
+	var arr : Array[PencilType] = []
+	for line in lines:
+		if arr.has(line.type): continue
+		arr.append(line.type)
+	return arr
+
+func get_length_for_pencil(pt:PencilType) -> float:
+	var sum := 0.0
+	for line in lines:
+		if line.type != pt: continue
+		sum += line.get_length()
+	return sum
+
+func calculate_relative_ink_levels() -> void:
+	# aggregate data about line lengths
+	var line_lengths : Array[float] = []
+	var max_length := -INF
+	var min_length := INF
+	for tp in get_pencils_in_drawing():
+		var length := get_length_for_pencil(tp)
+		max_length = max(max_length, length)
+		min_length = min( min(min_length, length - 0.01), 0.1)
+		line_lengths.append(length)
+	
+	# set ink size as relative to whole
+	ink_relative = []
+	for i in range(line_lengths.size()):
+		var length_rel := (line_lengths[i] - min_length) / float(max_length - min_length)
+		ink_relative.append(length_rel)
+	
+	if not Global.config.turns_require_ink_relative_match: return
+	
+	var max_error := 0.0
+	for i in range(ink_relative.size()):
+		for j in range(ink_relative.size()):
+			max_error = max(max_error, abs(ink_relative[j] - ink_relative[i]))
+	
+	var close_enough = max_error <= Global.config.turns_ink_relative_margin
+	var all_lines_drawn := count() >= pencils.count_unlocked()
+	if (not close_enough) or (not all_lines_drawn): return
+	
+	ink_relative_matched.emit()
+
+func refresh_drawing() -> void:
 	queue_redraw()
+	outline.queue_redraw()
+	
+	var marker_font_size := 20.0
+	bottom_marker.set_position(Vector2.DOWN * (0.5 * zoomer.bounds.size.y + 0.66*marker_font_size))
 
 func _draw() -> void:
 	# base paper
-	draw_rect(zoomer.bounds, Color(1,1,1), true, -1, true)
+	draw_rect(zoomer.bounds, Color(1,1,1), true, -1, false)
 	
 	# the individual lines
 	for line in lines:

@@ -1,66 +1,48 @@
 # To-Do Crucial
 
-UI:
-* Include fonts I picked
-* Create the ink bar in the center (multi-color, perfectly centered)
-* Create the horizontal list of pencils next to it => hover to show tooltip
-* Create treasure/lives display too
-
-PROGRESSION:
-* Unlock stuff as we go, raise the size of the mountain (and the available ink) every time
-* A game over screen + semblance of a tutorial
-* => Tooltips for elements on the mountain
+IN ORDER:
+* Add auto-movers
+* Convert walls to a system that picks random shapes.
+  * Add a BEVEL CORNERS utility function?
+* Finalize powerup selection and pencil selection
+  * Instantly do them in the new/final style anyway, saves time
+* @BUG: If you draw too quickly, it might miss the relative-ink check ... (You add too much length at once, so what was TOO LITTLE is now TOO MUCH.)
 
 GAMEPLAY:
-* Figure out gravity/freefall mechanic. Probably ...
-  * Going out of bounds just falls down to the ground and you go again.
-  * Give the player that one button to "let go" and fall, until they press the button again.
 * Auto-Move enemies
-* Keep only powerups that actually work now. Add: TELEPORT and BOMB (removes obstacles/enemies in close range)
+  * it will draw a random line from its position through the mountain, and then auto-follow at a speed the player can see
+* Keep only powerups that actually work now. Add: TELEPORT and BOMB (removes obstacles/enemies in close range) and HARD STOP (end your turn there without taking lives penalty)
+  * Teleport should have custom spawn => always add two and connect them. (Just like score stars get their own spawn.)
+  * Also finetune and vary the size of these powerups?
+  * @IDEA: Canvas Rotate? => So you start with a perfectly straight canvas, but can accidentally make it go wrong?
+  * @IDEA: Enemy Pause? => As it says, the enemies simply stop moving for the rest of this turn
+
+MAP:
+* Add decorations to grass (leaves at random locations), maybe some clouds, 
+  * That grainy texture from SUNBLUCK below mountain => The edge-modifier from SUNBLUCK parasols to make the obstacles more blocky => 
+  * OR we could actually draw circles as low-poly polygons, and make some WobblyRectangle class too => 
+  * OR we do this the other way around and simply START with a random shape for the wall obstacle, like the parasol shapes 
+* Add decorations to mountain => some random cracks or value differences inside
+* GRAPHICS INSPO: That angular/hooky style of _Feed The Deep_. => Re-do background of powerups (and other stuff) as a "bouldering handhold" or a "stone/crack in stone", more pointy/harsh?
+  * Also just give it DEPTH; assume light always comes from above, thick borders below, make stuff STICK OUT
+* @BUG: And its physics body seems turned off/wonky now for some reason? => I think it's scaled the wrong/just not present?
 
 
 
-* Create auto-freefall mechanic => you let go, once you're "below" the map, your freefall resets
-* Create the option for an obstacle to "auto-move" => it will draw a random line from its position through the mountain, and then auto-follow at a speed the player can see
-* Create the actual UI + tooltips
+# To-Do Polishing
 
-* Progression => bigger and bigger mountains, more and more pencils/obstacles
-* I want gravity/freefalling/bouldering to be more of a thing => maybe there's a BATTERY aspect? You can only stay clung to the wall for as long as you have battery?
-  * Maybe you need to collect certain stars along the way? Because now you have too much of a straight goal ("get to finish, everything else is optional")
-    * And the "you must finish perfectly is nice but also a bit clunky?" => Nah, it's nice actually, it allows me to give _too much ink_ by default and it's still a challenge.
-    * Perhaps a BETTER way would be to say "every pencil must be used equally much?" => so it constantly checks if the ink of all pencils is within each other's range, and if so, it starts moving.
-      * And in that case, that "progress bar" in the center should show ALL COLORS, sorted from low to high, so you can see exactly how often things are used.
-  * TELEPORT OBSTACLES do feel like a great addition here, because they'd force you to rethink where your character is right now.
-
-* Now I could also more easily add moving enemies / more complex obstacles.
-* Maybe you can make multiple drawings? And switch to a backup plan? => Or you need to be able to do SOMETHING to still influence what your robot is currently doing?
-  * Maybe that's where bouldering comes in. You have a single button to "let go" of the map, and to "cling to it" again.
-  * Going out of bounds just means you let go and fall back to ground level? Not that you die immediately?
-* Player could really start _anywhere_ (not close to finish) right? => Though this automatically happens when you fail your first try
-  * Just use LIVES for this => every failed attempt costs a life, but you get 3 lives at the start, and can get more while climbing of course.
-
-# To-Do Later
-
-
-
-* Include the fonts I picked
-* Create actual icons for UI + nice update animation + use
-* Can I display the actual progress along a line while the robot is moving?
-* Add a SHADER + DECORATIONS to make the grey mountain NICER 
-
-
-
-@IDEA: Maybe, in solo player, you also get to see some random drawing by the computer. Which they follow/execute at the same time as you. And it's your job to NOT collide with them or something.
-
-@IDEA: Make something very useful like "jump" simply deplete your total ink faster?
-
-
-
-# To-Do Very Optional
-
+* Actually nice bot graphic + animate walk ( + audio)
+* Extra visuals to show freefalling or not
 
 
 # Ideas for the more realtimy/actiony version
+
+DISCARDED IDEAS:
+* Maybe you can make multiple drawings? And switch to a backup plan? => Or you need to be able to do SOMETHING to still influence what your robot is currently doing?
+* @IDEA: Make something very useful like "jump" simply deplete your total ink faster?
+* Maybe there's a BATTERY aspect? You can only stay clung to the wall for as long as you have battery?
+* @IDEA: Maybe, in solo player, you also get to see some random drawing by the computer. Which they follow/execute at the same time as you. And it's your job to NOT collide with them or something.
+
 
 * More pencil types??
   * SHOOT: stands still, rotates in direction and shoots. (Or shoots a single bullet that follows the line?)

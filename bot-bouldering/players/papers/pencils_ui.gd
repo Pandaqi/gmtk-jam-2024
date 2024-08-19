@@ -22,7 +22,7 @@ func on_pencils_changed(available:Array[PencilType], unlocked:Array[PencilType])
 		add_child(p)
 		pencil_nodes.append(p)
 	
-	var offset_per_node := Vector2.RIGHT * 256.0
+	var offset_per_node := Vector2.DOWN * 256.0
 	var global_offset := -0.5 * (num - 1) * offset_per_node
 	for i in range(pencil_nodes.size()):
 		var node := pencil_nodes[i]

@@ -46,5 +46,5 @@ zoom_out={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-environment/defaults/default_clear_color=Color(0.125911, 0.125911, 0.125911, 1)
+environment/defaults/default_clear_color=Color(0.74902, 1, 0.909804, 1)
 anti_aliasing/quality/screen_space_aa=1

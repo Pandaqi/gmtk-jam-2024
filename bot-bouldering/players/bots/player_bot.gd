@@ -4,18 +4,39 @@ class_name PlayerBot extends CharacterBody2D
 @export var paper : PlayerPaper
 @export var map_data : MapData
 @export var paper_follower : ModulePaperFollower
+@export var faller : ModuleFaller
+@export var turn : ModuleTurnBot
 @onready var col_shape : CollisionShape2D = $CollisionShape2D
 @onready var sprite : Sprite2D = $Sprite2D
+@export var prog_data : ProgressionData
 
 var base_size := 18.0
 var size_scale := 1.0
 var is_ghost := false
 
+signal reset()
+signal done()
+
 func activate() -> void:
+	player.state_changed.connect(on_state_changed)
+	turn.turn_over.connect(on_turn_over)
+	
 	set_position( map_data.get_player_starting_position() )
 	base_size = Global.config.scale(Global.config.player_base_size)
+	
+	turn.activate()
 	paper_follower.activate()
+	faller.activate()
+	
+	size_scale = prog_data.bot_size_scale
 	call_deferred("change_size")
+
+func on_turn_over() -> void:
+	done.emit()
+
+func on_state_changed(new_state:Player.PlayerState) -> void:
+	if new_state != Player.PlayerState.MOVING: return
+	reset.emit()
 
 func get_bounds() -> Rect2:
 	var radius : float = col_shape.shape.radius
@@ -24,17 +45,11 @@ func get_bounds() -> Rect2:
 	return Rect2(pos, size)
 
 func _physics_process(_dt:float) -> void:
-	check_if_out_of_bounds()
 	check_if_at_top()
 	keep_paper_with_us()
 
-func check_if_out_of_bounds() -> void:
-	var bds := map_data.bounds
-	if global_position.x < bds.position.x or global_position.x > bds.position.x + bds.size.x:
-		print("Out of bounds!")
-		player.remove_all_lives()
-
 func check_if_at_top() -> void:
+	if not Global.config.win_if_at_top: return
 	if not map_data.is_above_mountain_top(global_position): return
 	print("Reached the top! Yay!")
 	GSignal.game_over.emit(true)
@@ -58,4 +73,3 @@ func set_ghost(val:bool) -> void:
 	modulate.a = 0.4 if is_ghost else 1.0
 	set_collision_layer_value(1, not is_ghost)
 	set_collision_mask_value(1, not is_ghost)
-	
