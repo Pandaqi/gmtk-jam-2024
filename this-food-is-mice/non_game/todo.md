@@ -1,8 +1,14 @@
 
-# To-Do (Monday)
+# To-Do
 
 GAME LOOP
 * A game over screen + Menu screen
+
+BETTER CORE RULES: The game would work far better if using the magnifier (and finally _seeing_ that mouse you've been chasing) is this "big thing"
+* Maybe there are different types of mice => you are penalized heavily for accidentally attacking/chasing away the "good mice"
+* Maybe everything _outside_ the magnifying range darkens to the point you can't see anything anymore.
+* Maybe you get a _penalty_ by default (you get smaller again/lose a tool/whatever) if you place an attack but _hit no mice_. (So you have to be really sure you will hit at least something.)
+
 
 GRAPHICS / FEEDBACK:
 (_Style = Everything has the same bite shape out of it + a rat's tail around it (for stroke/shadow/divider instead)_)
