@@ -6,14 +6,17 @@ class_name PlayerBot extends CharacterBody2D
 @export var paper_follower : ModulePaperFollower
 @export var faller : ModuleFaller
 @export var turn : ModuleTurnBot
+@export var visuals : ModuleVisualsBot
+
 @onready var col_shape : CollisionShape2D = $CollisionShape2D
-@onready var sprite : Sprite2D = $Sprite2D
+
 @export var prog_data : ProgressionData
 
 var base_size := 18.0
 var size_scale := 1.0
 var is_ghost := false
 
+signal col_shape_changed(new_radius:float)
 signal reset()
 signal done()
 
@@ -29,6 +32,7 @@ func activate() -> void:
 	turn.activate()
 	paper_follower.activate()
 	faller.activate()
+	visuals.activate()
 	
 	size_scale = prog_data.bot_size_scale
 	call_deferred("change_size")
@@ -49,6 +53,13 @@ func get_bounds() -> Rect2:
 func _physics_process(_dt:float) -> void:
 	check_if_at_top()
 	keep_paper_with_us()
+	check_collisions()
+
+func check_collisions() -> void:
+	for i in range(get_slide_collision_count()):
+		var collider := get_slide_collision(i).get_collider()
+		if collider is not ObstacleWall: continue
+		collider.on_hit(self)
 
 func check_if_at_top() -> void:
 	if not Global.config.win_if_at_top: return
@@ -67,7 +78,7 @@ func change_size(ds:float = 1.0) -> void:
 	var shp := CircleShape2D.new()
 	shp.radius = new_radius
 	col_shape.shape = shp
-	sprite.set_scale(2.0 * new_radius / Global.config.sprite_size * Vector2.ONE)
+	col_shape_changed.emit(new_radius)
 
 func set_ghost(val:bool) -> void:
 	is_ghost = val

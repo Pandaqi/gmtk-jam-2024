@@ -9,6 +9,9 @@ class_name ObstacleType
 @export var radius_max_factor := 1.0
 @export var destroy_on_visit := true ## the best thing for gameplay is really to destroy everything after single use
 @export var destroyable := true
+@export var num_min := 1
+@export var num_max := 4
+@export var needs_path := false
 
 func on_body_entered(_o:Obstacle, _body:PlayerBot) -> void:
 	pass

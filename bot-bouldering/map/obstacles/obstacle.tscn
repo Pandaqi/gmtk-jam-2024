@@ -1,22 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://1iyp7stlc2hw"]
+[gd_scene load_steps=10 format=3 uid="uid://1iyp7stlc2hw"]
 
 [ext_resource type="Script" path="res://map/obstacles/obstacle.gd" id="1_hqrg6"]
+[ext_resource type="Script" path="res://map/obstacles/visuals.gd" id="2_5xvuo"]
 [ext_resource type="Texture2D" uid="uid://crvnqmw0pw30l" path="res://map/obstacles/obstacles.webp" id="2_12e1v"]
 [ext_resource type="PackedScene" uid="uid://bab8qt4abfd6x" path="res://ui/modules/tooltip.tscn" id="3_1lvyq"]
+[ext_resource type="AudioStream" uid="uid://bosu27xnpmv0g" path="res://map/obstacles/obstacle_grab.ogg" id="4_cipml"]
+[ext_resource type="Script" path="res://map/obstacles/pather.gd" id="5_fmk0w"]
+[ext_resource type="Resource" uid="uid://biw27ik347eib" path="res://map/data/map_data.tres" id="6_2a6uw"]
+[ext_resource type="Resource" uid="uid://c2oc0qqshd1h8" path="res://players/papers/pencils/pencil_empty.tres" id="6_oasya"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yegbs"]
 radius = 36.2215
 
-[node name="Obstacle" type="Node2D" groups=["Obstacles"]]
+[node name="Obstacle" type="Node2D" node_paths=PackedStringArray("pather", "visuals") groups=["Obstacles"]]
 script = ExtResource("1_hqrg6")
+pather = NodePath("Pather")
+visuals = NodePath("Visuals")
 
-[node name="Shadow" type="Sprite2D" parent="."]
+[node name="Visuals" type="Node2D" parent="."]
+script = ExtResource("2_5xvuo")
+
+[node name="Shadow" type="Sprite2D" parent="Visuals"]
 modulate = Color(0, 0, 0, 0.4)
 texture = ExtResource("2_12e1v")
 hframes = 4
 vframes = 4
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
 scale = Vector2(0.59375, 0.59375)
 texture = ExtResource("2_12e1v")
 hframes = 4
@@ -29,6 +39,18 @@ shape = SubResource("CircleShape2D_yegbs")
 
 [node name="Tooltip" parent="." instance=ExtResource("3_1lvyq")]
 world_to_screen = true
+
+[node name="AudioGrab" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_cipml")
+volume_db = -3.0
+max_distance = 5000.0
+
+[node name="Pather" type="Node2D" parent="." node_paths=PackedStringArray("visuals")]
+show_behind_parent = true
+script = ExtResource("5_fmk0w")
+map_data = ExtResource("6_2a6uw")
+type_empty = ExtResource("6_oasya")
+visuals = NodePath("../Visuals")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

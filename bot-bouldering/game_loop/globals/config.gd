@@ -7,6 +7,7 @@ class_name Config
 @export var debug_bodies := true
 @export var debug_disable_sound := false
 @export var debug_labels := false
+@export var debug_level := -1
 
 @export_group("Map")
 @export var sprite_size := 256.0
@@ -16,7 +17,7 @@ var cloud_speed_bounds := Bounds.new(0.1, 1.2) # ~sprite_size
 
 @export_subgroup("Mountain")
 @export var mountain_size_in_chunks := Vector2(20, 20)
-@export var mountain_size_increase_per_level := 1
+@export var mountain_size_increase_per_level := 0.75
 @export var max_mountain_size := Vector2(10, 20)
 @export var mountain_color_dark := Color(1,1,1)
 @export var mountain_color_light := Color(1,1,1)
@@ -36,6 +37,7 @@ var map_chunk_num_obstacles := Bounds.new(4,8)
 @export_subgroup("Generator")
 var mapgen_num_star_bounds := Bounds.new(1,3)
 var mapgen_num_finishes := Bounds.new(1,2)
+@export var obstacle_place_prob := 0.2
 
 @export_subgroup("Lava")
 @export var map_lava_enabled := false
@@ -85,6 +87,7 @@ var wall_size_bounds := Bounds.new(0.45, 0.95) # ~chunk_size
 var pencil_num_bounds := Bounds.new(1, 4)
 @export var pencil_unlock_probability := 0.5
 @export var pencil_unlock_max_interval := 3
+@export var pencil_max_num := 4
 
 @export_subgroup("Drawing & Ink")
 @export var ink_default := 2.5 # ~line_lengths
@@ -97,7 +100,7 @@ var ink_bounds := Bounds.new(0.5, 5.0)
 var canvas_base_scale_bounds := Bounds.new(0.5, 2.0)
 var canvas_dimension_bounds := Bounds.new(0.6, 1.15)
 @export var canvas_line_width := 2
-var canvas_rand_rotation_bounds := Bounds.new(0.01*PI, 0.5*PI)
+var canvas_rand_rotation_bounds := Bounds.new(0.0, 0.5*PI)
 
 func scale(val:float) -> float:
 	return val * sprite_size

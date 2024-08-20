@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MapData" load_steps=19 format=3 uid="uid://biw27ik347eib"]
+[gd_resource type="Resource" script_class="MapData" load_steps=20 format=3 uid="uid://biw27ik347eib"]
 
 [ext_resource type="Script" path="res://map/obstacles/types/obstacle_type.gd" id="1_xj2vu"]
 [ext_resource type="Resource" uid="uid://c01miwamodjuc" path="res://map/obstacles/types/obstacle_bomb.tres" id="2_elv1b"]
@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://dvy05v3kice17" path="res://map/obstacles/types/obstacle_life_plus.tres" id="9_56sde"]
 [ext_resource type="Resource" uid="uid://sxqxjre4quse" path="res://map/obstacles/types/obstacle_stop.tres" id="10_1xyhr"]
 [ext_resource type="Resource" uid="uid://c3nuc6ki4uola" path="res://map/obstacles/types/obstacle_teleport.tres" id="11_qbckh"]
+[ext_resource type="Resource" uid="uid://b8vjiw7spgwm5" path="res://map/obstacles/types/obstacle_enemy.tres" id="12_3mkqg"]
 [ext_resource type="Script" path="res://map/obstacles/walls/wall_shape.gd" id="14_1sm3a"]
 [ext_resource type="Resource" uid="uid://8edpjfhjvtq" path="res://map/obstacles/walls/shape_circle.tres" id="15_dw5ym"]
 [ext_resource type="Resource" uid="uid://cfabbry58ft66" path="res://map/obstacles/walls/shape_crescent.tres" id="16_f6mfl"]
@@ -21,6 +22,6 @@
 
 [resource]
 script = ExtResource("2_pk5e7")
-all_obstacles = Array[ExtResource("1_xj2vu")]([ExtResource("2_elv1b"), ExtResource("2_fdhi4"), ExtResource("3_bsk57"), ExtResource("4_puge6"), ExtResource("5_1tuhk"), ExtResource("7_wbtmc"), ExtResource("8_1gok4"), ExtResource("9_56sde"), ExtResource("10_1xyhr"), ExtResource("11_qbckh")])
+all_obstacles = Array[ExtResource("1_xj2vu")]([ExtResource("2_elv1b"), ExtResource("2_fdhi4"), ExtResource("3_bsk57"), ExtResource("4_puge6"), ExtResource("5_1tuhk"), ExtResource("7_wbtmc"), ExtResource("8_1gok4"), ExtResource("9_56sde"), ExtResource("10_1xyhr"), ExtResource("11_qbckh"), ExtResource("12_3mkqg")])
 obstacles_starting = Array[ExtResource("1_xj2vu")]([])
 all_wall_shapes = Array[ExtResource("14_1sm3a")]([ExtResource("15_dw5ym"), ExtResource("16_f6mfl"), ExtResource("17_r8ain"), ExtResource("18_7rl5b"), ExtResource("19_6ljm4")])

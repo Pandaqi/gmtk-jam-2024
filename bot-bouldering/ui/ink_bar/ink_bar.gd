@@ -3,6 +3,7 @@ class_name UIInkBar extends Node2D
 @onready var bar_start := $BarStart
 @onready var bar_end := $BarEnd
 @onready var ink_cont := $Ink
+@onready var label_level := $LabelLevel
 
 @export var drawer : ModuleDrawer
 
@@ -10,12 +11,12 @@ var ink_bars : Array[UIInkBarPencil]
 var ink_bar_types : Array[PencilType]
 @export var ink_bar_pencil_scene : PackedScene
 
-# If false, it displays a unique bar for each line type, with relative usage levels
-
+@export var prog_data : ProgressionData
 
 func activate() -> void:
 	drawer.ink_changed.connect(on_ink_changed)
 	ink_cont.set_position(bar_start.position)
+	label_level.set_text("Level " + str(prog_data.level + 1))
 
 func on_ink_changed(ink_ratio:float) -> void:
 	maintain_bar_per_pencil()

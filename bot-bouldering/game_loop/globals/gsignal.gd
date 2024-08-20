@@ -3,6 +3,7 @@ extends Node
 signal game_over(we_won:bool)
 signal tooltip(show:bool, mod:ModuleTooltip)
 signal feedback(pos:Vector2, txt:String, convert:bool)
+signal player_state_changed(new_state:Player.PlayerState)
 
 func _ready() -> void:
 	add_background_music()

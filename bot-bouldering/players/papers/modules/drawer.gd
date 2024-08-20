@@ -7,6 +7,8 @@ class_name ModuleDrawer extends Node2D
 @onready var outline : ModuleDrawerOutline = $Outline
 @onready var bottom_marker := $BottomMarker
 
+@onready var audio_player := $AudioStreamPlayer2D
+
 var lines : Array[Line] = []
 var ink_relative : Array[float] = []
 var total_length := 0.0
@@ -78,14 +80,15 @@ func finish_line() -> void:
 	var cur_line := get_current_line()
 	if not has_active_line(): return
 	
-	cur_line.finalize()
-	
+	audio_player.stop()
 	if not cur_line.is_valid():
 		lines.pop_back()
+		calculate_relative_ink_levels() # if we don't do this, the check of "have we used all pencils" will fail for a single frame, which can be enough to trigger the game to start
 		GSignal.feedback.emit(global_position, "Too short!")
 		print("Invalid line!")
 		return
 	
+	cur_line.finalize()
 	line_finished.emit(cur_line)
 
 func close_enough_to_prev_line(c:ModuleCursor) -> bool:
@@ -122,15 +125,18 @@ func on_cursor_moved(pos_rel:Vector2) -> void:
 		is_match = calculate_relative_ink_levels() or is_match
 	cur_line.update(zoomer)
 	
+	if not audio_player.is_playing():
+		audio_player.pitch_scale = randf_range(0.95, 1.05)
+		audio_player.play()
+	
 	update_ink_left()
 	if is_match:
 		ink_relative_matched.emit()
 
 func chunk_line_between_points(a:Vector2, b:Vector2) -> Array[Vector2]:
 	var dir := (b-a).normalized()
-	var step_size := 0.0025
+	var step_size := 0.001
 	var cur_point := a
-	var full_dist := a.distance_to(b)
 	var points : Array[Vector2] = []
 	while true:
 		var dist_left = cur_point.distance_to(b)
@@ -199,21 +205,31 @@ func calculate_relative_ink_levels() -> bool:
 		line_lengths.append(length)
 	
 	# set ink size as relative to whole
+	
+	var shortest_line := INF
 	ink_relative = []
 	for i in range(line_lengths.size()):
-		var length_rel := (line_lengths[i] - min_length) / float(max_length - min_length)
+		var length_rel := (line_lengths[i] - min_length) / float(max_length - min_length) 
+		shortest_line = min(shortest_line, length_rel)
 		ink_relative.append(length_rel)
 	
 	if not Global.config.turns_require_ink_relative_match: return false
 	
+	# @NOTE: checks line-by-line, so a line only needs to be close to ONE other line to be "equally used"
+	# Used to check for absolute error (just do max_error check once in inner loop), but that was too hard
 	var max_error := 0.0
 	for i in range(ink_relative.size()):
+		var min_error := INF
 		for j in range(ink_relative.size()):
-			max_error = max(max_error, abs(ink_relative[j] - ink_relative[i]))
+			if i == j: continue
+			min_error = min(min_error, abs(ink_relative[j] - ink_relative[i]))
+		max_error = max(max_error, min_error)
 	
-	var close_enough = max_error <= Global.config.turns_ink_relative_margin
+	var max_error_margin := Global.config.turns_ink_relative_margin
+	var close_enough = max_error <= max_error_margin
 	var all_lines_drawn := count() >= pencils.count_unlocked()
-	if (not close_enough) or (not all_lines_drawn): return false
+	var shortest_line_too_small := shortest_line < max_error
+	if (not close_enough) or (not all_lines_drawn) or shortest_line_too_small: return false
 	
 	return true
 

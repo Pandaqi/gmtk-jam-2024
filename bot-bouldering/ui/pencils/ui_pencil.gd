@@ -15,9 +15,11 @@ func set_data(tp:PencilType, is_available:bool) -> void:
 	
 	base_alpha = 1.0 if is_available else 0.4
 	sprite.modulate.a = base_alpha
+	
+	set_focus(false, true)
 
-func set_focus(val:bool) -> void:
-	if focused == val: return
+func set_focus(val:bool, forced := false) -> void:
+	if focused == val and not forced: return
 	
 	focused = val
 	

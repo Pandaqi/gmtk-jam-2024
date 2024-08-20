@@ -46,4 +46,4 @@ func floor_both() -> Bounds:
 	return self
 
 func get_ratio(val:float) -> float:
-	return (val - start) / (end - start)
+	return clamp( (val - start) / (end - start), 0.0, 1.0)

@@ -29,16 +29,13 @@ func activate() -> void:
 func on_size_changed(_new_size:Rect2) -> void:
 	if not Global.config.pencils_change_by_zoom: return
 	var epsilon := 0.0001 # just to prevent it wrapping back around on max 100% ratio
-	var idx : int = floor((zoomer.get_scale_ratio()+epsilon) * pencils_available.size())
+	var idx : int = clamp( floor((zoomer.get_scale_ratio()-epsilon) * pencils_available.size()) , 0, pencils_available.size() - 1)
 	set_index(idx)
 
 func on_reset() -> void:
 	pencils_available = pencils_unlocked.duplicate(false)
-	pencils_available.shuffle()
 	on_change()
-	
-	active_index = -1
-	grab_next()
+	set_index(0)
 
 func grab_next() -> void:
 	if count() <= 0: return
@@ -120,5 +117,5 @@ func remove_type(tp:PencilType) -> void:
 	on_change()
 
 func on_change() -> void:
-	grab_next()
+	set_index(active_index)
 	pencils_changed.emit(pencils_available, pencils_unlocked)

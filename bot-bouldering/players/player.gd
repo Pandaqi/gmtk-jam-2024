@@ -8,6 +8,7 @@ enum PlayerState
 
 @export var player_bot_scene : PackedScene
 @export var player_paper_scene : PackedScene
+@onready var audio_player := $AudioStreamPlayer
 
 var player_bot : PlayerBot
 var player_paper : PlayerPaper
@@ -54,7 +55,9 @@ func change_state() -> void:
 		state = PlayerState.MOVING
 	else:
 		state = PlayerState.DRAWING
+	audio_player.play()
 	state_changed.emit(state)
+	GSignal.player_state_changed.emit(state)
 
 func is_drawing() -> bool:
 	return state == PlayerState.DRAWING

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PencilType" load_steps=2 format=3 uid="uid://c2oc0qqshd1h8"]
+
+[ext_resource type="Script" path="res://players/papers/pencils/pencil_type.gd" id="1_y8fgl"]
+
+[resource]
+script = ExtResource("1_y8fgl")
+frame = 0
+color = Color(1, 1, 1, 1)
+desc = ""
+ink_factor = 1.0

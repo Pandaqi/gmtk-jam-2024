@@ -1,24 +1,10 @@
 # To-Do (Tuesday)
 
-IN ORDER:
-* Actually nice bot graphic + animate walk ( + audio)
-* Auto-Move enemies => it will draw a random line from its position through the mountain, and then auto-follow at a speed the player can see
-  * Set in config when they'll be introduced
-* Finish tutorial with the actually correct sprites + details (paper blue grid?)
-  * Freeze/Freefall on click? 
-* @FIX: Finetune powerup probability + use min_num/max_num again, otherwise it's ridiculous at the start
-* @FIX: Finetune mountain growth => round the numbers in the end, so config can have `0.5` growth per level (for example)
-* @FIX: Find whatever error is causing those tweens to be destroyed again before starting
-* @FIX: a bit more delay on game over, so you don't accidentally immediately continue with the very same click
-* PLAYTEST
-* POLISHING:
-  * Sound Effects (just beeps mostly) + some more tweenings and stuff
-    * Game Win/Lose, Turn Switch, Powerup Grab, Pen on paper
-    * Optional: Zoom, Freefall
-  * IF we show the bot trail, make it look nicer
-  * Extra visuals to show freefalling or not
-  * Menu
-* (Screenshots/Page can be done after deadline)
+# Future To-Do
+
+* Extra visuals to show freefalling or not
+* [IS THIS FIXED?] @FIX: Find whatever error is causing those tweens to be destroyed again before starting => is it the UIElement tween? Because we advance level just before restarting and that triggers stuff? => Only happens on GAME WIN, not GAME LOSE!
+
 
 # Ideas for the more realtimy/actiony version
 
@@ -28,10 +14,13 @@ DISCARDED IDEAS:
 * Maybe there's a BATTERY aspect? You can only stay clung to the wall for as long as you have battery?
 * @IDEA: Maybe, in solo player, you also get to see some random drawing by the computer. Which they follow/execute at the same time as you. And it's your job to NOT collide with them or something.
 
+
+
 OBSTACLE IDEAS:
 * @IDEA: Enemy Pause? => As it says, the enemies simply stop moving for the rest of this turn => Good idea, but would have to wait until moving enemies are actually introduced, and I don't have time to write a clean system for that
 
 * More pencil types??
+  *   * CIRCLE => Follows your line, but this stroke must always be a circle => NAH, anything that forbids the line you currently draw is ANNOYING, because you're suddenly not drawing anymore/locked out/your line does nothing and you don't know why.
   * SHOOT: stands still, rotates in direction and shoots. (Or shoots a single bullet that follows the line?)
   * TELEPORT: or some other special thing that you can ONLY use if you're walking with this line
 

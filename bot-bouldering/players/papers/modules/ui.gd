@@ -25,7 +25,7 @@ func activate(ui_layer:CanvasLayer) -> void:
 	on_lives_changed(prog_data.lives)
 	on_score_changed(prog_data.score)
 	
-	pencils.global_position = ink_bar.get_center() + Vector2(-128.0, 0)
+	pencils.global_position = ink_bar.get_center() + Vector2(-64.0, 0)
 	
 	get_viewport().size_changed.connect(on_resize)
 	on_resize()

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PaperData" load_steps=8 format=3 uid="uid://5djpxkg264w0"]
+[gd_resource type="Resource" script_class="PaperData" load_steps=11 format=3 uid="uid://5djpxkg264w0"]
 
 [ext_resource type="Script" path="res://players/papers/pencils/pencil_type.gd" id="1_ok4lt"]
 [ext_resource type="Resource" uid="uid://b80o6owk0tokq" path="res://players/papers/pencils/pencil_move.tres" id="2_ca7qq"]
@@ -7,8 +7,11 @@
 [ext_resource type="Resource" uid="uid://c68fjee3rvkr4" path="res://players/papers/pencils/pencil_jump.tres" id="4_fx8nt"]
 [ext_resource type="Resource" uid="uid://deqghwofjvyh5" path="res://players/papers/pencils/pencil_invert.tres" id="5_juu41"]
 [ext_resource type="Resource" uid="uid://dix5jm6e71krn" path="res://players/papers/pencils/pencil_ghost.tres" id="6_wjjtu"]
+[ext_resource type="Resource" uid="uid://gya8uwxx5tm7" path="res://players/papers/pencils/pencil_masked.tres" id="7_2fdto"]
+[ext_resource type="Resource" uid="uid://dw8hksa10lym6" path="res://players/papers/pencils/pencil_scaled.tres" id="8_03rou"]
+[ext_resource type="Resource" uid="uid://nokdu8jrsb56" path="res://players/papers/pencils/pencil_stop.tres" id="9_bbmq3"]
 
 [resource]
 script = ExtResource("2_sq77u")
-all_pencils = Array[ExtResource("1_ok4lt")]([ExtResource("2_ca7qq"), ExtResource("3_gn87n"), ExtResource("4_fx8nt"), ExtResource("5_juu41"), ExtResource("6_wjjtu")])
-pencils_starting = Array[ExtResource("1_ok4lt")]([ExtResource("2_ca7qq"), ExtResource("4_fx8nt")])
+all_pencils = Array[ExtResource("1_ok4lt")]([ExtResource("2_ca7qq"), ExtResource("3_gn87n"), ExtResource("4_fx8nt"), ExtResource("5_juu41"), ExtResource("6_wjjtu"), ExtResource("7_2fdto"), ExtResource("2_ca7qq"), ExtResource("8_03rou")])
+pencils_starting = Array[ExtResource("1_ok4lt")]([ExtResource("2_ca7qq"), ExtResource("9_bbmq3")])

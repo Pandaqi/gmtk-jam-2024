@@ -30,6 +30,7 @@ func on_tooltip(should_show:bool, mod:ModuleTooltip) -> void:
 		return
 	
 	var idx := tooltip_modules.find(mod)
+	if idx < 0: return
 	tooltip_nodes[idx].queue_free()
 	tooltip_nodes.remove_at(idx)
 	tooltip_modules.remove_at(idx)

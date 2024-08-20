@@ -3,6 +3,7 @@ class_name MapStatic extends Node2D
 var chunk_size : Vector2
 @export var map_data : MapData
 @export var prog_data : ProgressionData
+@export var progression : Progression
 
 @onready var gen : MapGenerator = $Generator
 @onready var env : MapEnvironment = $Environment
@@ -32,11 +33,11 @@ func determine_config() -> void:
 	
 	# we really only want the mountain to become taller, but we shouldn't neglect width too much, so it kind of lags behind
 	ms.y += Global.config.mountain_size_increase_per_level * prog_data.level
-	ms.y = clamp(ms.y, orig_size.y, max_size.y)
+	ms.y = clamp(round(ms.y), orig_size.y, max_size.y)
 	if ms.x < 0.5*ms.y:
 		ms.x = ceil(0.5*ms.y)
 	
-	ms.x = clamp(ms.x, orig_size.x, max_size.x)
+	ms.x = clamp(round(ms.x), orig_size.x, max_size.x)
 	
 	var chunk_pixels := Global.config.scale_bounds(Global.config.map_chunk_pixel_size_bounds)
 	
@@ -53,11 +54,13 @@ func determine_config() -> void:
 	env.update(map_bounds)
 
 func prepare_first_level_if_needed() -> void:
-	if prog_data.level > 0: return
+	if prog_data.level > 0 and not progression.should_debug_level(): return
 	
 	map_data.reset()
 	for type in map_data.obstacles_starting:
 		map_data.unlock(type)
+	
+	progression.replay_debug_levels_if_needed()
 
 func add_decorations() -> void:
 	var bds := map_data.bounds

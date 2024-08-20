@@ -44,6 +44,7 @@ func change_level(dl:int) -> void:
 	level_changed.emit(level)
 
 func save_state(players:Players) -> void:
+	if players.get_all().size() <= 0: return
 	var player : Player = players.get_all()[0]
 	bot_size_scale = player.player_bot.size_scale
 	zoomer_extra_scale = player.player_paper.zoomer.extra_scale_from_obstacle

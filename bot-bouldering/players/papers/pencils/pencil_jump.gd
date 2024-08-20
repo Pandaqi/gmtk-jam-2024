@@ -9,7 +9,6 @@ func on_start(line:LineFollower, pf:ModulePaperFollower) -> void:
 func on_end(_line:LineFollower, pf:ModulePaperFollower) -> void:
 	pf.entity.set_ghost(false)
 
-# @TODO: maybe more of a jumping motion/tween: fast start, slower ending
 func update(line:LineFollower, pf:ModulePaperFollower, speed:float) -> Vector2:
 	
 	var vec : Vector2 = line.points_absolute.back() - line.points_absolute.front()

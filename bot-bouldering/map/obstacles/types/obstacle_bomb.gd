@@ -10,4 +10,4 @@ func on_body_entered(_o:Obstacle, body:PlayerBot) -> void:
 		var dist : float = node.global_position.distance_to(body.global_position)
 		if dist > bomb_dist: continue
 		
-		node.kill()
+		node.call_deferred("kill")

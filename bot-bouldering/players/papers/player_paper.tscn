@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://d316gymcog8um"]
+[gd_scene load_steps=25 format=3 uid="uid://d316gymcog8um"]
 
 [ext_resource type="Script" path="res://players/papers/player_paper.gd" id="1_to0ta"]
 [ext_resource type="Script" path="res://players/papers/modules/turn.gd" id="2_2rrue"]
@@ -10,11 +10,13 @@
 [ext_resource type="Script" path="res://players/papers/modules/drawer.gd" id="8_5yjo3"]
 [ext_resource type="Shader" path="res://players/papers/blue_grid_paper.gdshader" id="8_hkprh"]
 [ext_resource type="Script" path="res://players/papers/cursor.gd" id="9_3en42"]
+[ext_resource type="AudioStream" uid="uid://t188hg8kl84j" path="res://players/papers/zoom.ogg" id="9_r2n3o"]
 [ext_resource type="Script" path="res://players/papers/modules/drawer_outline.gd" id="10_4u6p3"]
 [ext_resource type="Script" path="res://players/papers/modules/ui.gd" id="11_b7120"]
 [ext_resource type="FontFile" uid="uid://da6g5wvbwhxxg" path="res://ui/fonts/heading.ttf" id="11_kxm4q"]
 [ext_resource type="Resource" uid="uid://deqsw8ewfomw0" path="res://progression/data/progression_data.tres" id="12_hooac"]
 [ext_resource type="PackedScene" uid="uid://dkr3q4ecxk40q" path="res://ui/ui_element.tscn" id="12_uqoty"]
+[ext_resource type="AudioStream" uid="uid://clhjjxs8kmqaa" path="res://players/papers/pencil.ogg" id="13_r5y4a"]
 [ext_resource type="Script" path="res://players/papers/pencils_ui.gd" id="13_yddv3"]
 [ext_resource type="PackedScene" uid="uid://fx1lu2a4gvua" path="res://ui/pencils/ui_pencil.tscn" id="14_w1evx"]
 [ext_resource type="Script" path="res://ui/ink_bar/ink_bar.gd" id="15_38nyk"]
@@ -64,6 +66,10 @@ script = ExtResource("7_cxyl2")
 turn = NodePath("../Turn")
 prog_data = ExtResource("12_hooac")
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Zoomer"]
+stream = ExtResource("9_r2n3o")
+volume_db = -13.0
+
 [node name="Drawer" type="Node2D" parent="." node_paths=PackedStringArray("cursor", "zoomer", "pencils")]
 material = SubResource("ShaderMaterial_a7pbr")
 script = ExtResource("8_5yjo3")
@@ -91,6 +97,10 @@ text = "Bottom of Paper"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Drawer"]
+stream = ExtResource("13_r5y4a")
+volume_db = -5.0
+
 [node name="UI" type="Node2D" parent="." node_paths=PackedStringArray("drawer", "turn")]
 script = ExtResource("11_b7120")
 prog_data = ExtResource("12_hooac")
@@ -108,23 +118,25 @@ position = Vector2(88, 242)
 frame = 11
 
 [node name="Lives" parent="UI" instance=ExtResource("12_uqoty")]
-position = Vector2(-75, 228)
+position = Vector2(-68, 203)
 frame = 1
 
 [node name="Score" parent="UI" instance=ExtResource("12_uqoty")]
-position = Vector2(-103, 294)
+position = Vector2(-99, 276)
 frame = 3
 
 [node name="Pencils" type="Node2D" parent="UI" node_paths=PackedStringArray("pencils")]
-position = Vector2(-88, 0)
+position = Vector2(-48, 0)
 script = ExtResource("13_yddv3")
 pencils = NodePath("../../Pencils")
 pencil_scene = ExtResource("14_w1evx")
 
 [node name="InkBar" type="Node2D" parent="UI" node_paths=PackedStringArray("drawer")]
+scale = Vector2(0.95, 0.95)
 script = ExtResource("15_38nyk")
 drawer = NodePath("../../Drawer")
 ink_bar_pencil_scene = ExtResource("16_ep5gp")
+prog_data = ExtResource("12_hooac")
 
 [node name="Under" type="Sprite2D" parent="UI/InkBar"]
 texture = ExtResource("15_bdwpr")
@@ -144,6 +156,21 @@ z_index = 200
 texture = ExtResource("15_bdwpr")
 hframes = 2
 frame = 1
+
+[node name="LabelLevel" type="Label" parent="UI/InkBar"]
+z_index = 1000
+offset_left = -60.0
+offset_top = 256.0
+offset_right = 61.0
+offset_bottom = 334.0
+theme_override_colors/font_color = Color(0.0235294, 0.211765, 0.219608, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("11_kxm4q")
+theme_override_font_sizes/font_size = 26
+text = "Level 10"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Cursor" type="Node2D" parent="." node_paths=PackedStringArray("zoomer", "turn", "pencils")]
 scale = Vector2(0.25, 0.25)

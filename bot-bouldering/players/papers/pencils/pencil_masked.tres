@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PencilType" load_steps=2 format=3 uid="uid://gya8uwxx5tm7"]
+
+[ext_resource type="Script" path="res://players/papers/pencils/pencil_type.gd" id="1_pboug"]
+
+[resource]
+script = ExtResource("1_pboug")
+frame = 5
+color = Color(0.121569, 0.286275, 0.654902, 1)
+desc = "Only follows this line when it goes up."
+ink_factor = 1.0
+follow_mask = Vector2(0, -1)
+stop_at_obstacle = false
+vec_scale_factor = 1.0

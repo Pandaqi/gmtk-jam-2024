@@ -1,12 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3gbqhlkljwjy"]
+[gd_scene load_steps=6 format=3 uid="uid://b3gbqhlkljwjy"]
 
 [ext_resource type="Script" path="res://players/player.gd" id="1_lguho"]
 [ext_resource type="PackedScene" uid="uid://d1b11ylqy5nlj" path="res://players/bots/player_bot.tscn" id="2_djlw5"]
 [ext_resource type="PackedScene" uid="uid://d316gymcog8um" path="res://players/papers/player_paper.tscn" id="3_8ali2"]
 [ext_resource type="Resource" uid="uid://deqsw8ewfomw0" path="res://progression/data/progression_data.tres" id="4_v1vei"]
+[ext_resource type="AudioStream" uid="uid://b2r2x6sx2si6p" path="res://players/turn_switch.ogg" id="5_tumkj"]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_lguho")
 player_bot_scene = ExtResource("2_djlw5")
 player_paper_scene = ExtResource("3_8ali2")
 prog_data = ExtResource("4_v1vei")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_tumkj")
+volume_db = -9.0

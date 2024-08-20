@@ -51,6 +51,7 @@ func start() -> void:
 	
 	print("Bot should start")
 	following = true
+	set_freeze(false)
 	clear_trail()
 	
 	started.emit()
@@ -107,14 +108,15 @@ func follow_lines(dt:float) -> void:
 	update_trail()
 	
 	if first_line.travel_is_done():
-		lines.pop_front()
 		on_line_following_ended(first_line)
 
 func on_line_following_started(l:LineFollower) -> void:
+	l.start_travel()
 	l.on_start(self)
 	line_started.emit(l)
 
 func on_line_following_ended(l:LineFollower) -> void:
+	lines.erase(l)
 	l.on_end(self)
 	line_ended.emit(l)
 
@@ -125,8 +127,14 @@ func get_current_line() -> LineFollower:
 func get_distance_left() -> float:
 	var sum := 0.0
 	for line in lines:
-		sum += line.get_length_absolute()
+		sum += line.get_travel_distance_left()
 	return sum
+
+func on_obstacle_entered(o:Obstacle) -> void:
+	var cur_line := get_current_line()
+	if not cur_line: return
+	if not cur_line.line.type.stop_at_obstacle: return 
+	on_line_following_ended(cur_line)
 
 func clear_trail() -> void:
 	trail = []
@@ -141,4 +149,4 @@ func _draw() -> void:
 	var trail_local : Array[Vector2] = []
 	for point in trail:
 		trail_local.append(to_local(point))
-	draw_polyline(trail_local, Color(1,1,1), 4, true)
+	draw_polyline(trail_local, Color(0,0,0, 0.5), 3, true)

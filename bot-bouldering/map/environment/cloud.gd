@@ -3,6 +3,7 @@ class_name Cloud extends Node2D
 var speed := 1.0
 var dir := 1
 var exiting := false
+var tween : Tween
 
 @export var map_data : MapData
 
@@ -32,8 +33,13 @@ func handle_out_of_bounds() -> void:
 
 func on_exit() -> void:
 	exiting = true
+	
 	var tw := get_tree().create_tween()
 	tw.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tw.tween_property(self, "modulate:a", 0.0, 0.1)
+	tween = tw
 	await tw.finished
 	screen_exited.emit(self)
+
+func _exit_tree() -> void:
+	if tween: tween.stop()

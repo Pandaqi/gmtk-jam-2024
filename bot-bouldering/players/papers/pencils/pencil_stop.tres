@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PencilType" load_steps=2 format=3 uid="uid://nokdu8jrsb56"]
+
+[ext_resource type="Script" path="res://players/papers/pencils/pencil_type.gd" id="1_jtk27"]
+
+[resource]
+script = ExtResource("1_jtk27")
+frame = 6
+color = Color(0.952941, 0.184314, 0.172549, 1)
+desc = "Ends this line instantly on powerup grab (includes finish)."
+ink_factor = 1.0
+follow_mask = Vector2(0, 0)
+stop_at_obstacle = true
+vec_scale_factor = 1.0

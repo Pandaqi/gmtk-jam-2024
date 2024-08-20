@@ -13,6 +13,7 @@ var num_finishes := 0
 var available_types : Array[ObstacleType] = []
 
 var prepared_player_pos : Vector2
+var obstacle_nodes : Array[Obstacle] = []
 
 func generate() -> void:
 	available_types = map_data.obstacles_available.duplicate(false)
@@ -54,11 +55,16 @@ func generate() -> void:
 		for i in range(2):
 			place_obstacle_at_chunk(all_chunks.pop_back(), teleport_type)
 		available_types.erase(teleport_type)
+	
+	# ensure types are used minimum times (if set)
+	for type in available_types:
+		for i in range(type.num_min):
+			place_obstacle_at_chunk(all_chunks.pop_back(), type)
 
 	# step through mountain
 	# for each remaining "chunk", add something (wall or obstacle)
 	for chunk in all_chunks:
-		var place_obstacle := randf() <= 0.25 and available_types.size() > 0
+		var place_obstacle := randf() <= Global.config.obstacle_place_prob and available_types.size() > 0
 		if place_obstacle:
 			place_obstacle_at_chunk(chunk)
 			continue
@@ -98,6 +104,18 @@ func place_obstacle_at(pos:Vector2, forced_type:ObstacleType = null) -> Obstacle
 	if not rand_type:
 		rand_type = available_types.pick_random()
 	node.set_type(rand_type)
+	
+	obstacle_nodes.append(node)
+	
+	var freq_of_type := 0
+	for other_node in obstacle_nodes:
+		if other_node.type != rand_type: continue
+		freq_of_type += 1
+	
+	if freq_of_type >= rand_type.num_max:
+		available_types.erase(rand_type)
+	
+	
 	return node
 
 func get_random_position_in_chunk(pos:Vector2, side := "") -> Vector2:

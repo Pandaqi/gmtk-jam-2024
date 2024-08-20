@@ -11,7 +11,8 @@ func on_body_entered(o:Obstacle, body:PlayerBot) -> void:
 	var distance_left := body.paper_follower.get_distance_left()
 	var max_dist := Global.config.scale(Global.config.max_distance_left_at_end)
 	if Global.config.must_end_perfectly and distance_left > max_dist:
-		GSignal.feedback.emit(o.global_position, "Didn't finish perfectly!", true)
+		body.paper_follower.stop()
+		GSignal.feedback.emit(o.global_position, "Finished too early!", true)
 		return
 	
 	GSignal.game_over.emit(true)

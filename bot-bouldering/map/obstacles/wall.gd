@@ -3,6 +3,8 @@ class_name ObstacleWall extends StaticBody2D
 @onready var col_shape : CollisionPolygon2D = $CollisionPolygon2D
 @export var map_data : MapData
 
+@onready var audio_bump := $AudioBump
+
 var shape : WallShape
 var polygon : PackedVector2Array
 var polygon_shadow : PackedVector2Array
@@ -37,6 +39,11 @@ func change_size(new_size:Vector2) -> void:
 		polygon_shadow.append(to_local( to_global(point) + Vector2.DOWN * Global.config.scale(Global.config.shadow_dist) ))
 	
 	queue_redraw()
+
+func on_hit(p:PlayerBot) -> void:
+	if audio_bump.is_playing(): return
+	audio_bump.pitch_scale = randf_range(0.9, 1.1)
+	audio_bump.play()
 
 func kill() -> void:
 	self.queue_free()

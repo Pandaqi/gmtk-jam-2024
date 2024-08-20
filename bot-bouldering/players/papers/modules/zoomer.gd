@@ -3,6 +3,7 @@ class_name ModuleZoomer extends Node2D
 @export var anchor := Vector2(0.5, 1)
 @export var turn : ModuleTurn
 @export var prog_data : ProgressionData
+@onready var audio_player := $AudioStreamPlayer
 
 var bounds_raw : Rect2
 var bounds : Rect2
@@ -38,6 +39,10 @@ func _input(ev:InputEvent) -> void:
 func change_size(dir:int) -> void:
 	base_scale = Global.config.canvas_base_scale_bounds.clamp_value(base_scale + dir*Global.config.canvas_zoom_speed)
 	
+	if not audio_player.is_playing():
+		audio_player.pitch_scale = randf_range(0.96, 1.04)
+		audio_player.play()
+	
 	var new_size := base_dimensions * base_scale * extra_scale_from_obstacle * Global.config.sprite_size
 	bounds_raw.position = Vector2.ZERO
 	bounds_raw.size = new_size
@@ -66,6 +71,7 @@ func is_out_of_bounds(pos:Vector2) -> bool:
 
 func reset_scale() -> void:
 	base_scale = 1.0
+	change_size(0)
 
 func get_scale_ratio() -> float:
 	return Global.config.canvas_base_scale_bounds.get_ratio(base_scale)

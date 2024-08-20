@@ -31,5 +31,5 @@ func on_pencils_changed(available:Array[PencilType], unlocked:Array[PencilType])
 		node.set_position(global_offset + i * offset_per_node)
 		
 		if not should_show: return
-		var type_data := unlocked[i]
+		var type_data := available[i]
 		node.set_data(type_data, available.has(type_data))

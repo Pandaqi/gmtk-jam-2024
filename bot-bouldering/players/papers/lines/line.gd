@@ -7,7 +7,7 @@ var finished := false
 var total_length := 0.0
 var focus_tween : Tween = null
 
-func _init(p:PencilType) -> void:
+func _init(p:PencilType = null) -> void:
 	type = p
 
 func clone() -> Line:
@@ -31,7 +31,7 @@ func count() -> int:
 	return points.size()
 
 func is_valid() -> bool:
-	return count() > 2
+	return count() >= 2
 
 func front() -> Vector2:
 	return points.front()

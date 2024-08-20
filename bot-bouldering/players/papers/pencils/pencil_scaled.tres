@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PencilType" load_steps=2 format=3 uid="uid://dw8hksa10lym6"]
+
+[ext_resource type="Script" path="res://players/papers/pencils/pencil_type.gd" id="1_71um0"]
+
+[resource]
+script = ExtResource("1_71um0")
+frame = 7
+color = Color(0.81, 0.783, 0, 1)
+desc = "When following, pretends your line is 2x as large."
+ink_factor = 1.0
+follow_mask = Vector2(0, 0)
+stop_at_obstacle = false
+vec_scale_factor = 2.0

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ObstacleEnemy" load_steps=2 format=3 uid="uid://b8vjiw7spgwm5"]
+
+[ext_resource type="Script" path="res://map/obstacles/types/obstacle_enemy.gd" id="1_710tl"]
+
+[resource]
+script = ExtResource("1_710tl")
+frame = 7
+desc = "Takes 1 life, but moves around."
+color = Color(1, 1, 1, 1)
+dir = 1
+radius_min_factor = 0.5
+radius_max_factor = 0.7
+destroy_on_visit = true
+destroyable = true
+num_min = 1
+num_max = 3
+needs_path = true
